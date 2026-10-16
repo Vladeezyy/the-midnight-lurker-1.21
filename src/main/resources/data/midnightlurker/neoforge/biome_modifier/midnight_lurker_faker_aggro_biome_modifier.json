@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": {
+    "type": "neoforge:any"
+  },
+  "spawners": {
+    "type": "midnightlurker:midnight_lurker_faker_aggro",
+    "weight": 7,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

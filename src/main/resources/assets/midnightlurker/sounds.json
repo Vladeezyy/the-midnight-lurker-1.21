@@ -1,0 +1,502 @@
+{
+  "lurkerdisappear": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurkerdisappear",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerchase": {
+    "sounds": [
+      {
+        "name": "midnightlurker:chase",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerinvisiblejumpscare": {
+    "sounds": [
+      {
+        "name": "midnightlurker:invisiblejumpscare1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:invisiblejumpscare2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:invisiblejumpscare3",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerchase2": {
+    "sounds": [
+      {
+        "name": "midnightlurker:chase2",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerprefinalbreak": {
+    "sounds": [
+      {
+        "name": "midnightlurker:prefinalbreak",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerfinalbreak": {
+    "sounds": [
+      {
+        "name": "midnightlurker:finalbreak",
+        "stream": false
+      }
+    ]
+  },
+  "spookyambience": {
+    "sounds": [
+      {
+        "name": "midnightlurker:hal4ambient1",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient3",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient4",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient5",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient6",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient7",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:hal4ambient8",
+        "stream": true
+      }
+    ]
+  },
+  "insanitygoesbacksound": {
+    "sounds": [
+      {
+        "name": "midnightlurker:goodrewardsound",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:goodrewardsound1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:goodrewardsound2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:goodrewardsound3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:goodrewardsound4",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:goodrewardsound5",
+        "stream": false
+      }
+    ]
+  },
+  "insanityambience": {
+    "sounds": [
+      {
+        "name": "midnightlurker:insanitysounds",
+        "stream": false
+      }
+    ]
+  },
+  "insanitychase": {
+    "sounds": [
+      {
+        "name": "midnightlurker:insanitychase",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerbreakingblock": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_break",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerdistantscream": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_distant",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerdeath": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_death",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerdeathjumpscare": {
+    "sounds": [
+      {
+        "name": "midnightlurker:finaljump2",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerscream": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_scream1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_scream2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_scream3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_scream4",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerambient": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_ambient1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_ambient2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_ambient3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_ambient4",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerchasesteps": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_chasestep1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_chasestep2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_chasestep3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_chasestep4",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerjumpscare": {
+    "sounds": [
+      {
+        "name": "midnightlurker:finaljump1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:finaljump3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:finaljump4",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerhurt": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_hurt1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt21",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt22",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt23",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt31",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt32",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt33",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt41",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt42",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_hurt43",
+        "stream": false
+      }
+    ]
+  },
+  "nostepsound": {
+    "sounds": [
+      {
+        "name": "midnightlurker:empty_step1",
+        "stream": false
+      }
+    ]
+  },
+  "voidhands_aggro": {
+    "sounds": [
+      {
+        "name": "midnightlurker:voidhands_aggro1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:voidhands_aggro2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:voidhands_aggro3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:voidhands_aggro4",
+        "stream": false
+      }
+    ]
+  },
+  "voidhands_death": {
+    "sounds": [
+      {
+        "name": "midnightlurker:voidhands_death1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:voidhands_death2",
+        "stream": false
+      }
+    ]
+  },
+  "voidhands_hurt": {
+    "sounds": [
+      {
+        "name": "midnightlurker:voidhands_hurt1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:voidhands_hurt2",
+        "stream": false
+      }
+    ]
+  },
+  "voidhands_shriek": {
+    "sounds": [
+      {
+        "name": "midnightlurker:voidhands_shriek",
+        "stream": false
+      }
+    ]
+  },
+  "static": {
+    "sounds": [
+      {
+        "name": "midnightlurker:tvstatic1",
+        "stream": true
+      }
+    ]
+  },
+  "phantom_head_scream": {
+    "sounds": [
+      {
+        "name": "midnightlurker:ph_scream1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:ph_scream2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:ph_scream3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:ph_scream4",
+        "stream": false
+      }
+    ]
+  },
+  "lurkerfootsteps": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurker_footstep1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_footstep2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_footstep3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:lurker_footstep4",
+        "stream": false
+      }
+    ]
+  },
+  "thirteen_ambient": {
+    "sounds": [
+      {
+        "name": "midnightlurker:13_1",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:13_2",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:13_3",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:13_4",
+        "stream": true
+      },
+      {
+        "name": "midnightlurker:13_5",
+        "stream": true
+      }
+    ]
+  },
+  "lurkeranger": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurkerchange",
+        "stream": false
+      }
+    ]
+  },
+  "lurker_stunned": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurkerstunned",
+        "stream": false
+      }
+    ]
+  },
+  "lurker_taunt": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurkertaunt",
+        "stream": false
+      }
+    ]
+  },
+  "lurker_stun_over": {
+    "sounds": [
+      {
+        "name": "midnightlurker:lurkerstunover",
+        "stream": false
+      }
+    ]
+  },
+  "outcastvillager_hit": {
+    "sounds": [
+      {
+        "name": "midnightlurker:outcastvillager_hit1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:outcastvillager_hit2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:outcastvillager_hit3",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:outcastvillager_hit4",
+        "stream": false
+      }
+    ]
+  },
+  "outcastvillager_death": {
+    "sounds": [
+      {
+        "name": "midnightlurker:outcastvillager_death",
+        "stream": false
+      }
+    ]
+  },
+  "outcastvillager_idle": {
+    "sounds": [
+      {
+        "name": "midnightlurker:outcastvillager_idle1",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:outcastvillager_idle2",
+        "stream": false
+      },
+      {
+        "name": "midnightlurker:outcastvillager_idle3",
+        "stream": false
+      }
+    ]
+  }
+}
