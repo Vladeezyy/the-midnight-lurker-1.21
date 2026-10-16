@@ -100,6 +100,26 @@ public final class PerfScene {
 		at(t += 600, mc -> start());
 		at(t += 1200, mc -> {
 			stop(mc, "overworld, night, natural spawning");
+			// the natural spawn checks themselves (run once per spawn attempt of these entities), timed directly
+			server(mc, p -> {
+				ServerLevel level = p.serverLevel();
+				double x = p.getX() + 24, y = p.getY(), z = p.getZ() + 24;
+				String[] names = {"MidnightLurker", "MidnightLurkerFakerWatcher", "VoidGateway", "MidnightLurkerShadow"};
+				for (String name : names) {
+					try {
+						var m = Class.forName("net.mcreator.midnightlurker.procedures." + name + "NaturalEntitySpawningConditionProcedure")
+								.getMethod("execute", net.minecraft.world.level.LevelAccessor.class, double.class, double.class, double.class);
+						for (int i = 0; i < 50; i++)
+							m.invoke(null, level, x, y, z);
+						long start = System.nanoTime();
+						for (int i = 0; i < 200; i++)
+							m.invoke(null, level, x + (i % 7), y, z + (i % 5));
+						MidnightlurkerMod.LOGGER.info(String.format("[perf] PERF spawn check %s: %.1f us per call", name, (System.nanoTime() - start) / 200.0 / 1000.0));
+					} catch (ReflectiveOperationException e) {
+						MidnightlurkerMod.LOGGER.error("[perf] spawn check {} failed", name, e);
+					}
+				}
+			});
 			server(mc, p -> {
 				ServerLevel nether = p.getServer().getLevel(Level.NETHER);
 				nether.getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(true, nether.getServer());
