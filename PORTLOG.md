@@ -74,3 +74,8 @@ Portuguese (Portugal) file names the pig, cow and villager disguises "Midnight L
 written from English. The Russian community translation calls the Lurker «Бабай»; the port keeps it and fills the
 missing entries. The Lurker book's tooltip, which was English text in the code, is translatable. The original's French,
 Italian, Icelandic, Japanese, Dutch and Portuguese (Portugal) files are kept as they were.
+
+## Release 3.3.7+1.21.1 (2026-10-17)
+- GitHub release v3.3.7+1.21.1 (Latest, repo private): `the-midnight-lurker-neoforge-3.3.7+1.21.1.jar`.
+- Before the release the jar (with GeckoLib 4.9.3) ran on real NeoForge 21.1.197 and 21.1.259 servers
+  (`prodtest/serve.sh`: start, a minute at midnight, stop): no errors on either.
