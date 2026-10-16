@@ -32,14 +32,7 @@ public class InvisibleFootstepsNaturalEntitySpawningConditionProcedure {
 			lurker = new File((FMLPaths.GAMEDIR.get().toString() + "/config/"), File.separator + "midnightlurkerconfig.json");
 			{
 				try {
-					BufferedReader bufferedReader = new BufferedReader(new FileReader(lurker));
-					StringBuilder jsonstringbuilder = new StringBuilder();
-					String line;
-					while ((line = bufferedReader.readLine()) != null) {
-						jsonstringbuilder.append(line);
-					}
-					bufferedReader.close();
-					mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+					mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 					if (mainjsonobject.get("invisible_entities_spawning").getAsBoolean() == true) {
 						if (world instanceof Level _level) {
 							if (!_level.isClientSide()) {
@@ -82,22 +75,22 @@ public class InvisibleFootstepsNaturalEntitySpawningConditionProcedure {
 				if (mainjsonobject.get("invisible_entities_spawning").getAsBoolean() == false) {
 					return false;
 				} else if (mainjsonobject.get("invisible_entities_spawning").getAsBoolean() == true) {
-					if (!(!world.getEntitiesOfClass(InvisibleFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleShadowEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleStaticEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleLurkerFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleCaveSoundsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+					if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleShadowEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleStaticEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleLurkerFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleCaveSoundsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
 							&& (world instanceof Level _lvl ? _lvl.dimension() : Level.OVERWORLD) == Level.OVERWORLD) {
 						return true;
 					}
 				}
 			} else if (mainjsonobject.get("cave_spawning").getAsBoolean() == false) {
 				if (y > 60) {
-					if (!(!world.getEntitiesOfClass(InvisibleFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleShadowEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleStaticEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleLurkerFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
-							&& !(!world.getEntitiesOfClass(InvisibleCaveSoundsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+					if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleShadowEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleStaticEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleLurkerFootstepsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, InvisibleCaveSoundsEntity.class, AABB.ofSize(new Vec3(x, y, z), 800, 800, 800), e -> true).isEmpty())
 							&& (world instanceof Level _lvl ? _lvl.dimension() : Level.OVERWORLD) == Level.OVERWORLD) {
 						return true;
 					}

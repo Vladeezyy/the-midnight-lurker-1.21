@@ -37,7 +37,7 @@ public class AggroPotionAddTickProcedure {
 		double spawny = 0;
 		double spawnz = 0;
 		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7) {
-			if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
+			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
 				if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
 					_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.LURKER_ANGERED, 2, 0, false, false));
 			}

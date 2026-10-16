@@ -58,14 +58,7 @@ public class JumpscareTimerProcedure {
 		lurker = new File((FMLPaths.GAMEDIR.get().toString() + "/config/"), File.separator + "midnightlurkerconfig.json");
 		{
 			try {
-				BufferedReader bufferedReader = new BufferedReader(new FileReader(lurker));
-				StringBuilder jsonstringbuilder = new StringBuilder();
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
-					jsonstringbuilder.append(line);
-				}
-				bufferedReader.close();
-				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+				mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 				if (mainjsonobject.get("jumpscare_sound").getAsBoolean() == true) {
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer == 31
 							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive > 0) {

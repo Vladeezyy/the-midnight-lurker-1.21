@@ -167,5 +167,9 @@
   "block.midnightlurker.tough_door": "Tough Door",
   "subtitles.lurker_stun_over": "",
   "item.midnightlurkeroverhauled.void_gateway_spawn_egg": "voidgateway Spawn Egg",
-  "entity.midnightlurkeroverhauled.midnight_lurker_seen_angressive": "Mitternachtslurker"
+  "entity.midnightlurkeroverhauled.midnight_lurker_seen_angressive": "Mitternachtslurker",
+  "subtitles.lurkerdisappear": "",
+  "subtitles.lurkerchase": "",
+  "item.midnightlurker.lurker_book.author": "§7von Ausgestoßener Dorfbewohner",
+  "item.midnightlurker.lurker_book.original": "§7Original"
 }

@@ -40,8 +40,8 @@ public class LurkerBookItem extends Item {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Item.TooltipContext world, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, world, list, flag);
-		list.add(Component.literal("\u00A77by Outcast Villager"));
-		list.add(Component.literal("\u00A77Original"));
+		list.add(Component.translatable("item.midnightlurker.lurker_book.author"));
+		list.add(Component.translatable("item.midnightlurker.lurker_book.original"));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class LurkerBookItem extends Item {
 			serverPlayer.openMenu(new MenuProvider() {
 				@Override
 				public Component getDisplayName() {
-					return Component.literal("The Lurker's Insanity");
+					return Component.translatable("item.midnightlurker.lurker_book");
 				}
 
 				@Override

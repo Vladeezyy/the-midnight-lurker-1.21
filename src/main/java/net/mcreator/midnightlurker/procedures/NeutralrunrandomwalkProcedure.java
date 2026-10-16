@@ -9,7 +9,7 @@ import net.mcreator.midnightlurker.network.MidnightlurkerModVariables;
 
 public class NeutralrunrandomwalkProcedure {
 	public static boolean execute(LevelAccessor world, double x, double y, double z) {
-		if (MidnightlurkerModVariables.WorldVariables.get(world).NeutralrunRandom < 6 && !(!world.getEntitiesOfClass(Player.class, AABB.ofSize(new Vec3(x, y, z), 16, 16, 16), e -> true).isEmpty())) {
+		if (MidnightlurkerModVariables.WorldVariables.get(world).NeutralrunRandom < 6 && !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 16, 16, 16), e -> true).isEmpty())) {
 			return true;
 		}
 		return false;

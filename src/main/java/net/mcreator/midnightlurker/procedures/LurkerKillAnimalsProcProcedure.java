@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class LurkerKillAnimalsProcProcedure {
 	public static boolean execute(LevelAccessor world, double x, double y, double z) {
-		if (!(!world.getEntitiesOfClass(Player.class, AABB.ofSize(new Vec3(x, y, z), 70, 70, 70), e -> true).isEmpty())) {
+		if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 70, 70, 70), e -> true).isEmpty())) {
 			return true;
 		}
 		return false;

@@ -36,7 +36,7 @@ public class ScreenShakeProcedure {
 		double spawnx = 0;
 		double spawny = 0;
 		double spawnz = 0;
-		if (!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
+		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).ScreenShake > 0) {
 				{
 					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).ScreenShake - 1;
@@ -46,7 +46,7 @@ public class ScreenShakeProcedure {
 				}
 			}
 		}
-		if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty())
+		if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty())
 				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).ScreenShake > 0) {
 			{
 				double _setval = 0;
@@ -55,7 +55,7 @@ public class ScreenShakeProcedure {
 				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if (!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
+		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).ScreenShake > 0) {
 				{
 					Entity _ent = entity;

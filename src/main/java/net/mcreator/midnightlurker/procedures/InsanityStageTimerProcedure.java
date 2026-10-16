@@ -43,14 +43,7 @@ public class InsanityStageTimerProcedure {
 		lurker = new File((FMLPaths.GAMEDIR.get().toString() + "/config/"), File.separator + "midnightlurkerconfig.json");
 		{
 			try {
-				BufferedReader bufferedReader = new BufferedReader(new FileReader(lurker));
-				StringBuilder jsonstringbuilder = new StringBuilder();
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
-					jsonstringbuilder.append(line);
-				}
-				bufferedReader.close();
-				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
+				mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 				if (mainjsonobject.get("insanity_countdown_time").getAsDouble() == 1) {
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
@@ -84,7 +77,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset < 90) {
 							{
@@ -118,7 +111,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
+							&& !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset > 0) {
 							{
@@ -162,7 +155,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset < 90) {
 							{
@@ -196,7 +189,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
+							&& !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset > 0) {
 							{
@@ -238,7 +231,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset < 90) {
 							{
@@ -272,7 +265,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
+							&& !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset > 0) {
 							{
@@ -314,7 +307,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
+							&& !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty())) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset < 90) {
 							{
@@ -348,7 +341,7 @@ public class InsanityStageTimerProcedure {
 						}
 					}
 					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
-							&& !world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
+							&& !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 300, 300, 300), e -> true).isEmpty()) {
 						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7
 								&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityReset > 0) {
 							{

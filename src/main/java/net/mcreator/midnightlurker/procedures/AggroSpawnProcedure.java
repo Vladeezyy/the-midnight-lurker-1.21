@@ -29,7 +29,7 @@ public class AggroSpawnProcedure {
 		double spawnz = 0;
 		if (world instanceof Level _lvl0 && _lvl0.isDay() && y < 60) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7) {
-				if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
+				if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
 					spawnx = x + Mth.nextInt(RandomSource.create(), -12, 12);
 					spawny = y + Mth.nextInt(RandomSource.create(), -12, 12);
 					spawnz = z + Mth.nextInt(RandomSource.create(), -12, 12);
@@ -44,7 +44,7 @@ public class AggroSpawnProcedure {
 					}
 				}
 			}
-			if (!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
+			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
 				if (entity.getPersistentData().getDouble("DistantRoar") < 3) {
 					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDouble("DistantRoar") + 1));
 					if (entity.getPersistentData().getDouble("DistantRoar") == 1) {
@@ -66,12 +66,12 @@ public class AggroSpawnProcedure {
 					}
 				}
 			}
-			if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
+			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
 				entity.getPersistentData().putDouble("DistantRoar", 0);
 			}
 		} else if (!(world instanceof Level _lvl20 && _lvl20.isDay())) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7) {
-				if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
+				if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
 					spawnx = x + Mth.nextInt(RandomSource.create(), -12, 12);
 					spawny = y + Mth.nextInt(RandomSource.create(), -12, 12);
 					spawnz = z + Mth.nextInt(RandomSource.create(), -12, 12);
@@ -86,7 +86,7 @@ public class AggroSpawnProcedure {
 					}
 				}
 			}
-			if (!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
+			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
 				if (entity.getPersistentData().getDouble("DistantRoar") < 3) {
 					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDouble("DistantRoar") + 1));
 					if (entity.getPersistentData().getDouble("DistantRoar") == 1) {
@@ -108,7 +108,7 @@ public class AggroSpawnProcedure {
 					}
 				}
 			}
-			if (!(!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
+			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
 				entity.getPersistentData().putDouble("DistantRoar", 0);
 			}
 		}

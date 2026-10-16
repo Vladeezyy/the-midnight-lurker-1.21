@@ -34,7 +34,7 @@
   "entity.midnightlurker.void_gateway": "voidgateway",
   "entity.midnightlurker.midnight_lurker_faker_watcher": "Midnight Lurker",
   "effect.midnightlurker.amnesia": "Amnesia",
-  "item.midnightlurker.lurker_book": "The Lurker\u0027s Insanity",
+  "item.midnightlurker.lurker_book": "The Lurker's Insanity",
   "block.midnightlurker.shattered_glass": "Shattered Glass",
   "entity.midnightlurker.midnight_lurker_watcher": "Midnight Lurker",
   "item.midnightlurker.midnight_lurker_shapeshifter_spawn_egg": "Villager Spawn Egg",
@@ -169,5 +169,7 @@
   "block.midnightlurker.tough_door": "Tough Door",
   "subtitles.lurker_stun_over": "",
   "item.midnightlurkeroverhauled.void_gateway_spawn_egg": "voidgateway Spawn Egg",
-  "entity.midnightlurkeroverhauled.midnight_lurker_seen_angressive": "Midnight Lurker"
+  "entity.midnightlurkeroverhauled.midnight_lurker_seen_angressive": "Midnight Lurker",
+  "item.midnightlurker.lurker_book.author": "§7by Outcast Villager",
+  "item.midnightlurker.lurker_book.original": "§7Original"
 }

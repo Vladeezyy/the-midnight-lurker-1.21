@@ -41,7 +41,7 @@ public class PlayerDeathProcedure {
 				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if (entity instanceof Player && !world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 10, 10, 10), e -> true).isEmpty()) {
+		if (entity instanceof Player && !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 10, 10, 10), e -> true).isEmpty()) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpActive < 1) {
 				{
 					double _setval = 1;

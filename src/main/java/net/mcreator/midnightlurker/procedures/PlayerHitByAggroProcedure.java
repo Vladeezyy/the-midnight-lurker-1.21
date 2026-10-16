@@ -40,7 +40,7 @@ public class PlayerHitByAggroProcedure {
 			return;
 		File lurker = new File("");
 		if (entity instanceof Player) {
-			if (!world.getEntitiesOfClass(MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 15, 15, 15), e -> true).isEmpty()) {
+			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 15, 15, 15), e -> true).isEmpty()) {
 				for (int index0 = 0; index0 < 50; index0++) {
 					world.addParticle((SimpleParticleType) (MidnightlurkerModParticleTypes.LURKERFACEPARTICLE.get()), (x + Mth.nextDouble(RandomSource.create(), -6, 6)), (y + Mth.nextDouble(RandomSource.create(), 0, 6)),
 							(z + Mth.nextDouble(RandomSource.create(), -6, 6)), 0, 0, 0);

@@ -22,7 +22,7 @@ public class MidnightLurkerAggressiveOnInitialEntitySpawnProcedure {
 			return;
 		if (entity instanceof LivingEntity _livingStep && _livingStep.getAttribute(Attributes.STEP_HEIGHT) != null)
 			_livingStep.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(1);
-		if (entity instanceof Mob _entity && ((Entity) world.getEntitiesOfClass(Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 200, 200, 200), e -> true).stream().sorted(new Object() {
+		if (entity instanceof Mob _entity && ((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 200, 200, 200), e -> true).stream().sorted(new Object() {
 			Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 				return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
 			}

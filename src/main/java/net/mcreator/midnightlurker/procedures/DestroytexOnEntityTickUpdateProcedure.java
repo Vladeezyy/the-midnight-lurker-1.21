@@ -24,9 +24,9 @@ public class DestroytexOnEntityTickUpdateProcedure {
 		BlockState blocky = Blocks.AIR.defaultBlockState();
 		BlockState blockx = Blocks.AIR.defaultBlockState();
 		MidnightlurkerMod.queueServerWork(20, () -> {
-			if (!world.getEntitiesOfClass(DestroytexEntity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty() || !world.getEntitiesOfClass(Destroytex2Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()
-					|| !world.getEntitiesOfClass(Destroytex3Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()
-					|| !world.getEntitiesOfClass(Destroytex4Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()) {
+			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, DestroytexEntity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty() || !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Destroytex2Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()
+					|| !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Destroytex3Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()
+					|| !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Destroytex4Entity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).isEmpty()) {
 				if (!entity.level().isClientSide())
 					entity.discard();
 			}
