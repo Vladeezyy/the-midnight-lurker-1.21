@@ -41,6 +41,14 @@ neoForge {
             client()
             systemProperty 'midnightlurker.scene', project.findProperty('scene') ?: 'true'
         }
+        // Server tick check (port/PerfScene): overworld and nether spawning, 20 Lurkers; -Pjfr: run/perf.jfr
+        perf {
+            client()
+            systemProperty 'midnightlurker.perf', 'true'
+            if (project.hasProperty('jfr')) {
+                jvmArguments.add '-XX:StartFlightRecording=filename=perf.jfr,settings=profile'
+            }
+        }
         server {
             server()
             programArgument '--nogui'
