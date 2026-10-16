@@ -33,7 +33,7 @@ public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMe
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
@@ -44,7 +44,7 @@ public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMe
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		guiGraphics.blit(new ResourceLocation("midnightlurker:textures/screens/lurkerbook.png"), this.leftPos + -53, this.topPos + -11, 0, 0, 282, 180, 282, 180);
+		guiGraphics.blit(ResourceLocation.parse("midnightlurker:textures/screens/lurkerbook.png"), this.leftPos + -53, this.topPos + -11, 0, 0, 282, 180, 282, 180);
 
 		RenderSystem.disableBlend();
 	}

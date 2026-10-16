@@ -17,25 +17,23 @@ public class StaticEffectOnEffectActiveTickProcedure {
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return;
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 0) {
 			{
 				double _setval = Mth.nextInt(RandomSource.create(), 20, 45);
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.StaticRender = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.StaticRender = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender > 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender > 0) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender - 1;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.StaticRender = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender - 1;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.StaticRender = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 10) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 10) {
 			if (world instanceof ServerLevel _level)
 				_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 						"/playsound midnightlurker:static record @p ~ ~ ~ 1 1");

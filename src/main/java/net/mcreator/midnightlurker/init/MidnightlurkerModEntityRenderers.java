@@ -4,10 +4,11 @@
  */
 package net.mcreator.midnightlurker.init;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.api.distmarker.Dist;
 
 import net.mcreator.midnightlurker.client.renderer.VoidHandsRenderer;
 import net.mcreator.midnightlurker.client.renderer.VoidGatewayRenderer;
@@ -47,7 +48,7 @@ import net.mcreator.midnightlurker.client.renderer.Destroytex4Renderer;
 import net.mcreator.midnightlurker.client.renderer.Destroytex3Renderer;
 import net.mcreator.midnightlurker.client.renderer.Destroytex2Renderer;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class MidnightlurkerModEntityRenderers {
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

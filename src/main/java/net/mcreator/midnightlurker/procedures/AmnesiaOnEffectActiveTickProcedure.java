@@ -1,7 +1,7 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
@@ -158,9 +158,9 @@ public class AmnesiaOnEffectActiveTickProcedure {
 					.findFirst().orElse(null)) == (null))) {
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 0, 0);
+						_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 0, 0);
 					} else {
-						_level.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 0, 0, false);
+						_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 0, 0, false);
 					}
 				}
 			}
@@ -193,7 +193,7 @@ public class AmnesiaOnEffectActiveTickProcedure {
 				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				if (mainjsonobject.get("show_amnesia_effect_in_inv").getAsBoolean() == true) {
 					if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-						_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.AMNESIA_SHOW_IN_INV.get(), 8, 0, false, false));
+						_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.AMNESIA_SHOW_IN_INV, 8, 0, false, false));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,11 +1,12 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.TickEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
@@ -38,13 +39,11 @@ import java.io.BufferedReader;
 
 import com.google.gson.Gson;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class JumpscareTimerProcedure {
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			execute(event, event.player.level(), event.player.getX(), event.player.getY(), event.player.getZ(), event.player);
-		}
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		execute(event, event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), event.getEntity());
 	}
 
 	public static boolean execute(LevelAccessor world, double x, double y, double z, Entity entity) {
@@ -68,8 +67,8 @@ public class JumpscareTimerProcedure {
 				bufferedReader.close();
 				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				if (mainjsonobject.get("jumpscare_sound").getAsBoolean() == true) {
-					if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer == 31
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareActive > 0) {
+					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer == 31
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive > 0) {
 						if (world instanceof ServerLevel _level)
 							_level.getServer().getCommands().performPrefixedCommand(
 									new CommandSourceStack(CommandSource.NULL, new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
@@ -79,17 +78,17 @@ public class JumpscareTimerProcedure {
 				if (mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == true) {
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
-							_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0);
+							_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0);
 						} else {
-							_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0, false);
+							_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0, false);
 						}
 					}
 				} else if (mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == false) {
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
-							_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0);
+							_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0);
 						} else {
-							_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0, false);
+							_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 0, 0, false);
 						}
 					}
 				}
@@ -97,54 +96,50 @@ public class JumpscareTimerProcedure {
 				e.printStackTrace();
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareActive == 1) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer == 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive == 1) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer == 0) {
 				{
 					double _setval = 46;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.JumpscareTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.JumpscareTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareActive == 1
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer == 1) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive == 1
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer == 1) {
 			{
 				double _setval = 0;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.JumpscareActive = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.JumpscareActive = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 			{
 				double _setval = Mth.nextInt(RandomSource.create(), 0, 2);
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.JumpscareRandom = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.JumpscareRandom = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer > 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer > 0) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer - 1;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.JumpscareTimer = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer - 1;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.JumpscareTimer = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareActive == 1
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer <= 29
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer >= 1) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive == 1
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer <= 29
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer >= 1) {
 			if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-				_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY.get(), 155, 0, false, false));
+				_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY, 155, 0, false, false));
 			world.addParticle((SimpleParticleType) (MidnightlurkerModParticleTypes.LURKERFACEPARTICLE.get()), (x + Mth.nextDouble(RandomSource.create(), -6, 6)), (y + Mth.nextDouble(RandomSource.create(), 0, 6)),
 					(z + Mth.nextDouble(RandomSource.create(), -6, 6)), 0, 0, 0);
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer > 0 && mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == true) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer > 0 && mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == true) {
 			return true;
-		} else if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareTimer > 0 && mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == false) {
+		} else if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareTimer > 0 && mainjsonobject.get("pop_up_jumpscare").getAsBoolean() == false) {
 			return false;
 		}
 		return false;

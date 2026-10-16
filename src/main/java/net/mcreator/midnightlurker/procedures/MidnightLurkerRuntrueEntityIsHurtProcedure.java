@@ -1,11 +1,14 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.bus.api.ICancellableEvent;
+
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
@@ -45,10 +48,10 @@ import java.io.BufferedReader;
 
 import com.google.gson.Gson;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 	@SubscribeEvent
-	public static void onEntityAttacked(LivingAttackEvent event) {
+	public static void onEntityAttacked(LivingIncomingDamageEvent event) {
 		if (event != null && event.getEntity() != null) {
 			execute(event, event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), event.getEntity(), event.getSource().getEntity());
 		}
@@ -78,8 +81,8 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 					if ((entity instanceof MidnightLurkerAggressiveEntity || entity instanceof MidnightLurkerBackturnedEntity || entity instanceof MidnightLurkerHiderEntity || entity instanceof MidnightLurkerRuntrueEntity
 							|| entity instanceof MidnightLurkerSeenAngressiveEntity || entity instanceof MidnightLurkerStalkingEntity || entity instanceof MidnightLurkerUnprovokedEntity || entity instanceof MidnightlurkerNEEntity)
 							&& sourceentity instanceof Player) {
-						if (event != null && event.isCancelable()) {
-							event.setCanceled(true);
+						if (event instanceof ICancellableEvent _cancellable) {
+							_cancellable.setCanceled(true);
 						}
 					}
 				} else if (mainjsonobject.get("lurker_invulnerable").getAsBoolean() == false) {
@@ -88,8 +91,8 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 							entity.getPersistentData().putBoolean("Stunned", true);
 						}
 						if (entity.getPersistentData().getDouble("StunTimer") > 0) {
-							if (event != null && event.isCancelable()) {
-								event.setCanceled(true);
+							if (event instanceof ICancellableEvent _cancellable) {
+								_cancellable.setCanceled(true);
 							}
 						}
 					}
@@ -104,9 +107,9 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 					if (!world.getEntitiesOfClass(MidnightLurkerRuntrueEntity.class, AABB.ofSize(new Vec3(x, y, z), 23, 23, 23), e -> true).isEmpty()) {
 						if (world instanceof Level _level) {
 							if (!_level.isClientSide()) {
-								_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+								_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 							} else {
-								_level.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+								_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 							}
 						}
 					}

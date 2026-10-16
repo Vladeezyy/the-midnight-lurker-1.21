@@ -1,5 +1,7 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.LevelAccessor;
@@ -18,7 +20,7 @@ public class MidnightLurkerAggressiveOnInitialEntitySpawnProcedure {
 	public static void execute(LevelAccessor world, Entity entity) {
 		if (entity == null)
 			return;
-		entity.setMaxUpStep(1);
+		entity.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(1);
 		if (entity instanceof Mob _entity && ((Entity) world.getEntitiesOfClass(Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 200, 200, 200), e -> true).stream().sorted(new Object() {
 			Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 				return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));

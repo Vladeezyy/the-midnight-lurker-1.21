@@ -16,6 +16,6 @@ public class ShapeshifterPigRenderer extends MobRenderer<ShapeshifterPigEntity, 
 
 	@Override
 	public ResourceLocation getTextureLocation(ShapeshifterPigEntity entity) {
-		return new ResourceLocation("midnightlurker:textures/entities/shapeshifterpig.png");
+		return ResourceLocation.parse("midnightlurker:textures/entities/shapeshifterpig.png");
 	}
 }

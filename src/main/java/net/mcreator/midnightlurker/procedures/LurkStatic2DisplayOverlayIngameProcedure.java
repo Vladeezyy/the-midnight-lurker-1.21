@@ -10,12 +10,12 @@ public class LurkStatic2DisplayOverlayIngameProcedure {
 	public static boolean execute(Entity entity) {
 		if (entity == null)
 			return false;
-		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.STATIC_EFFECT.get())
-				&& ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 1
-						|| (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 3
-						|| (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 5
-						|| (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 7
-						|| (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).StaticRender == 9)) {
+		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.STATIC_EFFECT)
+				&& (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 1
+						|| entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 3
+						|| entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 5
+						|| entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 7
+						|| entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 9)) {
 			return true;
 		}
 		return false;

@@ -1,6 +1,8 @@
 
 package net.mcreator.midnightlurker.block;
 
+import net.minecraft.world.level.LevelReader;
+
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -101,7 +103,7 @@ public class ShatteredPaneEndBlock extends Block implements EntityBlock {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
 		return new ItemStack(Blocks.GLASS);
 	}
 

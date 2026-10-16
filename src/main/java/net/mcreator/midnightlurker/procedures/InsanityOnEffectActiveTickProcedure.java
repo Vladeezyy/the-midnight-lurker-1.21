@@ -1,10 +1,11 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +20,7 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.shaders.FogShape;
 
-@Mod.EventBusSubscriber(value = {Dist.CLIENT})
+@EventBusSubscriber(value = {Dist.CLIENT})
 public class InsanityOnEffectActiveTickProcedure {
 	@SubscribeEvent
 	public static void renderFog(ViewportEvent.RenderFog event) {
@@ -41,7 +42,7 @@ public class InsanityOnEffectActiveTickProcedure {
 	private static void execute(@Nullable Event event, Entity entity, ViewportEvent viewport) {
 		if (entity == null || viewport == null)
 			return;
-		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY.get())) {
+		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
 			if (entity instanceof Player) {
 				if (viewport instanceof ViewportEvent.RenderFog _renderFog) {
 					_renderFog.setNearPlaneDistance(1);
@@ -50,15 +51,15 @@ public class InsanityOnEffectActiveTickProcedure {
 				if (viewport instanceof ViewportEvent.RenderFog _renderFog) {
 					_renderFog.setFogShape(FogShape.SPHERE);
 				}
-				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY.get()) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY.get()).getDuration() : 0) >= 53
+				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) >= 53
 						&& entity.getPersistentData().getDouble("InsanityFog") >= 201) {
 					entity.getPersistentData().putDouble("InsanityFog", 200);
 				}
-				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY.get()) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY.get()).getDuration() : 0) >= 53
+				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) >= 53
 						&& entity.getPersistentData().getDouble("InsanityFog") > 14) {
 					entity.getPersistentData().putDouble("InsanityFog", (entity.getPersistentData().getDouble("InsanityFog") - 1));
 				}
-				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY.get()) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY.get()).getDuration() : 0) <= 52
+				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) <= 52
 						&& entity.getPersistentData().getDouble("InsanityFog") < 200) {
 					if (entity instanceof Player) {
 						entity.getPersistentData().putDouble("InsanityFog", (entity.getPersistentData().getDouble("InsanityFog") + 1));
@@ -66,11 +67,11 @@ public class InsanityOnEffectActiveTickProcedure {
 				}
 			}
 		}
-		if (!(entity instanceof LivingEntity _livEnt17 && _livEnt17.hasEffect(MidnightlurkerModMobEffects.INSANITY.get()))) {
+		if (!(entity instanceof LivingEntity _livEnt17 && _livEnt17.hasEffect(MidnightlurkerModMobEffects.INSANITY))) {
 			if (entity instanceof Player) {
 				entity.getPersistentData().putDouble("InsanityFog", 201);
 			}
-		} else if (entity instanceof LivingEntity _livEnt20 && _livEnt20.hasEffect(MidnightlurkerModMobEffects.INSANITY.get())) {
+		} else if (entity instanceof LivingEntity _livEnt20 && _livEnt20.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
 			if (entity instanceof Player && entity.getPersistentData().getDouble("InsanityFog") < 1) {
 				entity.getPersistentData().putDouble("InsanityFog", 201);
 			}

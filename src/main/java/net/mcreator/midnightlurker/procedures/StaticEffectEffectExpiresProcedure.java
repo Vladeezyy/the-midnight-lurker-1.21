@@ -10,10 +10,9 @@ public class StaticEffectEffectExpiresProcedure {
 			return;
 		{
 			double _setval = 0;
-			entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-				capability.StaticRender = _setval;
-				capability.syncPlayerVariables(entity);
-			});
+			MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+			_vars.StaticRender = _setval;
+			_vars.syncPlayerVariables(entity);
 		}
 	}
 }

@@ -3,11 +3,12 @@ package net.mcreator.midnightlurker.client.screens;
 
 import org.checkerframework.checker.units.qual.h;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +22,7 @@ import net.mcreator.midnightlurker.procedures.DeathJumpBackingProcProcedure;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.platform.GlStateManager;
 
-@Mod.EventBusSubscriber({Dist.CLIENT})
+@EventBusSubscriber({Dist.CLIENT})
 public class DeathJumpscareOverlay {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void eventHandler(ScreenEvent.Render.Post event) {
@@ -48,9 +49,9 @@ public class DeathJumpscareOverlay {
 			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			if (DeathJumpBackingProcProcedure.execute(entity)) {
-				event.getGuiGraphics().blit(new ResourceLocation("midnightlurker:textures/screens/ideaing1black.png"), 0, 0, 0, 0, w, h, w, h);
+				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/ideaing1black.png"), 0, 0, 0, 0, w, h, w, h);
 				if (DeathJumpBackingProcProcedure.execute(entity)) {
-					event.getGuiGraphics().blit(new ResourceLocation("midnightlurker:textures/screens/ideaing1.png"), posX + -90, posY + -85, 0, 0, 162, 171, 162, 171);
+					event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/ideaing1.png"), posX + -90, posY + -85, 0, 0, 162, 171, 162, 171);
 				}
 			}
 			RenderSystem.depthMask(true);

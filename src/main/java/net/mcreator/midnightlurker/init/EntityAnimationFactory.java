@@ -1,8 +1,9 @@
 package net.mcreator.midnightlurker.init;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 import net.mcreator.midnightlurker.entity.VoidHandsEntity;
 import net.mcreator.midnightlurker.entity.VoidGatewayEntity;
@@ -35,7 +36,7 @@ import net.mcreator.midnightlurker.entity.InvisibleFootstepsEntity;
 import net.mcreator.midnightlurker.entity.InvisibleCaveSoundsEntity;
 import net.mcreator.midnightlurker.entity.InvisibleAnimalKillerEntity;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EntityAnimationFactory {
 	@SubscribeEvent
 	public static void onEntityTick(LivingEvent.LivingTickEvent event) {

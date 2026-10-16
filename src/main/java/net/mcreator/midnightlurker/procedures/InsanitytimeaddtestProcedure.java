@@ -1,6 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
@@ -35,10 +35,9 @@ public class InsanitytimeaddtestProcedure {
 					if (entity instanceof Player) {
 						{
 							double _setval = 5900;
-							entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.InsanityTimer = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+							_vars.InsanityTimer = _setval;
+							_vars.syncPlayerVariables(entity);
 						}
 					}
 				}
@@ -46,10 +45,9 @@ public class InsanitytimeaddtestProcedure {
 					if (entity instanceof Player) {
 						{
 							double _setval = 11900;
-							entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.InsanityTimer = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+							_vars.InsanityTimer = _setval;
+							_vars.syncPlayerVariables(entity);
 						}
 					}
 				}
@@ -57,10 +55,9 @@ public class InsanitytimeaddtestProcedure {
 					if (entity instanceof Player) {
 						{
 							double _setval = 23900;
-							entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.InsanityTimer = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+							_vars.InsanityTimer = _setval;
+							_vars.syncPlayerVariables(entity);
 						}
 					}
 				}
@@ -68,10 +65,9 @@ public class InsanitytimeaddtestProcedure {
 					if (entity instanceof Player) {
 						{
 							double _setval = 35900;
-							entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.InsanityTimer = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+							_vars.InsanityTimer = _setval;
+							_vars.syncPlayerVariables(entity);
 						}
 					}
 				}

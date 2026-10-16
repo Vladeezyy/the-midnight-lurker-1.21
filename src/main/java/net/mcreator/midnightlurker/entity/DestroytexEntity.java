@@ -1,7 +1,9 @@
 
 package net.mcreator.midnightlurker.entity;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -29,21 +31,14 @@ import net.mcreator.midnightlurker.procedures.DestroytexEntityIsHurtProcedure;
 import net.mcreator.midnightlurker.init.MidnightlurkerModEntities;
 
 public class DestroytexEntity extends PathfinderMob {
-	public DestroytexEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(MidnightlurkerModEntities.DESTROYTEX.get(), world);
-	}
 
 	public DestroytexEntity(EntityType<DestroytexEntity> type, Level world) {
 		super(type, world);
-		setMaxUpStep(0f);
+		this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0f);
 		xpReward = 0;
 		setNoAi(false);
 	}
 
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
 
 	@Override
 	protected void registerGoals() {
@@ -51,19 +46,15 @@ public class DestroytexEntity extends PathfinderMob {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
 	}
 
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEFINED;
-	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.hurt"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.death"));
 	}
 
 	@Override
@@ -117,7 +108,7 @@ public class DestroytexEntity extends PathfinderMob {
 	protected void pushEntities() {
 	}
 
-	public static void init() {
+	public static void init(RegisterSpawnPlacementsEvent event) {
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

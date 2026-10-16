@@ -1,9 +1,10 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
@@ -16,7 +17,7 @@ import net.minecraft.client.player.LocalPlayer;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class GetDoorRecipePickupProcedure {
 	@SubscribeEvent
 	public static void onPickup(EntityItemPickupEvent event) {
@@ -39,9 +40,9 @@ public class GetDoorRecipePickupProcedure {
 						return _player.getRecipeBook().contains(recipe);
 					return false;
 				}
-			}.hasRecipe(entity, new ResourceLocation("midnightlurker:metal_door_recipe")))) {
+			}.hasRecipe(entity, ResourceLocation.parse("midnightlurker:metal_door_recipe")))) {
 				if (entity instanceof ServerPlayer _serverPlayer)
-					_serverPlayer.awardRecipesByKey(new ResourceLocation[]{new ResourceLocation("midnightlurker:metal_door_recipe")});
+					_serverPlayer.awardRecipesByKey(new ResourceLocation[]{ResourceLocation.parse("midnightlurker:metal_door_recipe")});
 			}
 		}
 	}

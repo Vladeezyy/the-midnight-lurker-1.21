@@ -1,7 +1,10 @@
 
 package net.mcreator.midnightlurker.entity;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -41,21 +44,14 @@ import net.mcreator.midnightlurker.procedures.ShapeShifterCowNaturalEntitySpawni
 import net.mcreator.midnightlurker.init.MidnightlurkerModEntities;
 
 public class ShapeShifterCowEntity extends PathfinderMob {
-	public ShapeShifterCowEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(MidnightlurkerModEntities.SHAPE_SHIFTER_COW.get(), world);
-	}
 
 	public ShapeShifterCowEntity(EntityType<ShapeShifterCowEntity> type, Level world) {
 		super(type, world);
-		setMaxUpStep(0.6f);
+		this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6f);
 		xpReward = 0;
 		setNoAi(false);
 	}
 
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
 
 	@Override
 	protected void registerGoals() {
@@ -66,29 +62,25 @@ public class ShapeShifterCowEntity extends PathfinderMob {
 		this.goalSelector.addGoal(4, new FloatGoal(this));
 	}
 
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEFINED;
-	}
 
 	@Override
 	public SoundEvent getAmbientSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cow.ambient"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.cow.ambient"));
 	}
 
 	@Override
 	public void playStepSound(BlockPos pos, BlockState blockIn) {
-		this.playSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cow.step")), 0.15f, 1);
+		this.playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.cow.step")), 0.15f, 1);
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cow.hurt"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.cow.hurt"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cow.death"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.cow.death"));
 	}
 
 	@Override
@@ -138,13 +130,13 @@ public class ShapeShifterCowEntity extends PathfinderMob {
 		return retval;
 	}
 
-	public static void init() {
-		SpawnPlacements.register(MidnightlurkerModEntities.SHAPE_SHIFTER_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (entityType, world, reason, pos, random) -> {
+	public static void init(RegisterSpawnPlacementsEvent event) {
+		event.register(MidnightlurkerModEntities.SHAPE_SHIFTER_COW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (entityType, world, reason, pos, random) -> {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
 			return ShapeShifterCowNaturalEntitySpawningConditionProcedure.execute(world, x, y, z);
-		});
+		}, RegisterSpawnPlacementsEvent.Operation.REPLACE);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

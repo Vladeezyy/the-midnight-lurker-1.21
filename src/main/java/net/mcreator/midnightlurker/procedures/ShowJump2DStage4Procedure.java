@@ -11,8 +11,8 @@ public class ShowJump2DStage4Procedure {
 		if (entity == null)
 			return false;
 		File lurker = new File("");
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).JumpscareActive == 1
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage == 4) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).JumpscareActive == 1
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 4) {
 			return true;
 		}
 		return false;

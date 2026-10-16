@@ -3,10 +3,11 @@ package net.mcreator.midnightlurker.command;
 
 import org.checkerframework.checker.units.qual.s;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.common.util.FakePlayerFactory;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +16,7 @@ import net.minecraft.commands.Commands;
 
 import net.mcreator.midnightlurker.procedures.DevoverlaypositiveProcedure;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class DevOverlayCommand {
 	@SubscribeEvent
 	public static void registerCommand(RegisterCommandsEvent event) {

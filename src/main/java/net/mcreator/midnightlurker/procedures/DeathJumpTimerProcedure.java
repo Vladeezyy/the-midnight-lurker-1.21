@@ -1,9 +1,10 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
@@ -20,13 +21,11 @@ import javax.annotation.Nullable;
 
 import java.io.File;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class DeathJumpTimerProcedure {
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			execute(event, event.player.level(), event.player);
-		}
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		execute(event, event.getEntity().level(), event.getEntity());
 	}
 
 	public static boolean execute(LevelAccessor world, Entity entity) {
@@ -38,44 +37,41 @@ public class DeathJumpTimerProcedure {
 			return false;
 		File lurker = new File("");
 		com.google.gson.JsonObject mainjsonobject = new com.google.gson.JsonObject();
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer == 69
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpActive > 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer == 69
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpActive > 0) {
 			if (world instanceof ServerLevel _level)
 				_level.getServer().getCommands().performPrefixedCommand(
 						new CommandSourceStack(CommandSource.NULL, new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 						"/playsound midnightlurker:lurkerdeathjumpscare neutral @p");
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpActive == 1) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer == 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpActive == 1) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer == 0) {
 				{
 					double _setval = 70;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.DeathJumpTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.DeathJumpTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpActive == 1
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer == 1) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpActive == 1
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer == 1) {
 			{
 				double _setval = 0;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.DeathJumpActive = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.DeathJumpActive = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer > 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer > 0) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer - 1;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.DeathJumpTimer = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer - 1;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.DeathJumpTimer = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer > 0) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer > 0) {
 			return true;
 		}
 		return false;

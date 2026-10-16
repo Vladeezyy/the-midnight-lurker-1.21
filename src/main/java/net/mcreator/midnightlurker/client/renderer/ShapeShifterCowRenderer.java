@@ -16,6 +16,6 @@ public class ShapeShifterCowRenderer extends MobRenderer<ShapeShifterCowEntity, 
 
 	@Override
 	public ResourceLocation getTextureLocation(ShapeShifterCowEntity entity) {
-		return new ResourceLocation("midnightlurker:textures/entities/shapeshiftercow.png");
+		return ResourceLocation.parse("midnightlurker:textures/entities/shapeshiftercow.png");
 	}
 }

@@ -17,7 +17,7 @@ public class MidnightLurkerRuntrueOnInitialEntitySpawnProcedure {
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return;
-		if (world.getBiome(BlockPos.containing(x, y, z)).is(new ResourceLocation("mushroom_fields"))) {
+		if (world.getBiome(BlockPos.containing(x, y, z)).is(ResourceLocation.parse("mushroom_fields"))) {
 			MidnightlurkerMod.queueServerWork(1, () -> {
 				if (!entity.level().isClientSide())
 					entity.discard();

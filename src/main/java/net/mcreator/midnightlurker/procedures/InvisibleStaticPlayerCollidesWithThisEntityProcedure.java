@@ -24,7 +24,7 @@ public class InvisibleStaticPlayerCollidesWithThisEntityProcedure {
 					return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
 				}
 			}.compareDistOf(x, y, z)).findFirst().orElse(null)) instanceof LivingEntity _entity && !_entity.level().isClientSide())
-				_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.STATIC_EFFECT.get(), 46, 0, false, false));
+				_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.STATIC_EFFECT, 46, 0, false, false));
 		}
 	}
 }

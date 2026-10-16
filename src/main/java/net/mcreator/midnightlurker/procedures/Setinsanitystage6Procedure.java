@@ -12,10 +12,9 @@ public class Setinsanitystage6Procedure {
 		if (entity instanceof Player) {
 			{
 				double _setval = 6;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.InsanityStage = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.InsanityStage = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
 	}

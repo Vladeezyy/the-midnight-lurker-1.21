@@ -1,7 +1,9 @@
 
 package net.mcreator.midnightlurker.entity;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -35,13 +37,10 @@ import net.mcreator.midnightlurker.procedures.VillagerOutcastEntityDiesProcedure
 import net.mcreator.midnightlurker.init.MidnightlurkerModEntities;
 
 public class VillagerOutcastEntity extends PathfinderMob {
-	public VillagerOutcastEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(MidnightlurkerModEntities.VILLAGER_OUTCAST.get(), world);
-	}
 
 	public VillagerOutcastEntity(EntityType<VillagerOutcastEntity> type, Level world) {
 		super(type, world);
-		setMaxUpStep(0.6f);
+		this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.6f);
 		xpReward = 4;
 		setNoAi(false);
 		setPersistenceRequired();
@@ -49,10 +48,6 @@ public class VillagerOutcastEntity extends PathfinderMob {
 		this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
 	}
 
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
 
 	@Override
 	protected void registerGoals() {
@@ -65,10 +60,6 @@ public class VillagerOutcastEntity extends PathfinderMob {
 		this.goalSelector.addGoal(6, new FloatGoal(this));
 	}
 
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEFINED;
-	}
 
 	@Override
 	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
@@ -77,17 +68,17 @@ public class VillagerOutcastEntity extends PathfinderMob {
 
 	@Override
 	public SoundEvent getAmbientSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:outcastvillager_idle"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_idle"));
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:outcastvillager_hit"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_hit"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("midnightlurker:outcastvillager_death"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_death"));
 	}
 
 	@Override
@@ -109,7 +100,7 @@ public class VillagerOutcastEntity extends PathfinderMob {
 		VillagerOutcastEntityDiesProcedure.execute(this.level(), this.getX(), this.getY(), this.getZ(), this);
 	}
 
-	public static void init() {
+	public static void init(RegisterSpawnPlacementsEvent event) {
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

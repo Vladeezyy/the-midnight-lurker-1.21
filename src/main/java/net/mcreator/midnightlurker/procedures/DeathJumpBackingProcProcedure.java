@@ -8,8 +8,8 @@ public class DeathJumpBackingProcProcedure {
 	public static boolean execute(Entity entity) {
 		if (entity == null)
 			return false;
-		if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpActive == 1
-				&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).DeathJumpTimer >= 40) {
+		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpActive == 1
+				&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).DeathJumpTimer >= 40) {
 			return true;
 		}
 		return false;

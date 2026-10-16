@@ -15,7 +15,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 public class MidnightLurkerFakerAggroLayer extends GeoRenderLayer<MidnightLurkerFakerAggroEntity> {
-	private static final ResourceLocation LAYER = new ResourceLocation("midnightlurker", "textures/entities/midnightlurkerglow.png");
+	private static final ResourceLocation LAYER = ResourceLocation.fromNamespaceAndPath("midnightlurker", "textures/entities/midnightlurkerglow.png");
 
 	public MidnightLurkerFakerAggroLayer(GeoRenderer<MidnightLurkerFakerAggroEntity> entityRenderer) {
 		super(entityRenderer);
@@ -24,6 +24,6 @@ public class MidnightLurkerFakerAggroLayer extends GeoRenderLayer<MidnightLurker
 	@Override
 	public void render(PoseStack poseStack, MidnightLurkerFakerAggroEntity animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 		RenderType glowRenderType = RenderType.eyes(LAYER);
-		getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, glowRenderType, bufferSource.getBuffer(glowRenderType), partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+		getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, glowRenderType, bufferSource.getBuffer(glowRenderType), partialTick, packedLight, OverlayTexture.NO_OVERLAY, -1);
 	}
 }

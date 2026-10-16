@@ -9,17 +9,17 @@ import net.mcreator.midnightlurker.entity.VoidGatewayEntity;
 public class VoidGatewayModel extends GeoModel<VoidGatewayEntity> {
 	@Override
 	public ResourceLocation getAnimationResource(VoidGatewayEntity entity) {
-		return new ResourceLocation("midnightlurker", "animations/voidgateway.animation.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "animations/voidgateway.animation.json");
 	}
 
 	@Override
 	public ResourceLocation getModelResource(VoidGatewayEntity entity) {
-		return new ResourceLocation("midnightlurker", "geo/voidgateway.geo.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "geo/voidgateway.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(VoidGatewayEntity entity) {
-		return new ResourceLocation("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
 	}
 
 }

@@ -1,9 +1,10 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
 
 import java.io.File;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class InsanityFoodReduceProcedure {
 	@SubscribeEvent
 	public static void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
@@ -33,138 +34,124 @@ public class InsanityFoodReduceProcedure {
 			return;
 		File lurker = new File("");
 		if (itemstack.getItem() == Items.GOLDEN_APPLE) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7
-					&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage > 0) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7
+					&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage > 0) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage - 1;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityStage = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage - 1;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityStage = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7
-					&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage > 2) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7
+					&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage > 2) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage - 3;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityStage = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage - 3;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityStage = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
-			} else if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7
-					&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage > 1) {
+			} else if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7
+					&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage > 1) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage - 2;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityStage = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage - 2;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityStage = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
-			} else if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7
-					&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage > 0) {
+			} else if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7
+					&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage > 0) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage - 1;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityStage = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage - 1;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityStage = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.GOLDEN_CARROT) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 2200) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 2200) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 2000;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 2000;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.CARROT || itemstack.getItem() == Items.BREAD) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 400) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 400) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 200;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 200;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.BAKED_POTATO || itemstack.getItem() == Items.POTATO) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 300) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 300) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 100;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 100;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.PUMPKIN_PIE) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 1800) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 1800) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 1600;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 1600;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.BEETROOT_SOUP || itemstack.getItem() == Items.MUSHROOM_STEW || itemstack.getItem() == Items.RABBIT_STEW) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 1800) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 1800) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 1600;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 1600;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.GLOW_BERRIES || itemstack.getItem() == Items.SWEET_BERRIES || itemstack.getItem() == Items.MELON_SLICE || itemstack.getItem() == Items.DRIED_KELP || itemstack.getItem() == Items.BEETROOT) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 300) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 300) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 100;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 100;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.APPLE) {
-			if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer >= 4200) {
+			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer >= 4200) {
 				{
-					double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer - 4000;
-					entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-						capability.InsanityTimer = _setval;
-						capability.syncPlayerVariables(entity);
-					});
+					double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer - 4000;
+					MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+					_vars.InsanityTimer = _setval;
+					_vars.syncPlayerVariables(entity);
 				}
 			}
 		} else if (itemstack.getItem() == Items.PUFFERFISH) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer + 2000;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.InsanityTimer = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer + 2000;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.InsanityTimer = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		} else if (itemstack.getItem() == Items.ROTTEN_FLESH || itemstack.getItem() == Items.SPIDER_EYE) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer + 1000;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.InsanityTimer = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer + 1000;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.InsanityTimer = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		} else if (itemstack.getItem() == Items.POISONOUS_POTATO) {
 			{
-				double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer + 1500;
-				entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-					capability.InsanityTimer = _setval;
-					capability.syncPlayerVariables(entity);
-				});
+				double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer + 1500;
+				MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+				_vars.InsanityTimer = _setval;
+				_vars.syncPlayerVariables(entity);
 			}
 		}
 	}

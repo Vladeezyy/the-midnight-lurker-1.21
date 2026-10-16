@@ -1,10 +1,11 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +17,7 @@ import net.mcreator.midnightlurker.init.MidnightlurkerModMobEffects;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber(value = {Dist.CLIENT})
+@EventBusSubscriber(value = {Dist.CLIENT})
 public class InsanityEffectStartedappliedProcedure {
 	@SubscribeEvent
 	public static void computeFogColor(ViewportEvent.ComputeFogColor event) {
@@ -35,7 +36,7 @@ public class InsanityEffectStartedappliedProcedure {
 	private static void execute(@Nullable Event event, Entity entity, ViewportEvent viewport) {
 		if (entity == null || viewport == null)
 			return;
-		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY.get())) {
+		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
 			if (entity instanceof Player) {
 				if (viewport instanceof ViewportEvent.ComputeFogColor _computeFogColor) {
 					_computeFogColor.setRed(62 / 255.0F);

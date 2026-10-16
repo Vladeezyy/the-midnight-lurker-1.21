@@ -8,6 +8,6 @@ public class InsanitystagedisplayProcedure {
 	public static String execute(Entity entity) {
 		if (entity == null)
 			return "";
-		return new java.text.DecimalFormat("#").format((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage) + "";
+		return new java.text.DecimalFormat("#").format(entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage) + "";
 	}
 }

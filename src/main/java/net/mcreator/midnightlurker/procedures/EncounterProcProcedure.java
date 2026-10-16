@@ -1,10 +1,11 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import net.minecraft.world.entity.Entity;
 
@@ -19,13 +20,11 @@ import java.io.BufferedReader;
 
 import com.google.gson.Gson;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EncounterProcProcedure {
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			execute(event, event.player);
-		}
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		execute(event, event.getEntity());
 	}
 
 	public static void execute(Entity entity) {
@@ -49,28 +48,25 @@ public class EncounterProcProcedure {
 				bufferedReader.close();
 				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				if (mainjsonobject.get("encounters_progress_stages").getAsBoolean() == true) {
-					if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).encounternumber >= 6) {
+					if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).encounternumber >= 6) {
 						{
 							double _setval = 0;
-							entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-								capability.encounternumber = _setval;
-								capability.syncPlayerVariables(entity);
-							});
+							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+							_vars.encounternumber = _setval;
+							_vars.syncPlayerVariables(entity);
 						}
-						if ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7) {
+						if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7) {
 							{
-								double _setval = (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage + 1;
-								entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-									capability.InsanityStage = _setval;
-									capability.syncPlayerVariables(entity);
-								});
+								double _setval = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage + 1;
+								MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+								_vars.InsanityStage = _setval;
+								_vars.syncPlayerVariables(entity);
 							}
 							{
 								double _setval = 0;
-								entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-									capability.InsanityTimer = _setval;
-									capability.syncPlayerVariables(entity);
-								});
+								MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
+								_vars.InsanityTimer = _setval;
+								_vars.syncPlayerVariables(entity);
 							}
 						}
 					}

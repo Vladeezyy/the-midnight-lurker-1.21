@@ -1,10 +1,11 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.entity.player.Player;
@@ -24,13 +25,11 @@ import java.io.BufferedReader;
 
 import com.google.gson.Gson;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class LurkerfaceparticleprocedureProcedure {
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			execute(event, event.player.level(), event.player);
-		}
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		execute(event, event.getEntity().level(), event.getEntity());
 	}
 
 	public static void execute(LevelAccessor world, Entity entity) {
@@ -54,48 +53,48 @@ public class LurkerfaceparticleprocedureProcedure {
 				bufferedReader.close();
 				mainjsonobject = new Gson().fromJson(jsonstringbuilder.toString(), com.google.gson.JsonObject.class);
 				if (mainjsonobject.get("insanity_progress_effect").getAsBoolean() == true) {
-					if (entity instanceof Player && (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer <= 200
-							&& ((entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage > 0
-									|| (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage < 7)
+					if (entity instanceof Player && entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer <= 200
+							&& (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage > 0
+									|| entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage < 7)
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityAktive == 1) {
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityAktive == 1) {
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY, 55, 0, false, false));
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES, 55, 0, false, false));
 					}
 				}
 				if (mainjsonobject.get("insanity_countdown_time").getAsDouble() == 1) {
-					if (entity instanceof Player && Math.random() > 0.5 && (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer > 4800
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage == 6
+					if (entity instanceof Player && Math.random() > 0.5 && entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer > 4800
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 6
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityAktive == 1) {
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityAktive == 1) {
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES, 55, 0, false, false));
 					}
 				} else if (mainjsonobject.get("insanity_countdown_time").getAsDouble() == 2) {
-					if (entity instanceof Player && Math.random() > 0.5 && (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer > 10800
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage == 6
+					if (entity instanceof Player && Math.random() > 0.5 && entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer > 10800
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 6
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityAktive == 1) {
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityAktive == 1) {
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES, 55, 0, false, false));
 					}
 				} else if (mainjsonobject.get("insanity_countdown_time").getAsDouble() == 3) {
-					if (entity instanceof Player && Math.random() > 0.5 && (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer > 22800
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage == 6
+					if (entity instanceof Player && Math.random() > 0.5 && entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer > 22800
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 6
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityAktive == 1) {
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityAktive == 1) {
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES, 55, 0, false, false));
 					}
 				} else if (mainjsonobject.get("insanity_countdown_time").getAsDouble() == 4) {
-					if (entity instanceof Player && Math.random() > 0.5 && (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityTimer > 34800
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityStage == 6
+					if (entity instanceof Player && Math.random() > 0.5 && entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityTimer > 34800
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 6
 							&& MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkerinsanityactive == 1
-							&& (entity.getCapability(MidnightlurkerModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new MidnightlurkerModVariables.PlayerVariables())).InsanityAktive == 1) {
+							&& entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityAktive == 1) {
 						if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES.get(), 55, 0, false, false));
+							_entity.addEffect(new MobEffectInstance(MidnightlurkerModMobEffects.INSANITY_FACES, 55, 0, false, false));
 					}
 				}
 			} catch (IOException e) {

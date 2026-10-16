@@ -9,17 +9,17 @@ import net.mcreator.midnightlurker.entity.MidnightLurkerBackturnedEntity;
 public class MidnightLurkerBackturnedModel extends GeoModel<MidnightLurkerBackturnedEntity> {
 	@Override
 	public ResourceLocation getAnimationResource(MidnightLurkerBackturnedEntity entity) {
-		return new ResourceLocation("midnightlurker", "animations/midnightlurkerbackturned.animation.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "animations/midnightlurkerbackturned.animation.json");
 	}
 
 	@Override
 	public ResourceLocation getModelResource(MidnightLurkerBackturnedEntity entity) {
-		return new ResourceLocation("midnightlurker", "geo/midnightlurkerbackturned.geo.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "geo/midnightlurkerbackturned.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(MidnightLurkerBackturnedEntity entity) {
-		return new ResourceLocation("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
 	}
 
 }

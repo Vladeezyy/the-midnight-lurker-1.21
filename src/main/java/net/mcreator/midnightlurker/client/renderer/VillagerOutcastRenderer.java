@@ -23,6 +23,6 @@ public class VillagerOutcastRenderer extends MobRenderer<VillagerOutcastEntity, 
 
 	@Override
 	public ResourceLocation getTextureLocation(VillagerOutcastEntity entity) {
-		return new ResourceLocation("midnightlurker:textures/entities/outcast_villager.png");
+		return ResourceLocation.parse("midnightlurker:textures/entities/outcast_villager.png");
 	}
 }

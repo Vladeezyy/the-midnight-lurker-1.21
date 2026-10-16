@@ -1,6 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
@@ -30,9 +30,9 @@ public class InvisibleCaveSoundsOnEntityTickUpdateProcedure {
 			if (Math.random() > 0.5) {
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambient.cave")), SoundSource.AMBIENT, 50, (float) Mth.nextDouble(RandomSource.create(), 0.2, 1));
+						_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("ambient.cave")), SoundSource.AMBIENT, 50, (float) Mth.nextDouble(RandomSource.create(), 0.2, 1));
 					} else {
-						_level.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambient.cave")), SoundSource.AMBIENT, 50, (float) Mth.nextDouble(RandomSource.create(), 0.2, 1), false);
+						_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("ambient.cave")), SoundSource.AMBIENT, 50, (float) Mth.nextDouble(RandomSource.create(), 0.2, 1), false);
 					}
 				}
 			}

@@ -15,6 +15,6 @@ public class DestroytexRenderer extends MobRenderer<DestroytexEntity, Modeldestr
 
 	@Override
 	public ResourceLocation getTextureLocation(DestroytexEntity entity) {
-		return new ResourceLocation("midnightlurker:textures/entities/destroytex1.png");
+		return ResourceLocation.parse("midnightlurker:textures/entities/destroytex1.png");
 	}
 }

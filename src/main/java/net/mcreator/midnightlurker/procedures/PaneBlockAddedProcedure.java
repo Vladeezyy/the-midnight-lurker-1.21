@@ -19,24 +19,24 @@ public class PaneBlockAddedProcedure {
 		String gateTag = "";
 		groupTag = "forge" + ":" + "custom_pane";
 		gateTag = "forge" + ":" + "custom_gate";
-		if ((world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(new ResourceLocation((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(new ResourceLocation((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, (z - 1));
 		}
-		if ((world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(new ResourceLocation((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(new ResourceLocation((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, (x + 1), y, z);
 		}
-		if ((world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(new ResourceLocation((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(new ResourceLocation((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, (z + 1));
 		}
-		if ((world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(new ResourceLocation((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(new ResourceLocation((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, (x - 1), y, z);
 		}
-		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(new ResourceLocation((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(new ResourceLocation((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, z);
 		}
 		if (new Object() {

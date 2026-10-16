@@ -11,7 +11,7 @@ public class MidnightLurkerAggressiveLoopExternalAnimationsProcedure {
 		if (entity == null)
 			return false;
 		if (!world.getBlockState(BlockPos.containing(x, y + 0, z)).canOcclude() && !world.getBlockState(BlockPos.containing(x, y + 1, z)).canOcclude()
-				&& (world.getBlockState(BlockPos.containing(x, y + 2, z)).canOcclude() || (world.getBlockState(BlockPos.containing(x, y + 2, z))).is(BlockTags.create(new ResourceLocation("minecraft:leaves"))))) {
+				&& (world.getBlockState(BlockPos.containing(x, y + 2, z)).canOcclude() || (world.getBlockState(BlockPos.containing(x, y + 2, z))).is(BlockTags.create(ResourceLocation.parse("minecraft:leaves"))))) {
 			if (entity.getDeltaMovement().z() != 0 || entity.getDeltaMovement().x() != 0) {
 				return true;
 			}

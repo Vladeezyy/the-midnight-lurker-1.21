@@ -2,8 +2,8 @@ package net.mcreator.midnightlurker.entity.model;
 
 import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
 
 import net.minecraft.resources.ResourceLocation;
@@ -14,22 +14,22 @@ import net.mcreator.midnightlurker.entity.MidnightLurkerShapeshifterEntity;
 public class MidnightLurkerShapeshifterModel extends GeoModel<MidnightLurkerShapeshifterEntity> {
 	@Override
 	public ResourceLocation getAnimationResource(MidnightLurkerShapeshifterEntity entity) {
-		return new ResourceLocation("midnightlurker", "animations/midnightlurkershapeshifter.animation.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "animations/midnightlurkershapeshifter.animation.json");
 	}
 
 	@Override
 	public ResourceLocation getModelResource(MidnightLurkerShapeshifterEntity entity) {
-		return new ResourceLocation("midnightlurker", "geo/midnightlurkershapeshifter.geo.json");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "geo/midnightlurkershapeshifter.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(MidnightLurkerShapeshifterEntity entity) {
-		return new ResourceLocation("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
+		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
 	}
 
 	@Override
 	public void setCustomAnimations(MidnightLurkerShapeshifterEntity animatable, long instanceId, AnimationState animationState) {
-		CoreGeoBone head = getAnimationProcessor().getBone("head");
+		GeoBone head = getAnimationProcessor().getBone("head");
 		if (head != null) {
 			int unpausedMultiplier = !Minecraft.getInstance().isPaused() ? 1 : 0;
 			EntityModelData entityData = (EntityModelData) animationState.getData(DataTickets.ENTITY_MODEL_DATA);

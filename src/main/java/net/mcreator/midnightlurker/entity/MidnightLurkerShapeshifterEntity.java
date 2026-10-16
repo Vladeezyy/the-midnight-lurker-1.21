@@ -1,16 +1,19 @@
 
 package net.mcreator.midnightlurker.entity;
 
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+
 import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -66,9 +69,6 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 	private long lastSwing;
 	public String animationprocedure = "empty";
 
-	public MidnightLurkerShapeshifterEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(MidnightlurkerModEntities.MIDNIGHT_LURKER_SHAPESHIFTER.get(), world);
-	}
 
 	public MidnightLurkerShapeshifterEntity(EntityType<MidnightLurkerShapeshifterEntity> type, Level world) {
 		super(type, world);
@@ -77,11 +77,11 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(SHOOT, false);
-		this.entityData.define(ANIMATION, "undefined");
-		this.entityData.define(TEXTURE, "baseshapeshifter");
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(SHOOT, false);
+		builder.define(ANIMATION, "undefined");
+		builder.define(TEXTURE, "baseshapeshifter");
 	}
 
 	public void setTexture(String texture) {
@@ -92,10 +92,6 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		return this.entityData.get(TEXTURE);
 	}
 
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
 
 	@Override
 	protected void registerGoals() {
@@ -129,24 +125,20 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		this.goalSelector.addGoal(7, new FloatGoal(this));
 	}
 
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEFINED;
-	}
 
 	@Override
 	public SoundEvent getAmbientSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.villager.ambient"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.ambient"));
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.villager.hurt"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.hurt"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.villager.death"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.death"));
 	}
 
 	@Override
@@ -204,8 +196,8 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 	}
 
 	@Override
-	public EntityDimensions getDimensions(Pose p_33597_) {
-		return super.getDimensions(p_33597_).scale((float) 1);
+	public EntityDimensions getDefaultDimensions(Pose p_33597_) {
+		return super.getDefaultDimensions(p_33597_).scale((float) 1);
 	}
 
 	@Override
@@ -214,13 +206,13 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		this.updateSwingTime();
 	}
 
-	public static void init() {
-		SpawnPlacements.register(MidnightlurkerModEntities.MIDNIGHT_LURKER_SHAPESHIFTER.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (entityType, world, reason, pos, random) -> {
+	public static void init(RegisterSpawnPlacementsEvent event) {
+		event.register(MidnightlurkerModEntities.MIDNIGHT_LURKER_SHAPESHIFTER.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (entityType, world, reason, pos, random) -> {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
 			return MidnightLurkerShapeshifterNaturalEntitySpawningConditionProcedure.execute(world, x, y, z);
-		});
+		}, RegisterSpawnPlacementsEvent.Operation.REPLACE);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -278,7 +270,7 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		++this.deathTime;
 		if (this.deathTime == 20) {
 			this.remove(MidnightLurkerShapeshifterEntity.RemovalReason.KILLED);
-			this.dropExperience();
+			this.dropExperience(null);
 		}
 	}
 
