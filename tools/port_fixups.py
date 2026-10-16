@@ -55,6 +55,82 @@ def registry(s):
 
 edit(os.path.join(PKG, 'init', 'MidnightlurkerModEntities.java'), registry)
 
+
+def procedures(s):
+    # block entity data copied across setBlock (MCreator): 1.21 needs the registries for item components
+    s = s.replace('.saveWithFullMetadata();', '.saveWithFullMetadata(world.registryAccess());')
+    s = re.sub(r'(\w+)\.load\((_bnbt\w*)\);', r'\1.loadWithComponents(\2, world.registryAccess());', s)
+    return s
+
+
+for f in os.listdir(os.path.join(PKG, 'procedures')):
+    edit(os.path.join(PKG, 'procedures', f), procedures)
+
+
+def block_entity(s):
+    # MCreator NeoForge container block entity: registries in load / save, the item handler is a capability
+    s = s.replace('private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());',
+                  'private final SidedInvWrapper handler = new SidedInvWrapper(this, null);')
+    s = s.replace('\tpublic void load(CompoundTag compound) {\n\t\tsuper.load(compound);',
+                  '\tpublic void loadAdditional(CompoundTag compound, HolderLookup.Provider lookupProvider) {\n\t\tsuper.loadAdditional(compound, lookupProvider);')
+    s = s.replace('ContainerHelper.loadAllItems(compound, this.stacks);', 'ContainerHelper.loadAllItems(compound, this.stacks, lookupProvider);')
+    s = s.replace('\tpublic void saveAdditional(CompoundTag compound) {\n\t\tsuper.saveAdditional(compound);',
+                  '\tpublic void saveAdditional(CompoundTag compound, HolderLookup.Provider lookupProvider) {\n\t\tsuper.saveAdditional(compound, lookupProvider);')
+    s = s.replace('ContainerHelper.saveAllItems(compound, this.stacks);', 'ContainerHelper.saveAllItems(compound, this.stacks, lookupProvider);')
+    s = s.replace('\tpublic CompoundTag getUpdateTag() {\n\t\treturn this.saveWithFullMetadata();',
+                  '\tpublic CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {\n\t\treturn this.saveWithFullMetadata(lookupProvider);')
+    s = re.sub(r'\n\t@Override\n\tpublic <T> LazyOptional<T> getCapability\(.*?\n\t\}\n', '\n', s, flags=re.S)
+    s = re.sub(r'\n\t@Override\n\tpublic void setRemoved\(\) \{\n\t\tsuper\.setRemoved\(\);\n\t\tfor \(LazyOptional.*?\n\t\}\n',
+               '\n\tpublic SidedInvWrapper getItemHandler() {\n\t\treturn handler;\n\t}\n', s, flags=re.S)
+    s = re.sub(r'\nimport net\.neoforged\.neoforge\.common\.(capabilities|util)\.\w+;', '', s)
+    s = re.sub(r'\nimport net\.neoforged\.neoforge\.items\.IItemHandler;', '', s)
+    if 'import net.minecraft.core.HolderLookup;' not in s:
+        s = s.replace('import net.minecraft.core.NonNullList;', 'import net.minecraft.core.NonNullList;\nimport net.minecraft.core.HolderLookup;')
+    return s
+
+
+for f in os.listdir(os.path.join(PKG, 'block', 'entity')):
+    edit(os.path.join(PKG, 'block', 'entity', f), block_entity)
+
+
+def be_registry(s):
+    if 'RegisterCapabilitiesEvent' in s:
+        return s
+    names = re.findall(r'public static final DeferredHolder<BlockEntityType<\?>, BlockEntityType<\?>> (\w+) = register\("\w+", \w+\.\w+, (\w+)::new\);', s)
+    reg = ''.join('\t\tevent.registerBlockEntity(Capabilities.ItemHandler.BLOCK, %s.get(), (blockEntity, side) -> ((%s) blockEntity).getItemHandler());\n' % (n, c) for n, c in names)
+    s = s.replace('public class MidnightlurkerModBlockEntities {',
+                  '@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)\npublic class MidnightlurkerModBlockEntities {')
+    s = s.rstrip()[:-1] + '\n\t@SubscribeEvent\n\tpublic static void registerCapabilities(RegisterCapabilitiesEvent event) {\n' + reg + '\t}\n}\n'
+    s = s.replace('import net.minecraft.core.registries.Registries;\n', 'import net.minecraft.core.registries.Registries;\n\nimport net.neoforged.fml.common.EventBusSubscriber;\nimport net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;\nimport net.neoforged.neoforge.capabilities.Capabilities;\nimport net.neoforged.bus.api.SubscribeEvent;\n', 1)
+    return s
+
+
+edit(os.path.join(PKG, 'init', 'MidnightlurkerModBlockEntities.java'), be_registry)
+
+
+def enchantments(s):
+    # 1.21 enchantments are registry holders: "remove enchantment X from the stack" (MCreator 1.20.1 map round trip)
+    pat = re.compile(r'Map<Enchantment, Integer> _enchantments = EnchantmentHelper\.getEnchantments\((?P<stack>.+?)\);\n'
+                     r'(?P<ind>\s*)if \(_enchantments\.containsKey\((?P<ench>Enchantments\.\w+)\)\) \{\n'
+                     r'\s*_enchantments\.remove\((?P=ench)\);\n'
+                     r'\s*EnchantmentHelper\.setEnchantments\(_enchantments, (?P=stack)\);\n'
+                     r'\s*\}')
+    s = pat.sub(lambda m: 'EnchantmentHelper.updateEnchantments(%s, _ench -> _ench.removeIf(_e -> _e.is(%s)));' % (m.group('stack'), m.group('ench')), s)
+    return s
+
+
+def pickup(s):
+    # NeoForge 1.21: EntityItemPickupEvent -> ItemEntityPickupEvent.Pre (fired before the pickup, like the old one)
+    s = s.replace('import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;', 'import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;')
+    s = s.replace('public static void onPickup(EntityItemPickupEvent event) {\n\t\texecute(event, event.getEntity(), event.getItem().getItem());',
+                  'public static void onPickup(ItemEntityPickupEvent.Pre event) {\n\t\texecute(event, event.getPlayer(), event.getItemEntity().getItem());')
+    return s
+
+
+for f in os.listdir(os.path.join(PKG, 'procedures')):
+    edit(os.path.join(PKG, 'procedures', f), enchantments)
+    edit(os.path.join(PKG, 'procedures', f), pickup)
+
 # public classes whose file names differ in case only (built on Windows): javac wants the exact name
 for dp, _, fs in os.walk(PKG):
     for f in fs:

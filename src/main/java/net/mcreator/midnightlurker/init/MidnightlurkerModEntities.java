@@ -9,7 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -124,22 +124,22 @@ public class MidnightlurkerModEntities {
 	public static final DeferredHolder<EntityType<?>, EntityType<VoidHandsEntity>> VOID_HANDS = register("void_hands", EntityType.Builder.<VoidHandsEntity>of(VoidHandsEntity::new, MobCategory.AMBIENT).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
 			.setUpdateInterval(3).fireImmune().sized(0.6f, 1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleFootstepsEntity>> INVISIBLE_FOOTSTEPS = register("invisible_footsteps", EntityType.Builder.<InvisibleFootstepsEntity>of(InvisibleFootstepsEntity::new, MobCategory.AMBIENT)
-			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f));
+			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleShadowEntity>> INVISIBLE_SHADOW = register("invisible_shadow", EntityType.Builder.<InvisibleShadowEntity>of(InvisibleShadowEntity::new, MobCategory.AMBIENT)
-			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f));
+			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleStaticEntity>> INVISIBLE_STATIC = register("invisible_static", EntityType.Builder.<InvisibleStaticEntity>of(InvisibleStaticEntity::new, MobCategory.MONSTER)
-			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f));
+			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleLurkerFootstepsEntity>> INVISIBLE_LURKER_FOOTSTEPS = register("invisible_lurker_footsteps",
 			EntityType.Builder.<InvisibleLurkerFootstepsEntity>of(InvisibleLurkerFootstepsEntity::new, MobCategory.AMBIENT).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
-					.fireImmune().sized(0.5f, 0.4f));
+					.fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleCaveSoundsEntity>> INVISIBLE_CAVE_SOUNDS = register("invisible_cave_sounds", EntityType.Builder.<InvisibleCaveSoundsEntity>of(InvisibleCaveSoundsEntity::new, MobCategory.MONSTER)
-			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f));
+			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<MidnightLurkerCreepEntity>> MIDNIGHT_LURKER_CREEP = register("midnight_lurker_creep", EntityType.Builder.<MidnightLurkerCreepEntity>of(MidnightLurkerCreepEntity::new, MobCategory.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.7f, 2.5f));
 	public static final DeferredHolder<EntityType<?>, EntityType<MidnightPhantomHeadEntity>> MIDNIGHT_PHANTOM_HEAD = register("midnight_phantom_head", EntityType.Builder.<MidnightPhantomHeadEntity>of(MidnightPhantomHeadEntity::new, MobCategory.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.4f, 0.5f));
 	public static final DeferredHolder<EntityType<?>, EntityType<InvisibleAnimalKillerEntity>> INVISIBLE_ANIMAL_KILLER = register("invisible_animal_killer", EntityType.Builder.<InvisibleAnimalKillerEntity>of(InvisibleAnimalKillerEntity::new, MobCategory.AMBIENT)
-			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f));
+			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.5f, 0.4f).eyeHeight(1.4f));
 	public static final DeferredHolder<EntityType<?>, EntityType<ShapeshifterPigEntity>> SHAPESHIFTER_PIG = register("shapeshifter_pig", EntityType.Builder.<ShapeshifterPigEntity>of(ShapeshifterPigEntity::new, MobCategory.CREATURE)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).fireImmune().sized(0.9f, 0.9f));
 	public static final DeferredHolder<EntityType<?>, EntityType<ShapeShifterCowEntity>> SHAPE_SHIFTER_COW = register("shape_shifter_cow", EntityType.Builder.<ShapeShifterCowEntity>of(ShapeShifterCowEntity::new, MobCategory.CREATURE)
@@ -154,46 +154,44 @@ public class MidnightlurkerModEntities {
 	}
 
 	@SubscribeEvent
-	public static void init(FMLCommonSetupEvent event) {
-		event.enqueueWork(() -> {
-			MidnightLurkerAggressiveEntity.init();
-			MidnightLurkertposeEntity.init();
-			MidnightLurkerStalkingEntity.init();
-			MidnightLurkerInvisibleEntity.init();
-			SpookyambienceentityEntity.init();
-			MidnightLurkerSeenAngressiveEntity.init();
-			DestroytexEntity.init();
-			Destroytex2Entity.init();
-			Destroytex3Entity.init();
-			Destroytex4Entity.init();
-			MidnightLurkerFakerAggroEntity.init();
-			MidnightLurkerFakerEntity.init();
-			MidnightLurkerFakerWatcherEntity.init();
-			VoidGatewayEntity.init();
-			MidnightLurkerBackturnedEntity.init();
-			MidnightLurkerShadowEyesEntity.init();
-			MidnightLurkerShadowEntity.init();
-			MidnightLurkerUnprovokedEntity.init();
-			MidnightLurkerRunawayEntity.init();
-			MidnightLurkerRuntrueEntity.init();
-			MidnightLurkerHiderEntity.init();
-			MidnightLurkerShapeshifterEntity.init();
-			MidnightLurkerStareEntity.init();
-			MidnightlurkerNEEntity.init();
-			MidnightLurkerWatcherEntity.init();
-			VoidHandsEntity.init();
-			InvisibleFootstepsEntity.init();
-			InvisibleShadowEntity.init();
-			InvisibleStaticEntity.init();
-			InvisibleLurkerFootstepsEntity.init();
-			InvisibleCaveSoundsEntity.init();
-			MidnightLurkerCreepEntity.init();
-			MidnightPhantomHeadEntity.init();
-			InvisibleAnimalKillerEntity.init();
-			ShapeshifterPigEntity.init();
-			ShapeShifterCowEntity.init();
-			VillagerOutcastEntity.init();
-		});
+	public static void init(RegisterSpawnPlacementsEvent event) {
+		MidnightLurkerAggressiveEntity.init(event);
+		MidnightLurkertposeEntity.init(event);
+		MidnightLurkerStalkingEntity.init(event);
+		MidnightLurkerInvisibleEntity.init(event);
+		SpookyambienceentityEntity.init(event);
+		MidnightLurkerSeenAngressiveEntity.init(event);
+		DestroytexEntity.init(event);
+		Destroytex2Entity.init(event);
+		Destroytex3Entity.init(event);
+		Destroytex4Entity.init(event);
+		MidnightLurkerFakerAggroEntity.init(event);
+		MidnightLurkerFakerEntity.init(event);
+		MidnightLurkerFakerWatcherEntity.init(event);
+		VoidGatewayEntity.init(event);
+		MidnightLurkerBackturnedEntity.init(event);
+		MidnightLurkerShadowEyesEntity.init(event);
+		MidnightLurkerShadowEntity.init(event);
+		MidnightLurkerUnprovokedEntity.init(event);
+		MidnightLurkerRunawayEntity.init(event);
+		MidnightLurkerRuntrueEntity.init(event);
+		MidnightLurkerHiderEntity.init(event);
+		MidnightLurkerShapeshifterEntity.init(event);
+		MidnightLurkerStareEntity.init(event);
+		MidnightlurkerNEEntity.init(event);
+		MidnightLurkerWatcherEntity.init(event);
+		VoidHandsEntity.init(event);
+		InvisibleFootstepsEntity.init(event);
+		InvisibleShadowEntity.init(event);
+		InvisibleStaticEntity.init(event);
+		InvisibleLurkerFootstepsEntity.init(event);
+		InvisibleCaveSoundsEntity.init(event);
+		MidnightLurkerCreepEntity.init(event);
+		MidnightPhantomHeadEntity.init(event);
+		InvisibleAnimalKillerEntity.init(event);
+		ShapeshifterPigEntity.init(event);
+		ShapeShifterCowEntity.init(event);
+		VillagerOutcastEntity.init(event);
 	}
 
 	@SubscribeEvent

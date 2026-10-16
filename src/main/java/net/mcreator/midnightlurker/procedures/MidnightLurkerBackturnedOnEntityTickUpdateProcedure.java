@@ -317,11 +317,7 @@ public class MidnightLurkerBackturnedOnEntityTickUpdateProcedure {
 							if ((entity instanceof LivingEntity _entGetArmor ? _entGetArmor.getItemBySlot(EquipmentSlot.FEET) : ItemStack.EMPTY).getItem() == Items.IRON_BOOTS
 									&& PortUtil.enchantmentLevel((entity instanceof LivingEntity _entGetArmor ? _entGetArmor.getItemBySlot(EquipmentSlot.FEET) : ItemStack.EMPTY), Enchantments.DEPTH_STRIDER) != 0) {
 								{
-									Map<Enchantment, Integer> _enchantments = EnchantmentHelper.getEnchantments((entity instanceof LivingEntity _entGetArmor ? _entGetArmor.getItemBySlot(EquipmentSlot.FEET) : ItemStack.EMPTY));
-									if (_enchantments.containsKey(Enchantments.DEPTH_STRIDER)) {
-										_enchantments.remove(Enchantments.DEPTH_STRIDER);
-										EnchantmentHelper.setEnchantments(_enchantments, (entity instanceof LivingEntity _entGetArmor ? _entGetArmor.getItemBySlot(EquipmentSlot.FEET) : ItemStack.EMPTY));
-									}
+									EnchantmentHelper.updateEnchantments((entity instanceof LivingEntity _entGetArmor ? _entGetArmor.getItemBySlot(EquipmentSlot.FEET) : ItemStack.EMPTY), _ench -> _ench.removeIf(_e -> _e.is(Enchantments.DEPTH_STRIDER)));
 								}
 							}
 						}

@@ -13,8 +13,6 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.network.NetworkHooks;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.LivingEntity;
@@ -247,13 +244,13 @@ public class MidnightLurkerAggressiveEntity extends Monster implements GeoEntity
 	}
 
 	@Override
-	public EntityDimensions getDimensions(Pose p_33597_) {
+	protected EntityDimensions getDefaultDimensions(Pose p_33597_) {
 		Entity entity = this;
 		Level world = this.level();
 		double x = this.getX();
 		double y = entity.getY();
 		double z = entity.getZ();
-		return super.getDimensions(p_33597_).scale((float) MidnightLurkerAggressiveBoundingBoxScaleProcedure.execute(world, x, y, z));
+		return super.getDefaultDimensions(p_33597_).scale((float) MidnightLurkerAggressiveBoundingBoxScaleProcedure.execute(world, x, y, z));
 	}
 
 	public static void init(RegisterSpawnPlacementsEvent event) {

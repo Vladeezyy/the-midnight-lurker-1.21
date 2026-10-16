@@ -4,7 +4,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.bus.api.Event;
-import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
@@ -20,8 +20,8 @@ import javax.annotation.Nullable;
 @EventBusSubscriber
 public class GetDoorRecipePickupProcedure {
 	@SubscribeEvent
-	public static void onPickup(EntityItemPickupEvent event) {
-		execute(event, event.getEntity(), event.getItem().getItem());
+	public static void onPickup(ItemEntityPickupEvent.Pre event) {
+		execute(event, event.getPlayer(), event.getItemEntity().getItem());
 	}
 
 	public static void execute(Entity entity, ItemStack itemstack) {
@@ -42,7 +42,7 @@ public class GetDoorRecipePickupProcedure {
 				}
 			}.hasRecipe(entity, ResourceLocation.parse("midnightlurker:metal_door_recipe")))) {
 				if (entity instanceof ServerPlayer _serverPlayer)
-					_serverPlayer.awardRecipesByKey(new ResourceLocation[]{ResourceLocation.parse("midnightlurker:metal_door_recipe")});
+					_serverPlayer.awardRecipesByKey(java.util.List.of(ResourceLocation.parse("midnightlurker:metal_door_recipe")));
 			}
 		}
 	}

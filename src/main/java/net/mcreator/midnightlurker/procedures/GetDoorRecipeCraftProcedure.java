@@ -42,7 +42,7 @@ public class GetDoorRecipeCraftProcedure {
 				}
 			}.hasRecipe(entity, ResourceLocation.parse("midnightlurker:metal_door_recipe")))) {
 				if (entity instanceof ServerPlayer _serverPlayer)
-					_serverPlayer.awardRecipesByKey(new ResourceLocation[]{ResourceLocation.parse("midnightlurker:metal_door_recipe")});
+					_serverPlayer.awardRecipesByKey(java.util.List.of(ResourceLocation.parse("midnightlurker:metal_door_recipe")));
 			}
 		}
 	}

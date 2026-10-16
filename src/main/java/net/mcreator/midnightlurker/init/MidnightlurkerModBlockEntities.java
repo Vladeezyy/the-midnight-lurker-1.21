@@ -6,6 +6,11 @@ package net.mcreator.midnightlurker.init;
 
 import net.minecraft.core.registries.Registries;
 
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.bus.api.SubscribeEvent;
+
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -21,6 +26,7 @@ import net.mcreator.midnightlurker.block.entity.ShatteredPaneEndBlockEntity;
 import net.mcreator.midnightlurker.block.entity.ShatteredCornerBlockEntity;
 import net.mcreator.midnightlurker.MidnightlurkerMod;
 
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class MidnightlurkerModBlockEntities {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTRY = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MidnightlurkerMod.MODID);
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_PANE_NONE = register("shattered_pane_none", MidnightlurkerModBlocks.SHATTERED_PANE_NONE, ShatteredPaneNoneBlockEntity::new);
@@ -32,5 +38,15 @@ public class MidnightlurkerModBlockEntities {
 
 	private static DeferredHolder<BlockEntityType<?>, BlockEntityType<?>> register(String registryname, DeferredHolder<Block, Block> block, BlockEntityType.BlockEntitySupplier<?> supplier) {
 		return REGISTRY.register(registryname, () -> BlockEntityType.Builder.of(supplier, block.get()).build(null));
+	}
+
+	@SubscribeEvent
+	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_PANE_NONE.get(), (blockEntity, side) -> ((ShatteredPaneNoneBlockEntity) blockEntity).getItemHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_PANE_STRAIGHT.get(), (blockEntity, side) -> ((ShatteredPaneStraightBlockEntity) blockEntity).getItemHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_CORNER.get(), (blockEntity, side) -> ((ShatteredCornerBlockEntity) blockEntity).getItemHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_T_CORNER.get(), (blockEntity, side) -> ((ShatteredTCornerBlockEntity) blockEntity).getItemHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_PANE_X_CORNER.get(), (blockEntity, side) -> ((ShatteredPaneXCornerBlockEntity) blockEntity).getItemHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SHATTERED_PANE_END.get(), (blockEntity, side) -> ((ShatteredPaneEndBlockEntity) blockEntity).getItemHandler());
 	}
 }

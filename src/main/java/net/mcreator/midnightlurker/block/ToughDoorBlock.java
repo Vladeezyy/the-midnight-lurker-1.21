@@ -40,8 +40,9 @@ public class ToughDoorBlock extends DoorBlock {
 
 	@Override
 	public boolean canHarvestBlock(BlockState state, BlockGetter world, BlockPos pos, Player player) {
-		if (player.getInventory().getSelected().getItem() instanceof PickaxeItem tieredItem)
-			return tieredItem.getTier().getLevel() >= 0;
+		// 1.20.1: any pickaxe (tier level >= 0); 1.21 tiers have no level number
+		if (player.getInventory().getSelected().getItem() instanceof PickaxeItem)
+			return true;
 		return false;
 	}
 
