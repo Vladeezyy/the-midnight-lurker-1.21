@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.mcreator.midnightlurker.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "FishingHookMixin",
+    "FurnaceResultSlotMixin",
+    "ItemEntityMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "ResultSlotMixin",
+    "ServerLevelMixin",
+    "ServerPlayerMixin"
+  ],
+  "client": [
+    "client.ClientLevelMixin",
+    "client.EffectsInInventoryMixin",
+    "client.FogRendererMixin",
+    "client.HudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

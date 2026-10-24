@@ -153,3 +153,8 @@ Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.1
 Jade 26.2.10, JEI 30.47 (unattended); perf: overworld at night 2.22 ms per tick, nether 2.38 ms, 20 Lurkers 1.85 ms,
 spawn checks 1.6–4.3 µs; the release jar on a real NeoForge 26.2.0.93 server, run twice on the same world: no errors
 (OSHI / Perflib lines are Minecraft's system report on this Windows machine).
+
+## 26.2: NeoForge + Fabric (2026-10-24)
+The split replayed from `mc/26.1.2`. 26.2: the HUD is its own class (`Hud`: Fabric's `RenderGuiEvent.Pre` and the
+hidden HUD effects moved there), `net.minecraft.util.Tuple` is gone (the branch's `port.Tuple`), the scenes recognise
+NeoForge's mod-warnings screen by its class name (common code). Both loaders: server starts, scene 5/5.
