@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": ["Voxla", "Whirlygig", "Z3R0TW0"],
+  "contributors": ["Vladeezyy (port to NeoForge and Fabric)"],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/the-midnight-lurker",
+    "sources": "${mod_sources}",
+    "issues": "${mod_issues}"
+  },
+  "license": "${license}",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.mcreator.midnightlurker.fabric.MidnightlurkerFabric"],
+    "client": ["net.mcreator.midnightlurker.fabric.MidnightlurkerFabricClient"]
+  },
+  "mixins": ["midnightlurker.fabric.mixins.json"],
+  "accessWidener": "midnightlurker.accesswidener",
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "geckolib": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=${java_version}"
+  }
+}

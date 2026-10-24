@@ -107,6 +107,8 @@ def effect_visibility(src):
 
 def rewrite_code(path, src):
     src = rewrite_imports(src)
+    # unused MCreator imports (not on Fabric's classpath)
+    src = re.sub(r"import org\.checkerframework\.[\w.]+;\n", "", src)
     src = re.sub(r"\bDeferredRegister<", "Registrar<", src)
     src = re.sub(r"\bDeferredRegister\.create\(", "Registrar.create(", src)
     src = re.sub(r"\bDeferredHolder<", "RegistryEntry<", src)

@@ -10,6 +10,6 @@ perl -e 'alarm 900; exec @ARGV' ./gradlew :$LOADER:runScene --console=plain "$@"
 code=$?
 pkill -f 'build/moddev/sceneRunProgramArgs' 2>/dev/null; pkill -f "midnightlurker.scene" 2>/dev/null
 echo "exit $code"
-grep -E '\[scene\] (CHECK|DONE|spawned)' $LOG | sed -E 's/^.*\[scene\] //'
+grep -E '\[scene\] (CHECK|DONE|spawned|player)' $LOG | sed -E 's/^.*\[scene\] //'
 echo "--- errors"
 grep -E '/(ERROR|FATAL)\]|\[.*(ERROR|FATAL).*\]|Caused by|Exception' $LOG | sed -E 's/^\[[^]]*\] //' | cut -c1-250 | sort | uniq -c | sort -rn | head -25

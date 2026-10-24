@@ -96,6 +96,8 @@ public final class DevScene {
 		int t = 40;
 		at(t, mc -> server(mc, DevScene::build));
 		at(t += 60, mc -> {
+			MidnightlurkerMod.LOGGER.info("[scene] player effects " + mc.player.getActiveEffects() + " fog " + PortUtil.data(mc.player).getDouble("InsanityFog")
+					+ " stage " + net.mcreator.midnightlurker.network.MidnightlurkerModVariables.of(mc.player).InsanityStage + " time " + mc.level.getDayTime());
 			shot(mc, "entities");
 			checkNoMissingTexture(mc, "entities");
 		});
