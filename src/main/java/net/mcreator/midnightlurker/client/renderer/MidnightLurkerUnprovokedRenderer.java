@@ -1,10 +1,10 @@
 package net.mcreator.midnightlurker.client.renderer;
 
-import software.bernie.geckolib.renderer.base.RenderPassInfo;
-import software.bernie.geckolib.renderer.base.BoneSnapshots;
-import software.bernie.geckolib.constant.DefaultAnimations;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.RenderPassInfo;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.constant.DefaultAnimations;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.GeoEntityRenderer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.rendertype.RenderType;

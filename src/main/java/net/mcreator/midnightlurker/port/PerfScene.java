@@ -89,7 +89,7 @@ public final class PerfScene {
 			level.getGameRules().set(GameRules.ADVANCE_TIME, false, level.getServer());
 			level.getGameRules().set(GameRules.ADVANCE_WEATHER, false, level.getServer());
 			level.getGameRules().set(GameRules.SPAWN_MOBS, true, level.getServer());
-			level.setDayTime(18000);
+			level.getServer().getCommands().performPrefixedCommand(level.getServer().createCommandSourceStack().withSuppressedOutput(), "time set 18000");
 			// creative: natural spawning happens around the player (not around spectators), nothing hurts the player
 			p.setGameMode(GameType.CREATIVE);
 			p.setInvulnerable(true);
@@ -186,7 +186,7 @@ public final class PerfScene {
 			opened = true;
 			mc.options.cloudStatus().set(CloudStatus.OFF);
 			mc.options.pauseOnLostFocus = false;
-			LevelSettings settings = new LevelSettings("ml_perf", GameType.SURVIVAL, false, Difficulty.NORMAL, true, new GameRules(net.minecraft.world.flag.FeatureFlags.DEFAULT_FLAGS), WorldDataConfiguration.DEFAULT);
+			LevelSettings settings = new LevelSettings("ml_perf", GameType.SURVIVAL, new LevelSettings.DifficultySettings(Difficulty.NORMAL, false, false), true, WorldDataConfiguration.DEFAULT);
 			mc.createWorldOpenFlows().createFreshLevel("ml_perf", settings, new WorldOptions(20261017L, true, false), WorldPresets::createNormalWorldDimensions, new TitleScreen());
 			return;
 		}

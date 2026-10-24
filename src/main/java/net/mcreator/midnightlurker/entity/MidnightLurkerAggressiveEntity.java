@@ -4,14 +4,14 @@ package net.mcreator.midnightlurker.entity;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
-import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.state.AnimationTest;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.GeoEntity;
+import com.geckolib.util.GeckoLibUtil;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.state.AnimationTest;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.GeoEntity;
 
 import net.mcreator.midnightlurker.port.GeoAnims;
 

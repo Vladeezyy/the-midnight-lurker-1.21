@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import net.mcreator.midnightlurker.world.inventory.LurkerBookGuiMenu;
 
@@ -23,24 +23,17 @@ public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMe
 	private final Player entity;
 
 	public LurkerBookGuiScreen(LurkerBookGuiMenu container, Inventory inventory, Component text) {
-		super(container, inventory, text);
+		super(container, inventory, text, 176, 166);
 		this.world = container.world;
 		this.x = container.x;
 		this.y = container.y;
 		this.z = container.z;
 		this.entity = container.entity;
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
-		this.renderTooltip(guiGraphics, mouseX, mouseY);
-	}
-
-	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
+	public void extractBackground(GuiGraphicsExtractor guiGraphics, int gx, int gy, float partialTicks) {
+		super.extractBackground(guiGraphics, gx, gy, partialTicks);
 
 		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/lurkerbook.png"), this.leftPos + -53, this.topPos + -11, 0, 0, 282, 180, 282, 180);
 
@@ -61,7 +54,7 @@ public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMe
 	}
 
 	@Override
-	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+	protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package net.mcreator.midnightlurker.port;
 import net.minecraft.resources.Identifier;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import net.minecraft.client.renderer.RenderPipelines;
 
@@ -27,7 +27,7 @@ public class PortImageButton extends ImageButton {
 	}
 
 	@Override
-	public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
 		int v = this.yTexStart;
 		if (!this.isActive())
 			v += this.yDiffTex * 2;

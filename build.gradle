@@ -19,12 +19,12 @@ repositories {
     }
     maven { url = 'https://maven.blamejared.com/' } // JEI
     maven {
-        url = 'https://api.modrinth.com/maven' // compatibility runs only
+        url = 'https://api.modrinth.com/maven' // GeckoLib for 26.x, compatibility runs
         content { includeGroup 'maven.modrinth' }
     }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(project.java_version as int)
 
 neoForge {
     version = project.neo_version
@@ -71,7 +71,7 @@ configurations {
 }
 
 dependencies {
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation "maven.modrinth:geckolib:${geckolib_version}"
     // Popular client / performance mods for compatibility runs (-Pwith_compat)
     if (project.hasProperty('with_compat')) {
         localRuntime "maven.modrinth:sodium:${compat_sodium}"

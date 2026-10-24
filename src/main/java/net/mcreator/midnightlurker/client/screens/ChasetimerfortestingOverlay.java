@@ -40,20 +40,20 @@ public class ChasetimerfortestingOverlay {
 			z = entity.getZ();
 		}
 		if (ChasetimerfortestingDisplayOverlayIngameProcedure.execute(world)) {
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font,
+			event.getGuiGraphics().text(Minecraft.getInstance().font,
 
 					VoidrandomnumberthingProcedure.execute(world), posX + -207, posY + -94, -3355444, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font,
+			event.getGuiGraphics().text(Minecraft.getInstance().font,
 
 					InsanitytimerdisplayProcedure.execute(entity), posX + -207, posY + -67, -39322, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font,
+			event.getGuiGraphics().text(Minecraft.getInstance().font,
 
 					InsanitystagedisplayProcedure.execute(entity), posX + -207, posY + -40, -39271, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_void_gateway_random_number"), posX + -207, posY + -103, -3355444, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_insanity_timer"), posX + -207, posY + -76, -39322, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_insanity_stage"), posX + -207, posY + -49, -39271, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_healthboost"), posX + -207, posY + -22, -13395712, false);
-			event.getGuiGraphics().drawString(Minecraft.getInstance().font,
+			event.getGuiGraphics().text(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_void_gateway_random_number"), posX + -207, posY + -103, -3355444, false);
+			event.getGuiGraphics().text(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_insanity_timer"), posX + -207, posY + -76, -39322, false);
+			event.getGuiGraphics().text(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_insanity_stage"), posX + -207, posY + -49, -39271, false);
+			event.getGuiGraphics().text(Minecraft.getInstance().font, Component.translatable("gui.midnightlurker.chasetimerfortesting.label_healthboost"), posX + -207, posY + -22, -13395712, false);
+			event.getGuiGraphics().text(Minecraft.getInstance().font,
 
 					HealthboostnumberProcedure.execute(world), posX + -207, posY + -13, -13395712, false);
 		}

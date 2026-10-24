@@ -21,11 +21,11 @@ public class PaneNoneBlockIsPlacedByProcedure {
 				BlockPos _bp = BlockPos.containing(x, y + 1, z);
 				BlockState _bs = MidnightlurkerModBlocks.SHATTERED_PANE_NONE.get().defaultBlockState();
 				BlockState _bso = world.getBlockState(_bp);
-				for (Map.Entry<Property<?>, Comparable<?>> entry : _bso.getValues().entrySet()) {
-					Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.getKey().getName());
+				for (Property.Value<?> entry : _bso.getValues().toList()) {
+					Property _property = _bs.getBlock().getStateDefinition().getProperty(entry.property().getName());
 					if (_property != null && _bs.getValue(_property) != null)
 						try {
-							_bs = _bs.setValue(_property, (Comparable) entry.getValue());
+							_bs = _bs.setValue(_property, (Comparable) entry.value());
 						} catch (Exception e) {
 						}
 				}

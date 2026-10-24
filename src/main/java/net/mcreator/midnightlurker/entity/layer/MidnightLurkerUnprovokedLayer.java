@@ -1,8 +1,8 @@
 package net.mcreator.midnightlurker.entity.layer;
 
-import software.bernie.geckolib.renderer.layer.builtin.TextureLayerGeoLayer;
-import software.bernie.geckolib.renderer.base.GeoRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.layer.builtin.TextureLayerGeoLayer;
+import com.geckolib.renderer.base.GeoRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.rendertype.RenderTypes;

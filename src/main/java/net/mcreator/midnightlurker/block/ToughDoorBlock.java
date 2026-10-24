@@ -34,7 +34,7 @@ public class ToughDoorBlock extends DoorBlock {
 	}
 
 	@Override
-	public int getLightBlock(BlockState state) {
+	public int getLightDampening(BlockState state) {
 		return 0;
 	}
 
