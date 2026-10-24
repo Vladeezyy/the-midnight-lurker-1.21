@@ -2,17 +2,18 @@
 
 <img src="docs/images/logo.png" width="160" alt="The Midnight Lurker logo">
 
-# The Midnight Lurker — NeoForge 1.21.11
+# The Midnight Lurker — NeoForge + Fabric 1.21.11
 
 **Something is watching you at night. Don't look back.**
 
 [![Minecraft 1.21.11](https://img.shields.io/badge/Minecraft-1.21.11-3c8527)](https://www.minecraft.net)
 [![NeoForge 21.11](https://img.shields.io/badge/NeoForge-21.11.48%2B-e0682b)](https://neoforged.net)
+[![Fabric 1.21.11](https://img.shields.io/badge/Fabric-Loader%200.19.5%2B-dbd0b4)](https://fabricmc.net)
 [![GeckoLib 5.4](https://img.shields.io/badge/requires-GeckoLib%205.4.5%2B-8a2be2)](https://modrinth.com/mod/geckolib)
 [![License LGPL-3.0](https://img.shields.io/badge/license-LGPL--3.0-blue)](LICENSE)
 
 An unofficial port of **[The Midnight Lurker](https://www.curseforge.com/minecraft/mc-mods/the-midnight-lurker)** 3.3.7
-by **Voxla** from Forge 1.20.1 to **NeoForge 1.21.11**, with all of its content. Other Minecraft versions are on
+by **Voxla** from Forge 1.20.1 to **NeoForge and Fabric 1.21.11**, with all of its content. Other Minecraft versions are on
 the branches of this repository: `main` (1.21.1), `mc/1.21.11`, `mc/26.1.2`, `mc/26.2`, `mc/26.3`.
 
 <img src="docs/images/entities_close.jpg" width="49%" alt="Midnight Lurkers">
@@ -33,9 +34,15 @@ outcast villager tells you how to keep your mind.
 
 ## Installation
 
+**NeoForge**
 1. Install **NeoForge 21.11.48** or newer for Minecraft **1.21.11**.
 2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 or newer, NeoForge 1.21.11) into `mods`.
-3. Put `the-midnight-lurker-neoforge-3.3.7+1.21.11.jar` from the [releases](../../releases) into `mods`.
+3. Put `the-midnight-lurker-neoforge-3.3.7.1+1.21.11.jar` from the [releases](../../releases) into `mods`.
+
+**Fabric**
+1. Install **Fabric Loader 0.19.5** or newer for Minecraft **1.21.11** and **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.141.6 or newer.
+2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 or newer, Fabric 1.21.11) into `mods`.
+3. Put `the-midnight-lurker-fabric-3.3.7.1+1.21.11.jar` from the [releases](../../releases) into `mods`.
 
 Needed on both the client and the server.
 
@@ -89,9 +96,15 @@ Vladeezyy. Please download the port only from its official pages.
 
 ## Установка
 
+**NeoForge**
 1. Установите **NeoForge 21.11.48** или новее для Minecraft **1.21.11**.
 2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 или новее, NeoForge 1.21.11) в `mods`.
-3. Положите `the-midnight-lurker-neoforge-3.3.7+1.21.11.jar` из [релизов](../../releases) в `mods`.
+3. Положите `the-midnight-lurker-neoforge-3.3.7.1+1.21.11.jar` из [релизов](../../releases) в `mods`.
+
+**Fabric**
+1. Установите **Fabric Loader 0.19.5** или новее для Minecraft **1.21.11** и **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.141.6 или новее.
+2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 или новее, Fabric 1.21.11) в `mods`.
+3. Положите `the-midnight-lurker-fabric-3.3.7.1+1.21.11.jar` из [релизов](../../releases) в `mods`.
 
 Нужен и на клиенте, и на сервере.
 
