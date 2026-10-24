@@ -174,15 +174,22 @@ public final class PerfScene {
 		if (!ENABLED)
 			return;
 		Minecraft mc = Minecraft.getInstance();
-		if (!opened && mc.screen instanceof net.minecraft.client.gui.screens.AccessibilityOnboardingScreen) {
-			mc.options.onboardAccessibility = false;
-			mc.options.save();
-			mc.setScreen(new TitleScreen());
+		// NeoForge 26.2: mods with the deprecated logoFile (Sodium, Iris, Lithium, FerriteCore in -Pwith_compat) put a
+		// warnings screen before the title screen; the scene goes on as "Proceed to main menu" would
+		if (!opened && mc.gui.screen() instanceof net.neoforged.neoforge.client.gui.LoadingErrorScreen) {
+			MidnightlurkerMod.LOGGER.info("[scene] mod loading warnings screen, proceeding");
+			mc.gui.setScreen(new TitleScreen());
 			return;
 		}
-		if (!opened && mc.getOverlay() != null)
+		if (!opened && mc.gui.screen() instanceof net.minecraft.client.gui.screens.AccessibilityOnboardingScreen) {
+			mc.options.onboardAccessibility = false;
+			mc.options.save();
+			mc.gui.setScreen(new TitleScreen());
 			return;
-		if (!opened && mc.screen instanceof TitleScreen) {
+		}
+		if (!opened && mc.gui.overlay() != null)
+			return;
+		if (!opened && mc.gui.screen() instanceof TitleScreen) {
 			opened = true;
 			mc.options.cloudStatus().set(CloudStatus.OFF);
 			mc.options.pauseOnLostFocus = false;
@@ -193,8 +200,8 @@ public final class PerfScene {
 		if (mc.player == null || mc.getSingleplayerServer() == null)
 			return;
 		mc.options.pauseOnLostFocus = false;
-		if (mc.screen instanceof PauseScreen)
-			mc.setScreen(null);
+		if (mc.gui.screen() instanceof PauseScreen)
+			mc.gui.setScreen(null);
 		if (measuring) {
 			long avg = mc.getSingleplayerServer().getAverageTickTimeNanos();
 			nanos += avg;

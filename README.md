@@ -2,17 +2,17 @@
 
 <img src="docs/images/logo.png" width="160" alt="The Midnight Lurker logo">
 
-# The Midnight Lurker — NeoForge 26.1.2
+# The Midnight Lurker — NeoForge 26.2
 
 **Something is watching you at night. Don't look back.**
 
-[![Minecraft 26.1.2](https://img.shields.io/badge/Minecraft-26.1.2-3c8527)](https://www.minecraft.net)
-[![NeoForge 26.1.2](https://img.shields.io/badge/NeoForge-26.1.2.122%2B-e0682b)](https://neoforged.net)
-[![GeckoLib 5.5](https://img.shields.io/badge/requires-GeckoLib%205.5.2%2B-8a2be2)](https://modrinth.com/mod/geckolib)
+[![Minecraft 26.2](https://img.shields.io/badge/Minecraft-26.2-3c8527)](https://www.minecraft.net)
+[![NeoForge 26.2](https://img.shields.io/badge/NeoForge-26.2.0.93%2B-e0682b)](https://neoforged.net)
+[![GeckoLib 5.5](https://img.shields.io/badge/requires-GeckoLib%205.5.6%2B-8a2be2)](https://modrinth.com/mod/geckolib)
 [![License LGPL-3.0](https://img.shields.io/badge/license-LGPL--3.0-blue)](LICENSE)
 
 An unofficial port of **[The Midnight Lurker](https://www.curseforge.com/minecraft/mc-mods/the-midnight-lurker)** 3.3.7
-by **Voxla** from Forge 1.20.1 to **NeoForge 26.1.2**, with all of its content. Other Minecraft versions are on
+by **Voxla** from Forge 1.20.1 to **NeoForge 26.2**, with all of its content. Other Minecraft versions are on
 the branches of this repository: `main` (1.21.1), `mc/1.21.11`, `mc/26.1.2`, `mc/26.2`, `mc/26.3`.
 
 <img src="docs/images/entities_close.jpg" width="49%" alt="Midnight Lurkers">
@@ -33,9 +33,9 @@ outcast villager tells you how to keep your mind.
 
 ## Installation
 
-1. Install **NeoForge 26.1.2.122** or newer for Minecraft **26.1.2** (Java 25).
-2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.5.2 or newer, NeoForge 26.1.2) into `mods`.
-3. Put `the-midnight-lurker-neoforge-3.3.7+26.1.2.jar` from the [releases](../../releases) into `mods`.
+1. Install **NeoForge 26.2.0.93** or newer for Minecraft **26.2** (Java 25).
+2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.5.6 or newer, NeoForge 26.2) into `mods`.
+3. Put `the-midnight-lurker-neoforge-3.3.7+26.2.jar` from the [releases](../../releases) into `mods`.
 
 Needed on both the client and the server.
 
@@ -71,7 +71,7 @@ new in the port (not by native speakers). The original's French, Italian, Icelan
 
 [LGPL-3.0-only](LICENSE). The original mod is MIT-licensed: its text and copyright are in
 [licenses/LICENSE-MIT](licenses/LICENSE-MIT), and every file of the original keeps it. The Midnight Lurker, its art,
-models, sounds and story: **Voxla**, with Whirlygig and Z3R0TW0 (made with MCreator). Port to NeoForge 1.21.1 – 26.1.2:
+models, sounds and story: **Voxla**, with Whirlygig and Z3R0TW0 (made with MCreator). Port to NeoForge 1.21.1 – 26.2:
 Vladeezyy. Please download the port only from its official pages.
 
 </details>
@@ -89,9 +89,9 @@ Vladeezyy. Please download the port only from its official pages.
 
 ## Установка
 
-1. Установите **NeoForge 26.1.2.122** или новее для Minecraft **26.1.2** (Java 25).
-2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.5.2 или новее, NeoForge 26.1.2) в `mods`.
-3. Положите `the-midnight-lurker-neoforge-3.3.7+26.1.2.jar` из [релизов](../../releases) в `mods`.
+1. Установите **NeoForge 26.2.0.93** или новее для Minecraft **26.2** (Java 25).
+2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.5.6 или новее, NeoForge 26.2) в `mods`.
+3. Положите `the-midnight-lurker-neoforge-3.3.7+26.2.jar` из [релизов](../../releases) в `mods`.
 
 Нужен и на клиенте, и на сервере.
 
@@ -127,7 +127,7 @@ English · Русский · Українська · Deutsch · Español · Port
 
 [LGPL-3.0-only](LICENSE). Оригинал под лицензией MIT: её текст и копирайт — в [licenses/LICENSE-MIT](licenses/LICENSE-MIT),
 и все файлы оригинала остаются под ней. The Midnight Lurker, графика, модели, звуки и история: **Voxla**, вместе с
-Whirlygig и Z3R0TW0 (сделано в MCreator). Порт на NeoForge 1.21.1 – 26.1.2: Vladeezyy. Пожалуйста, скачивайте порт только с его
+Whirlygig и Z3R0TW0 (сделано в MCreator). Порт на NeoForge 1.21.1 – 26.2: Vladeezyy. Пожалуйста, скачивайте порт только с его
 официальных страниц.
 
 </details>

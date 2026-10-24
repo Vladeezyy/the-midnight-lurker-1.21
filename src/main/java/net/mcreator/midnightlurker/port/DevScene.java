@@ -81,7 +81,7 @@ public final class DevScene {
 	}
 
 	private static void shot(Minecraft mc, String name) {
-		Screenshot.grab(mc.gameDirectory, "scene_" + name + ".png", mc.getMainRenderTarget(), 1, c -> MidnightlurkerMod.LOGGER.info("[scene] " + c.getString()));
+		Screenshot.grab(mc.gameDirectory, "scene_" + name + ".png", mc.gameRenderer.mainRenderTarget(), 1, c -> MidnightlurkerMod.LOGGER.info("[scene] " + c.getString()));
 	}
 
 	private static List<EntityType<?>> modEntities() {
@@ -108,12 +108,12 @@ public final class DevScene {
 				if (BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(MidnightlurkerMod.MODID) && slot < 36)
 					p.getInventory().setItem(slot++, new ItemStack(item));
 		}));
-		at(t += 10, mc -> mc.setScreen(new CreativeModeInventoryScreen(mc.player, mc.player.connection.enabledFeatures(), true)));
+		at(t += 10, mc -> mc.gui.setScreen(new CreativeModeInventoryScreen(mc.player, mc.player.connection.enabledFeatures(), true)));
 		at(t += 15, mc -> {
 			shot(mc, "inventory");
 			checkNoMissingTexture(mc, "inventory");
 		});
-		at(t += 5, mc -> mc.setScreen(null));
+		at(t += 5, mc -> mc.gui.setScreen(null));
 		at(t += 5, mc -> server(mc, p -> {
 			p.getInventory().setSelectedSlot(0);
 			for (int i = 0; i < 36; i++)
@@ -123,9 +123,9 @@ public final class DevScene {
 		at(t += 10, mc -> mc.gameMode.useItem(mc.player, net.minecraft.world.InteractionHand.MAIN_HAND));
 		at(t += 20, mc -> {
 			shot(mc, "lurker_book");
-			check("the Lurker book opens its screen", mc.screen != null && !(mc.screen instanceof PauseScreen), mc.screen);
+			check("the Lurker book opens its screen", mc.gui.screen() != null && !(mc.gui.screen() instanceof PauseScreen), mc.gui.screen());
 		});
-		at(t += 5, mc -> mc.setScreen(null));
+		at(t += 5, mc -> mc.gui.setScreen(null));
 		at(t += 5, DevScene::checkTranslations);
 		at(t += 10, mc -> {
 			MidnightlurkerMod.LOGGER.info("[scene] DONE " + (checks - failures) + "/" + checks + (failures == 0 ? " passed" : " (" + failures + " failed)"));
@@ -140,15 +140,22 @@ public final class DevScene {
 		if (!ENABLED)
 			return;
 		Minecraft mc = Minecraft.getInstance();
-		if (!opened && mc.screen instanceof net.minecraft.client.gui.screens.AccessibilityOnboardingScreen) {
-			mc.options.onboardAccessibility = false;
-			mc.options.save();
-			mc.setScreen(new TitleScreen());
+		// NeoForge 26.2: mods with the deprecated logoFile (Sodium, Iris, Lithium, FerriteCore in -Pwith_compat) put a
+		// warnings screen before the title screen; the scene goes on as "Proceed to main menu" would
+		if (!opened && mc.gui.screen() instanceof net.neoforged.neoforge.client.gui.LoadingErrorScreen) {
+			MidnightlurkerMod.LOGGER.info("[scene] mod loading warnings screen, proceeding");
+			mc.gui.setScreen(new TitleScreen());
 			return;
 		}
-		if (!opened && mc.getOverlay() != null)
+		if (!opened && mc.gui.screen() instanceof net.minecraft.client.gui.screens.AccessibilityOnboardingScreen) {
+			mc.options.onboardAccessibility = false;
+			mc.options.save();
+			mc.gui.setScreen(new TitleScreen());
 			return;
-		if (!opened && mc.screen instanceof TitleScreen) {
+		}
+		if (!opened && mc.gui.overlay() != null)
+			return;
+		if (!opened && mc.gui.screen() instanceof TitleScreen) {
 			opened = true;
 			org.lwjgl.glfw.GLFW.glfwSetWindowSize(mc.getWindow().handle(), 1600, 900);
 			mc.options.guiScale().set(3);
@@ -163,9 +170,9 @@ public final class DevScene {
 			return;
 		mc.options.pauseOnLostFocus = false;
 		mc.getTutorial().setStep(net.minecraft.client.tutorial.TutorialSteps.NONE);
-		mc.getToastManager().clear();
-		if (mc.screen instanceof PauseScreen)
-			mc.setScreen(null);
+		mc.gui.toastManager().clear();
+		if (mc.gui.screen() instanceof PauseScreen)
+			mc.gui.setScreen(null);
 		tick++;
 		for (Step step : STEPS) {
 			if (step.at() == tick) {
@@ -234,7 +241,7 @@ public final class DevScene {
 
 	private static void checkNoMissingTexture(Minecraft mc, String name) {
 		// 1.21.5+: the screenshot is read back from the GPU asynchronously
-		Screenshot.takeScreenshot(mc.getMainRenderTarget(), image -> {
+		Screenshot.takeScreenshot(mc.gameRenderer.mainRenderTarget(), image -> {
 			int magenta = 0;
 			try (image) {
 				for (int y = 0; y < image.getHeight(); y += 2)

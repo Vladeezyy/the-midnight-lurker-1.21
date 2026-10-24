@@ -7,7 +7,8 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/the-midnight-lurker"
-logoFile="logo.png"
+# NeoForge 26.2: logoFile is deprecated (a warning screen before the title screen)
+iconFile="logo.png"
 credits="Created using MCreator. Port to NeoForge ${minecraft_version}: Vladeezyy"
 authors="Voxla (contributors: Whirlygig, Z3R0TW0)"
 description='''

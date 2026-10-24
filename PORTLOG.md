@@ -138,3 +138,18 @@ One commit on top of `mc/1.21.11`: `tools/port_26_1.py`, the scenes with modding
 Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.11.4, Lithium 0.24.7, FerriteCore 9.0.0,
 Jade 26.1.12, JEI 29.47; perf: overworld at night 2.42 ms per tick, nether 3.12 ms, 20 Lurkers 1.51 ms, spawn checks
 1.3–4.2 µs; the release jar on a real NeoForge 26.1.2.122 server, run twice on the same world: no errors.
+
+## 26.1.2 → 26.2 (branch `mc/26.2`, NeoForge 26.2.0.93, GeckoLib 5.5.6, 2026-10-24)
+One commit on top of `mc/26.1.2`: modding-kb `scripts/port_262.py` (the screen in `Minecraft.gui`, `gameRenderer`
+accessors), plus:
+- `net.minecraft.util.Tuple` is gone: the MCreator server work queue uses `port/Tuple`.
+- `IClientMobEffectExtensions#renderInventoryText` → `extractInventoryText`; the override (it returned false, the
+  default) is dropped.
+- `logoFile` in `neoforge.mods.toml` is deprecated (a warnings screen before the title screen) → `iconFile` (the logo
+  is square). Sodium, Iris, Lithium and FerriteCore still use `logoFile`, so the compatibility run gets the warnings
+  screen; the test scenes go past it as "Proceed to main menu" would.
+
+Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.11.4, Lithium 0.25.3, FerriteCore 9.0.0,
+Jade 26.2.10, JEI 30.47 (unattended); perf: overworld at night 2.22 ms per tick, nether 2.38 ms, 20 Lurkers 1.85 ms,
+spawn checks 1.6–4.3 µs; the release jar on a real NeoForge 26.2.0.93 server, run twice on the same world: no errors
+(OSHI / Perflib lines are Minecraft's system report on this Windows machine).

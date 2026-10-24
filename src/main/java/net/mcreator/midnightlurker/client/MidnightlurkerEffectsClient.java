@@ -7,8 +7,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import net.mcreator.midnightlurker.init.MidnightlurkerModMobEffects;
 
@@ -25,10 +23,6 @@ public final class MidnightlurkerEffectsClient {
 			return false;
 		}
 
-		@Override
-		public boolean renderInventoryText(MobEffectInstance instance, AbstractContainerScreen<?> screen, GuiGraphicsExtractor guiGraphics, int x, int y, int blitOffset) {
-			return false;
-		}
 
 		@Override
 		public boolean isVisibleInGui(MobEffectInstance effect) {
