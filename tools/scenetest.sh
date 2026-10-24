@@ -1,13 +1,15 @@
 #!/bin/sh
-# Runs port/DevScene (max 15 min): a new world, every entity, the creative tab, the Lurker book. Prints the checks and
-# the errors; screenshots in run/screenshots/scene_*.png.
+# Runs port/DevScene (LOADER=neoforge|fabric, max 15 min): a new world, every entity, the creative tab, the Lurker book.
+# Prints the checks and the errors; screenshots in <loader>/run/screenshots/scene_*.png. Log: build-scene-<loader>.log
 cd "$(dirname "$0")/.."
-rm -rf run/saves/ml_scene build-scene.log
-find run/screenshots -name 'scene_*.png' -delete 2>/dev/null
-perl -e 'alarm 900; exec @ARGV' ./gradlew runScene --console=plain "$@" > build-scene.log 2>&1
+LOADER=${LOADER:-neoforge}
+LOG=build-scene-$LOADER.log
+rm -rf $LOADER/run/saves/ml_scene $LOG
+find $LOADER/run/screenshots -name 'scene_*.png' -delete 2>/dev/null
+perl -e 'alarm 900; exec @ARGV' ./gradlew :$LOADER:runScene --console=plain "$@" > $LOG 2>&1
 code=$?
-pkill -f 'build/moddev/sceneRunProgramArgs' 2>/dev/null
+pkill -f 'build/moddev/sceneRunProgramArgs' 2>/dev/null; pkill -f "midnightlurker.scene" 2>/dev/null
 echo "exit $code"
-grep -E '\[scene\] (CHECK|DONE|spawned)' build-scene.log | sed -E 's/^.*\[scene\] //'
+grep -E '\[scene\] (CHECK|DONE|spawned)' $LOG | sed -E 's/^.*\[scene\] //'
 echo "--- errors"
-grep -E '/(ERROR|FATAL)\]|Caused by|Exception' build-scene.log | sed -E 's/^\[[^]]*\] //' | cut -c1-250 | sort | uniq -c | sort -rn | head -25
+grep -E '/(ERROR|FATAL)\]|\[.*(ERROR|FATAL).*\]|Caused by|Exception' $LOG | sed -E 's/^\[[^]]*\] //' | cut -c1-250 | sort | uniq -c | sort -rn | head -25
