@@ -138,3 +138,12 @@ One commit on top of `mc/1.21.11`: `tools/port_26_1.py`, the scenes with modding
 Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.11.4, Lithium 0.24.7, FerriteCore 9.0.0,
 Jade 26.1.12, JEI 29.47; perf: overworld at night 2.42 ms per tick, nether 3.12 ms, 20 Lurkers 1.51 ms, spawn checks
 1.3–4.2 µs; the release jar on a real NeoForge 26.1.2.122 server, run twice on the same world: no errors.
+
+## 26.1.2: NeoForge + Fabric (2026-10-24)
+The split replayed from `mc/1.21.11` (`tools/port_multiloader.py`; the hand-edited files from 1.21.11 with this
+branch's changes on top). 26.x: Fabric Loom for the unobfuscated game (`net.fabricmc.fabric-loom`, access widener in
+the `official` namespace), Java 25, GeckoLib from Modrinth (common compiles against the NeoForge jar, compile only).
+`GuiGraphicsExtractor`; vanilla's `SavedDataType` has no level-aware constructor (NeoForge's): the 1.21 save file is
+looked up through the current server, with a no-op data fix type; Fabric's fog mixin on the `FogData` that
+`setupFog` returns; Fabric API's Mojang names (`ExtendedMenuType`, `CreativeModeTabEvents`, `ParticleProviderRegistry`,
+`ModelLayerRegistry`, `ServerEntityLevelChangeEvents`, `clientboundPlay`). Both loaders: server starts, scene 5/5.

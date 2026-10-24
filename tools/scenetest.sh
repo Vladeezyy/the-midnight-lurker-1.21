@@ -1,21 +1,15 @@
 #!/bin/sh
-# Runs port/DevScene (max 15 min): a new world, every entity, the creative tab, the Lurker book. Prints the checks and
-# the errors; SCENE_LANG=ru_ru for another language; screenshots in run/screenshots/scene_*.png.
-. "$(dirname "$0")/common.sh"
-rm -rf run/saves/ml_scene build-scene.log
-# SCENE_LANG=ru_ru tools/scenetest.sh: the game language for the run (run/options.txt)
-if [ -n "$SCENE_LANG" ]; then
-	mkdir -p run && touch run/options.txt
-	grep -v '^lang:' run/options.txt > run/options.tmp; echo "lang:$SCENE_LANG" >> run/options.tmp; mv run/options.tmp run/options.txt
-fi
-# Sodium / Iris (-Pwith_compat) cast the GPU device to GlDevice: NeoForge's dev validation layer has to be off
-case "$*" in *with_compat*) sed -i 's/enableB3DValidationLayer = true/enableB3DValidationLayer = false/' run/config/neoforge-client.toml ;; esac
-find run/screenshots -name 'scene_*.png' -delete 2>/dev/null
-with_timeout 900 ./gradlew runScene --console=plain "$@" > build-scene.log 2>&1
+# Runs port/DevScene (LOADER=neoforge|fabric, max 15 min): a new world, every entity, the creative tab, the Lurker book.
+# Prints the checks and the errors; screenshots in <loader>/run/screenshots/scene_*.png. Log: build-scene-<loader>.log
+cd "$(dirname "$0")/.."
+LOADER=${LOADER:-neoforge}
+LOG=build-scene-$LOADER.log
+rm -rf $LOADER/run/saves/ml_scene $LOG
+find $LOADER/run/screenshots -name 'scene_*.png' -delete 2>/dev/null
+perl -e 'alarm 900; exec @ARGV' ./gradlew :$LOADER:runScene --console=plain "$@" > $LOG 2>&1
 code=$?
-kill_game sceneRunProgramArgs
-sed -i 's/enableB3DValidationLayer = false/enableB3DValidationLayer = true/' run/config/neoforge-client.toml 2>/dev/null
+pkill -f 'build/moddev/sceneRunProgramArgs' 2>/dev/null; pkill -f "midnightlurker.scene" 2>/dev/null
 echo "exit $code"
-grep -E '\[scene\] (CHECK|DONE|spawned)' build-scene.log | sed -E 's/^.*\[scene\] //'
+grep -E '\[scene\] (CHECK|DONE|spawned|player)' $LOG | sed -E 's/^.*\[scene\] //'
 echo "--- errors"
-grep -E '/(ERROR|FATAL)\]|Caused by|Exception' build-scene.log | sed -E 's/^\[[^]]*\] //' | cut -c1-250 | sort | uniq -c | sort -rn | head -25
+grep -E '/(ERROR|FATAL)\]|\[.*(ERROR|FATAL).*\]|Caused by|Exception' $LOG | sed -E 's/^\[[^]]*\] //' | cut -c1-250 | sort | uniq -c | sort -rn | head -25
