@@ -121,3 +121,36 @@ Tests (Windows, Git Bash; the scripts now share `tools/common.sh`):
   checks 1.2–5.2 µs.
 - Release jar on a real NeoForge 21.11.48 server (`prodtest/serve.sh`): start, a minute at midnight, stop, restart
   on the saved world: no errors.
+
+## NeoForge + Fabric (2026-10-24)
+
+One code base for both loaders: `common` (the MCreator code, compiled on vanilla 1.21.1 / NeoForm), `neoforge`, `fabric`.
+- **Events**: the MCreator code keeps NeoForge's event names and methods, now loader-neutral classes in `port/bus`
+  (`LivingIncomingDamageEvent`, `PlayerTickEvent.Post`, `RenderGuiEvent.Pre`, ...). `tools/port_multiloader.py`
+  rewrites the imports and generates `EventIndex` / `ClientEventIndex` from the `@SubscribeEvent` methods (122);
+  each loader posts its events on `LurkerBus`. NeoForge: from NeoForge's events. Fabric: Fabric API (damage, death,
+  login, respawn, clone, dimension change, sleep, block use, commands, entity load/unload, client tick, screens) and
+  mixins where it has none (player tick, crafting / smelting result, fishing catch, item pickup, item toss, item use
+  finish, entity tick, HUD `Pre`, fog distance and colour, hidden effects in the HUD and inventory).
+- **Data**: `getData(PLAYER_VARIABLES)` → `MidnightlurkerModVariables.of(entity)` and `getPersistentData()` →
+  `PortUtil.data(entity)` (1100 calls, rewritten by the script); NeoForge keeps its attachment and persistent data,
+  Fabric uses data attachments (`midnightlurker:player_variables`, `midnightlurker:persistent_data`).
+- **Registration**: `Registrar` / `RegistryEntry` (from the Rats port) instead of `DeferredRegister`; on Fabric the
+  entries are registered in NeoForge's registry order. Mob effects are passed as the registry's own holder
+  (`.holder()`, 75 places). Spawn eggs are vanilla ones; natural spawns: Fabric reads the same NeoForge biome
+  modifiers from the jar.
+- **NeoForge-only methods** turned vanilla: `BlockTags.create` → `TagKey.create`, `getCloneItemStack` (vanilla
+  signature), `onDestroyedByPlayer` → `destroy` (after a player removed the block, both loaders),
+  `IClientMobEffectExtensions` → `port.EffectVisibility`, the shattered glass item handler is registered by the
+  NeoForge module only (Fabric's transfer API sees the vanilla `Container`).
+- **Performance**: the entity tick event reaches the bus only for this mod's entities (its only listener checked
+  about 30 entity classes with `instanceof` for every entity of the world, every tick).
+- Tests (`LOADER=neoforge|fabric`): `tools/servertest.sh` starts the dev server; `tools/scenetest.sh` 5/5 on both
+  (all 37 entities, no missing textures, the book, translations); the Fabric release jar starts on a production
+  server (`:fabric:prodServer`).
+- On 1.21.11 the split is replayed on this branch (the same script and loader modules; a merge of `main` gave 324
+  conflicts, the GeckoLib 5 resources moved here): `Identifier`, 1.21.5 saved data types (`SavedDataType` with a
+  `null` data fixer: Fabric API handles it, NeoForge patches it), the 1.21.6 fog (`FogData`, Fabric mixin before the
+  fog buffer is written), `ParticleResources.SpriteParticleRegistration`, the private `BlockEntityType` constructor
+  (AT / access widener), the player's item toss in `ServerPlayer.drop`. NeoForge 21.11 has no item handler
+  capability for the shattered glass any more (as in the 1.21.11 port). Both loaders: server starts, scene 5/5.
