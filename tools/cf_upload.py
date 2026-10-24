@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Upload releases of the port to CurseForge (project 1751025). Dry run by default; --go uploads.
     python tools/cf_upload.py [--go] [mc versions...]
-Per Minecraft version: the NeoForge jar of the GitHub release v<VER>+<mc> (downloaded with gh into a temp folder),
-changelog = the GitHub release text, GeckoLib as a required dependency. The API token is read from
+Per Minecraft version: the NeoForge and Fabric jars of the GitHub release v<VER>+<mc> (downloaded with gh into a temp folder),
+changelog = the GitHub release text, GeckoLib (and Fabric API for Fabric) as required dependencies. The API token is read from
 ~/.gradle/gradle.properties (curseforgeToken=...) or the CF_TOKEN variable and is never printed."""
 import json
 import os
@@ -13,9 +13,9 @@ import urllib.request
 import uuid
 
 PROJECT = 1751025
-VER = '3.3.7'
+VER = '3.3.7.1'
 MC = {'1.21.1': 11779, '1.21.11': 14406, '26.1.2': 16082, '26.2': 16498, '26.3': 17045}
-NEOFORGE = 10150
+LOADERS = {'neoforge': (10150, 'NeoForge'), 'fabric': (7499, 'Fabric')}
 JAVA = {21: 11135, 25: 14454}
 ENV = [9638, 9639]  # Client, Server
 
@@ -53,19 +53,24 @@ def main():
         if only and mc not in only:
             continue
         tag = f'v{VER}+{mc}'
-        jar_name = f'the-midnight-lurker-neoforge-{VER}+{mc}.jar'
-        subprocess.run(['gh', 'release', 'download', tag, '-p', jar_name, '-D', stage, '--clobber'], check=True)
         changelog = subprocess.run(['gh', 'release', 'view', tag, '--json', 'body', '-q', '.body'], check=True,
                                    capture_output=True, text=True, encoding='utf-8').stdout
-        jar = os.path.join(stage, jar_name)
         java = 25 if mc.startswith('26.') else 21
-        meta = {'changelog': changelog, 'changelogType': 'markdown', 'releaseType': 'release',
-                'displayName': f'The Midnight Lurker {VER} (NeoForge {mc})',
-                'gameVersions': [mcid, NEOFORGE, JAVA[java]] + ENV,
-                'relations': {'projects': [{'slug': 'geckolib', 'type': 'requiredDependency'}]}}
-        print(f'{mc:8} {jar_name} ({os.path.getsize(jar)} B) | versions {meta["gameVersions"]} | changelog {len(changelog)} chars')
-        if go:
-            print(f'         uploaded file {upload(tok, meta, jar)}')
+        for loader, (loader_id, loader_name) in LOADERS.items():
+            jar_name = f'the-midnight-lurker-{loader}-{VER}+{mc}.jar'
+            subprocess.run(['gh', 'release', 'download', tag, '-p', jar_name, '-D', stage, '--clobber'], check=True)
+            jar = os.path.join(stage, jar_name)
+            relations = [{'slug': 'geckolib', 'type': 'requiredDependency'}]
+            if loader == 'fabric':
+                relations.append({'slug': 'fabric-api', 'type': 'requiredDependency'})
+            meta = {'changelog': changelog, 'changelogType': 'markdown', 'releaseType': 'release',
+                    'displayName': f'The Midnight Lurker {VER} ({loader_name} {mc})',
+                    'gameVersions': [mcid, loader_id, JAVA[java]] + ENV,
+                    'relations': {'projects': relations}}
+            print(f'{mc:8} {jar_name:46} ({os.path.getsize(jar)} B) | {meta["displayName"]:42} | versions {meta["gameVersions"]} | '
+                  f'{", ".join(r["slug"] for r in relations)} | changelog {len(changelog)} chars')
+            if go:
+                print(f'         uploaded file {upload(tok, meta, jar)}')
     if not go:
         print('\ndry run; --go uploads')
 
