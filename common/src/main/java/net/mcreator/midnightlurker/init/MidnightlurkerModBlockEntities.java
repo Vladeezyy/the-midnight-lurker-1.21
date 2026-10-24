@@ -1,0 +1,38 @@
+
+/*
+ *    MCreator note: This file will be REGENERATED on each build.
+ */
+package net.mcreator.midnightlurker.init;
+
+import net.minecraft.core.registries.Registries;
+
+
+import net.mcreator.midnightlurker.port.platform.RegistryEntry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.mcreator.midnightlurker.port.platform.Registrar;
+
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Block;
+
+import net.mcreator.midnightlurker.block.entity.ShatteredTCornerBlockEntity;
+import net.mcreator.midnightlurker.block.entity.ShatteredPaneXCornerBlockEntity;
+import net.mcreator.midnightlurker.block.entity.ShatteredPaneStraightBlockEntity;
+import net.mcreator.midnightlurker.block.entity.ShatteredPaneNoneBlockEntity;
+import net.mcreator.midnightlurker.block.entity.ShatteredPaneEndBlockEntity;
+import net.mcreator.midnightlurker.block.entity.ShatteredCornerBlockEntity;
+import net.mcreator.midnightlurker.MidnightlurkerMod;
+
+public class MidnightlurkerModBlockEntities {
+	public static final Registrar<BlockEntityType<?>> REGISTRY = Registrar.create(Registries.BLOCK_ENTITY_TYPE, MidnightlurkerMod.MODID);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_PANE_NONE = register("shattered_pane_none", MidnightlurkerModBlocks.SHATTERED_PANE_NONE, ShatteredPaneNoneBlockEntity::new);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_PANE_STRAIGHT = register("shattered_pane_straight", MidnightlurkerModBlocks.SHATTERED_PANE_STRAIGHT, ShatteredPaneStraightBlockEntity::new);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_CORNER = register("shattered_corner", MidnightlurkerModBlocks.SHATTERED_CORNER, ShatteredCornerBlockEntity::new);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_T_CORNER = register("shattered_t_corner", MidnightlurkerModBlocks.SHATTERED_T_CORNER, ShatteredTCornerBlockEntity::new);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_PANE_X_CORNER = register("shattered_pane_x_corner", MidnightlurkerModBlocks.SHATTERED_PANE_X_CORNER, ShatteredPaneXCornerBlockEntity::new);
+	public static final RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> SHATTERED_PANE_END = register("shattered_pane_end", MidnightlurkerModBlocks.SHATTERED_PANE_END, ShatteredPaneEndBlockEntity::new);
+
+	private static RegistryEntry<BlockEntityType<?>, BlockEntityType<?>> register(String registryname, RegistryEntry<Block, Block> block, BlockEntityType.BlockEntitySupplier<?> supplier) {
+		return REGISTRY.register(registryname, () -> new BlockEntityType<>(supplier, java.util.Set.of(block.get())));
+	}
+
+}

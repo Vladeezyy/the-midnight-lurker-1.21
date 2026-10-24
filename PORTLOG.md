@@ -173,3 +173,8 @@ FerriteCore 9.0.0, Jade 26.3.5, JEI 31.16; perf: overworld at night 2.27 ms per 
 1.81 ms, spawn checks 1.3–4.4 µs; the release jar on a real NeoForge 26.3.0.97 server, run twice on the same world: no
 errors. On 26.3 the first console command after the start fails with "An unexpected error occurred" even for vanilla
 `/locate structure minecraft:village_plains`; the second works.
+
+## 26.3: NeoForge + Fabric (2026-10-24)
+The split replayed from `mc/26.2`. 26.3: `ServerPlayer.drop(ItemStack, boolean, Prediction)` (Fabric's item toss
+mixin), `SpawnerData` read with its codec (Fabric's reader of the NeoForge biome modifiers, from the Rats port).
+Both loaders: server starts, scene 6/6.
