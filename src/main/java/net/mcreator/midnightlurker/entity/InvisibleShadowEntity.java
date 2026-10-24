@@ -1,25 +1,28 @@
 
 package net.mcreator.midnightlurker.entity;
 
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 
 import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.GeoEntity;
+
+import net.mcreator.midnightlurker.port.GeoAnims;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.projectile.ThrownPotion;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -38,7 +41,7 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -59,7 +62,6 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 	public static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(InvisibleShadowEntity.class, EntityDataSerializers.STRING);
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 	private boolean swinging;
-	private boolean lastloop;
 	private long lastSwing;
 	public String animationprocedure = "empty";
 
@@ -165,28 +167,28 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 
 	@Override
 	public void playStepSound(BlockPos pos, BlockState blockIn) {
-		this.playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:nostepsound")), 0.15f, 1);
+		this.playSound(BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:nostepsound")), 0.15f, 1);
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse(""));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse(""));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse(""));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse(""));
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		if (source.is(DamageTypes.IN_FIRE))
 			return false;
 		if (source.getDirectEntity() instanceof AbstractArrow)
 			return false;
 		if (source.getDirectEntity() instanceof Player)
 			return false;
-		if (source.getDirectEntity() instanceof ThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
+		if (source.getDirectEntity() instanceof AbstractThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
 			return false;
 		if (source.is(DamageTypes.FALL))
 			return false;
@@ -208,7 +210,7 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 			return false;
 		if (source.is(DamageTypes.WITHER_SKULL))
 			return false;
-		return super.hurt(source, amount);
+		return super.hurtServer(level, source, amount);
 	}
 
 	@Override
@@ -262,39 +264,15 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 		return builder;
 	}
 
-	private PlayState movementPredicate(AnimationState event) {
+	private PlayState movementPredicate(AnimationTest<InvisibleShadowEntity> event) {
 		if (this.animationprocedure.equals("empty")) {
 			return event.setAndContinue(RawAnimation.begin().thenLoop("gatewaydarkness"));
 		}
 		return PlayState.STOP;
 	}
 
-	private PlayState procedurePredicate(AnimationState event) {
-		Entity entity = this;
-		Level world = entity.level();
-		boolean loop = false;
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
-		if (!loop && this.lastloop) {
-			this.lastloop = false;
-			event.getController().setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
-			event.getController().forceAnimationReset();
-			return PlayState.STOP;
-		}
-		if (!this.animationprocedure.equals("empty") && event.getController().getAnimationState() == AnimationController.State.STOPPED) {
-			if (!loop) {
-				event.getController().setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
-				if (event.getController().getAnimationState() == AnimationController.State.STOPPED) {
-					this.animationprocedure = "empty";
-					event.getController().forceAnimationReset();
-				}
-			} else {
-				event.getController().setAnimation(RawAnimation.begin().thenLoop(this.animationprocedure));
-				this.lastloop = true;
-			}
-		}
-		return PlayState.CONTINUE;
+	private PlayState procedurePredicate(AnimationTest<InvisibleShadowEntity> event) {
+		return GeoAnims.procedure(event, this.animationprocedure, animation -> this.animationprocedure = animation);
 	}
 
 	@Override
@@ -302,7 +280,8 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 		++this.deathTime;
 		if (this.deathTime == 20) {
 			this.remove(InvisibleShadowEntity.RemovalReason.KILLED);
-			this.dropExperience(null);
+			if (this.level() instanceof ServerLevel _serverLevel)
+				this.dropExperience(_serverLevel, null);
 		}
 	}
 
@@ -316,8 +295,8 @@ public class InvisibleShadowEntity extends Monster implements GeoEntity {
 
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-		data.add(new AnimationController<>(this, "movement", 4, this::movementPredicate));
-		data.add(new AnimationController<>(this, "procedure", 4, this::procedurePredicate));
+		data.add(new GeoAnims.Controller<>("movement", 4, this::movementPredicate));
+		data.add(new GeoAnims.Controller<>("procedure", 4, this::procedurePredicate));
 	}
 
 	@Override

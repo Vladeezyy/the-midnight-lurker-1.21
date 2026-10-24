@@ -1,5 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.level.LevelAccessor;
@@ -35,7 +36,7 @@ public class StaticEffectOnEffectActiveTickProcedure {
 		}
 		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 10) {
 			if (world instanceof ServerLevel _level)
-				_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+				_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 						"/playsound midnightlurker:static record @p ~ ~ ~ 1 1");
 		}
 	}

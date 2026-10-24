@@ -12,8 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.registries.Registries;
 
 import javax.annotation.Nullable;
 
@@ -33,16 +34,15 @@ public class GetDoorRecipePickupProcedure {
 			return;
 		if (entity instanceof Player && (itemstack.getItem() == Items.IRON_INGOT || itemstack.getItem() == Items.IRON_NUGGET || itemstack.getItem() == Blocks.IRON_BLOCK.asItem())) {
 			if (!(new Object() {
-				public boolean hasRecipe(Entity _ent, ResourceLocation recipe) {
+				public boolean hasRecipe(Entity _ent, Identifier recipe) {
+					// 1.21.2: recipes are keys, and the client no longer knows the unlocked recipes (it only asks to award them on the server)
 					if (_ent instanceof ServerPlayer _player)
-						return _player.getRecipeBook().contains(recipe);
-					else if (_ent.level().isClientSide() && _ent instanceof LocalPlayer _player)
-						return _player.getRecipeBook().contains(recipe);
-					return false;
+						return _player.getRecipeBook().contains(ResourceKey.create(Registries.RECIPE, recipe));
+					return true;
 				}
-			}.hasRecipe(entity, ResourceLocation.parse("midnightlurker:metal_door_recipe")))) {
+			}.hasRecipe(entity, Identifier.parse("midnightlurker:metal_door_recipe")))) {
 				if (entity instanceof ServerPlayer _serverPlayer)
-					_serverPlayer.awardRecipesByKey(java.util.List.of(ResourceLocation.parse("midnightlurker:metal_door_recipe")));
+					_serverPlayer.awardRecipesByKey(java.util.List.of(ResourceKey.create(Registries.RECIPE, Identifier.parse("midnightlurker:metal_door_recipe"))));
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 
 import java.util.Map;
@@ -19,31 +19,31 @@ public class PaneBlockAddedProcedure {
 		String gateTag = "";
 		groupTag = "forge" + ":" + "custom_pane";
 		gateTag = "forge" + ":" + "custom_gate";
-		if ((world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, (z - 1));
 		}
-		if ((world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, (x + 1), y, z);
 		}
-		if ((world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, (z + 1));
 		}
-		if ((world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, (x - 1), y, z);
 		}
-		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
-				&& !(world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(ResourceLocation.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(Identifier.parse((gateTag).toLowerCase(java.util.Locale.ENGLISH))))) {
 			PaneMainScriptProcedure.execute(world, x, y, z);
 		}
 		if (new Object() {
 			public double getValue(LevelAccessor world, BlockPos pos, String tag) {
 				BlockEntity blockEntity = world.getBlockEntity(pos);
 				if (blockEntity != null)
-					return blockEntity.getPersistentData().getDouble(tag);
+					return blockEntity.getPersistentData().getDoubleOr(tag, 0);
 				return -1;
 			}
 		}.getValue(world, BlockPos.containing(x, y, z), "Regen") < 600) {
@@ -56,7 +56,7 @@ public class PaneBlockAddedProcedure {
 						public double getValue(LevelAccessor world, BlockPos pos, String tag) {
 							BlockEntity blockEntity = world.getBlockEntity(pos);
 							if (blockEntity != null)
-								return blockEntity.getPersistentData().getDouble(tag);
+								return blockEntity.getPersistentData().getDoubleOr(tag, 0);
 							return -1;
 						}
 					}.getValue(world, BlockPos.containing(x, y, z), "Regen") + 1));
@@ -68,7 +68,7 @@ public class PaneBlockAddedProcedure {
 			public double getValue(LevelAccessor world, BlockPos pos, String tag) {
 				BlockEntity blockEntity = world.getBlockEntity(pos);
 				if (blockEntity != null)
-					return blockEntity.getPersistentData().getDouble(tag);
+					return blockEntity.getPersistentData().getDoubleOr(tag, 0);
 				return -1;
 			}
 		}.getValue(world, BlockPos.containing(x, y, z), "Regen") >= 600) {

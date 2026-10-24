@@ -12,7 +12,7 @@ public class Insanityoverlayevent10Procedure {
 			return false;
 		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
 			if (entity instanceof Player) {
-				if (entity.getPersistentData().getDouble("InsanityOverlayTime") == 10) {
+				if (entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) == 10) {
 					return true;
 				}
 			}

@@ -56,10 +56,10 @@ public class MidnightLurkerStareEntityIsHurtProcedure {
 					}
 				} else if (mainjsonobject.get("lurker_invulnerable").getAsBoolean() == false) {
 					if (entity instanceof MidnightLurkerStareEntity && sourceentity instanceof Player) {
-						if (entity.getPersistentData().getBoolean("Stunned") == false) {
+						if (entity.getPersistentData().getBooleanOr("Stunned", false) == false) {
 							entity.getPersistentData().putBoolean("Stunned", true);
 						}
-						if (entity.getPersistentData().getDouble("StunTimer") > 0) {
+						if (entity.getPersistentData().getDoubleOr("StunTimer", 0) > 0) {
 							if (event instanceof ICancellableEvent _cancellable) {
 								_cancellable.setCanceled(true);
 							}

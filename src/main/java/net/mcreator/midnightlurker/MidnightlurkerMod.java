@@ -88,6 +88,12 @@ public class MidnightlurkerMod {
 		networkingRegistered = true;
 	}
 
+	// NeoForge 21.9+: the client side of clientbound payloads is registered by the client (port/ClientNetworking)
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public static void registerClientHandlers(net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent event) {
+		MESSAGES.forEach((id, networkMessage) -> event.register((CustomPacketPayload.Type) id, ((NetworkMessage) networkMessage).handler()));
+	}
+
 	private static final Collection<Tuple<Runnable, Integer>> workQueue = new ConcurrentLinkedQueue<>();
 
 	public static void queueServerWork(int tick, Runnable action) {

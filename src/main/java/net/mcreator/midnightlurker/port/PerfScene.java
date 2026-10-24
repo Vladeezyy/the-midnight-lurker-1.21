@@ -13,9 +13,9 @@ import net.minecraft.world.level.WorldDataConfiguration;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.Difficulty;
@@ -85,16 +85,16 @@ public final class PerfScene {
 	static {
 		int t = 40;
 		at(t, mc -> server(mc, p -> {
-			ServerLevel level = p.serverLevel();
-			level.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, level.getServer());
-			level.getGameRules().getRule(GameRules.RULE_WEATHER_CYCLE).set(false, level.getServer());
-			level.getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(true, level.getServer());
+			ServerLevel level = p.level();
+			level.getGameRules().set(GameRules.ADVANCE_TIME, false, level.getServer());
+			level.getGameRules().set(GameRules.ADVANCE_WEATHER, false, level.getServer());
+			level.getGameRules().set(GameRules.SPAWN_MOBS, true, level.getServer());
 			level.setDayTime(18000);
 			// creative: natural spawning happens around the player (not around spectators), nothing hurts the player
 			p.setGameMode(GameType.CREATIVE);
 			p.setInvulnerable(true);
-			BlockPos spawn = level.getSharedSpawnPos();
-			p.teleportTo(level, spawn.getX() + 0.5, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, spawn.getX(), spawn.getZ()) + 2, spawn.getZ() + 0.5, 0, 20);
+			BlockPos spawn = level.getRespawnData().pos();
+			p.teleportTo(level, spawn.getX() + 0.5, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, spawn.getX(), spawn.getZ()) + 2, spawn.getZ() + 0.5, java.util.Set.of(), 0, 20, true);
 		}));
 		// chunks load and the first spawns settle before measuring
 		at(t += 600, mc -> start());
@@ -102,7 +102,7 @@ public final class PerfScene {
 			stop(mc, "overworld, night, natural spawning");
 			// the natural spawn checks themselves (run once per spawn attempt of these entities), timed directly
 			server(mc, p -> {
-				ServerLevel level = p.serverLevel();
+				ServerLevel level = p.level();
 				double x = p.getX() + 24, y = p.getY(), z = p.getZ() + 24;
 				String[] names = {"MidnightLurker", "MidnightLurkerFakerWatcher", "VoidGateway", "MidnightLurkerShadow"};
 				for (String name : names) {
@@ -121,12 +121,12 @@ public final class PerfScene {
 				}
 			});
 			server(mc, p -> {
-				ServerLevel nether = p.getServer().getLevel(Level.NETHER);
-				nether.getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(true, nether.getServer());
+				ServerLevel nether = p.level().getServer().getLevel(Level.NETHER);
+				nether.getGameRules().set(GameRules.SPAWN_MOBS, true, nether.getServer());
 				BlockPos pos = new BlockPos(0, 64, 0);
 				for (BlockPos q : BlockPos.betweenClosed(pos.offset(-2, -1, -2), pos.offset(2, 3, 2)))
 					nether.setBlock(q, q.getY() == pos.getY() - 1 ? Blocks.NETHERRACK.defaultBlockState() : Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
-				p.teleportTo(nether, 0.5, 64, 0.5, 0, 20);
+				p.teleportTo(nether, 0.5, 64, 0.5, java.util.Set.of(), 0, 20, true);
 			});
 		});
 		// the nether chunks generate first
@@ -134,24 +134,24 @@ public final class PerfScene {
 		at(t += 1200, mc -> {
 			stop(mc, "nether, natural spawning");
 			server(mc, p -> {
-				ServerLevel level = p.getServer().overworld();
-				level.getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(false, level.getServer());
+				ServerLevel level = p.level().getServer().overworld();
+				level.getGameRules().set(GameRules.SPAWN_MOBS, false, level.getServer());
 				// above the spawn: chunks already generated in the first phase
-				BlockPos base = new BlockPos(level.getSharedSpawnPos().getX(), 200, level.getSharedSpawnPos().getZ());
+				BlockPos base = new BlockPos(level.getRespawnData().pos().getX(), 200, level.getRespawnData().pos().getZ());
 				for (BlockPos q : BlockPos.betweenClosed(base.offset(-12, -1, -12), base.offset(12, 4, 12)))
 					level.setBlock(q, q.getY() == base.getY() - 1 ? Blocks.STONE.defaultBlockState() : Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
-				p.teleportTo(level, base.getX() + 0.5, base.getY() + 8, base.getZ() + 0.5, 0, 60);
+				p.teleportTo(level, base.getX() + 0.5, base.getY() + 8, base.getZ() + 0.5, java.util.Set.of(), 0, 60, true);
 				List<EntityType<?>> types = new ArrayList<>();
 				for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE)
 					if (BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath().startsWith("midnight_lurker") || BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath().startsWith("midnightlurker"))
 						types.add(type);
 				for (int i = 0; i < 20; i++) {
-					Entity e = types.get(i % types.size()).create(level);
+					Entity e = types.get(i % types.size()).create(level, EntitySpawnReason.COMMAND);
 					if (e == null)
 						continue;
-					e.moveTo(base.getX() - 9.5 + (i % 5) * 4, base.getY(), base.getZ() - 8.5 + (i / 5) * 4, 0, 0);
+					e.snapTo(base.getX() - 9.5 + (i % 5) * 4, base.getY(), base.getZ() - 8.5 + (i / 5) * 4, 0, 0);
 					if (e instanceof Mob mob) {
-						mob.finalizeSpawn(level, level.getCurrentDifficultyAt(base), MobSpawnType.COMMAND, null);
+						mob.finalizeSpawn(level, level.getCurrentDifficultyAt(base), EntitySpawnReason.COMMAND, null);
 						mob.setPersistenceRequired();
 					}
 					level.addFreshEntity(e);
@@ -163,8 +163,8 @@ public final class PerfScene {
 		at(t += 1200, mc -> stop(mc, "20 Lurkers around the player"));
 		at(t += 20, mc -> {
 			MidnightlurkerMod.LOGGER.info("[perf] DONE");
-			mc.level.disconnect();
-			mc.disconnect(new TitleScreen());
+			mc.level.disconnect(net.minecraft.network.chat.Component.empty());
+			mc.disconnect(new TitleScreen(), false);
 			mc.stop();
 		});
 	}
@@ -186,7 +186,7 @@ public final class PerfScene {
 			opened = true;
 			mc.options.cloudStatus().set(CloudStatus.OFF);
 			mc.options.pauseOnLostFocus = false;
-			LevelSettings settings = new LevelSettings("ml_perf", GameType.SURVIVAL, false, Difficulty.NORMAL, true, new GameRules(), WorldDataConfiguration.DEFAULT);
+			LevelSettings settings = new LevelSettings("ml_perf", GameType.SURVIVAL, false, Difficulty.NORMAL, true, new GameRules(net.minecraft.world.flag.FeatureFlags.DEFAULT_FLAGS), WorldDataConfiguration.DEFAULT);
 			mc.createWorldOpenFlows().createFreshLevel("ml_perf", settings, new WorldOptions(20261017L, true, false), WorldPresets::createNormalWorldDimensions, new TitleScreen());
 			return;
 		}

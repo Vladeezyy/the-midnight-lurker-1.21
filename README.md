@@ -2,17 +2,18 @@
 
 <img src="docs/images/logo.png" width="160" alt="The Midnight Lurker logo">
 
-# The Midnight Lurker — NeoForge 1.21.1
+# The Midnight Lurker — NeoForge 1.21.11
 
 **Something is watching you at night. Don't look back.**
 
-[![Minecraft 1.21.1](https://img.shields.io/badge/Minecraft-1.21.1-3c8527)](https://www.minecraft.net)
-[![NeoForge 21.1](https://img.shields.io/badge/NeoForge-21.1.197%2B-e0682b)](https://neoforged.net)
-[![GeckoLib 4.9](https://img.shields.io/badge/requires-GeckoLib%204.9%2B-8a2be2)](https://modrinth.com/mod/geckolib)
+[![Minecraft 1.21.11](https://img.shields.io/badge/Minecraft-1.21.11-3c8527)](https://www.minecraft.net)
+[![NeoForge 21.11](https://img.shields.io/badge/NeoForge-21.11.48%2B-e0682b)](https://neoforged.net)
+[![GeckoLib 5.4](https://img.shields.io/badge/requires-GeckoLib%205.4.5%2B-8a2be2)](https://modrinth.com/mod/geckolib)
 [![License LGPL-3.0](https://img.shields.io/badge/license-LGPL--3.0-blue)](LICENSE)
 
 An unofficial port of **[The Midnight Lurker](https://www.curseforge.com/minecraft/mc-mods/the-midnight-lurker)** 3.3.7
-by **Voxla** from Forge 1.20.1 to **NeoForge 1.21.1**, with all of its content.
+by **Voxla** from Forge 1.20.1 to **NeoForge 1.21.11**, with all of its content. Other Minecraft versions are on
+the branches of this repository: `main` (1.21.1), `mc/1.21.11`, `mc/26.1.2`, `mc/26.2`, `mc/26.3`.
 
 <img src="docs/images/entities_close.jpg" width="49%" alt="Midnight Lurkers">
 <img src="docs/images/entities.jpg" width="49%" alt="Every kind of Lurker">
@@ -32,9 +33,9 @@ outcast villager tells you how to keep your mind.
 
 ## Installation
 
-1. Install **NeoForge 21.1.197** or newer for Minecraft **1.21.1**.
-2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 or newer, NeoForge 1.21.1) into `mods`.
-3. Put `the-midnight-lurker-neoforge-3.3.7+1.21.1.jar` from the [releases](../../releases) into `mods`.
+1. Install **NeoForge 21.11.48** or newer for Minecraft **1.21.11**.
+2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 or newer, NeoForge 1.21.11) into `mods`.
+3. Put `the-midnight-lurker-neoforge-3.3.7+1.21.11.jar` from the [releases](../../releases) into `mods`.
 
 Needed on both the client and the server.
 
@@ -56,6 +57,9 @@ The content and the behaviour are the same as in 3.3.7. Details: [PORTLOG.md](PO
   spends a third less time in the mod.
 - 1.21 changes: player data is a NeoForge attachment, the book has no empty item inventory any more, the tough door
   takes any pickaxe (as before).
+- 1.21.11: GeckoLib 5 (the same models and animations), spawn eggs keep their colors as textures, dropping the book
+  closes its screen in multiplayer too. A few animations the original asks for but never had (the Faker watcher's
+  idle, the Hider's swim) crash GeckoLib 5; the port skips them as GeckoLib 4 did, and the Faker watcher now idles.
 
 ## Languages
 
@@ -67,7 +71,7 @@ new in the port (not by native speakers). The original's French, Italian, Icelan
 
 [LGPL-3.0-only](LICENSE). The original mod is MIT-licensed: its text and copyright are in
 [licenses/LICENSE-MIT](licenses/LICENSE-MIT), and every file of the original keeps it. The Midnight Lurker, its art,
-models, sounds and story: **Voxla**, with Whirlygig and Z3R0TW0 (made with MCreator). Port to NeoForge 1.21.1:
+models, sounds and story: **Voxla**, with Whirlygig and Z3R0TW0 (made with MCreator). Port to NeoForge 1.21.1 – 1.21.11:
 Vladeezyy. Please download the port only from its official pages.
 
 </details>
@@ -85,9 +89,9 @@ Vladeezyy. Please download the port only from its official pages.
 
 ## Установка
 
-1. Установите **NeoForge 21.1.197** или новее для Minecraft **1.21.1**.
-2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 или новее, NeoForge 1.21.1) в `mods`.
-3. Положите `the-midnight-lurker-neoforge-3.3.7+1.21.1.jar` из [релизов](../../releases) в `mods`.
+1. Установите **NeoForge 21.11.48** или новее для Minecraft **1.21.11**.
+2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (5.4.5 или новее, NeoForge 1.21.11) в `mods`.
+3. Положите `the-midnight-lurker-neoforge-3.3.7+1.21.11.jar` из [релизов](../../releases) в `mods`.
 
 Нужен и на клиенте, и на сервере.
 
@@ -108,6 +112,10 @@ Vladeezyy. Please download the port only from its official pages.
   читает конфиг один раз: проверки спавна примерно в 15 раз быстрее, клиент тратит на мод на треть меньше времени.
 - Изменения 1.21: данные игрока — attachment NeoForge, у книги больше нет пустого инвентаря, крепкую дверь можно
   добыть любой киркой (как и раньше).
+- 1.21.11: GeckoLib 5 (те же модели и анимации), яйца призыва сохранили цвета в виде текстур, выброшенная книга
+  закрывает свой экран и в мультиплеере. Несколько анимаций, которые оригинал запрашивает, но которых нет в файлах
+  (покой наблюдателя-обманщика, плавание прячущегося), роняют GeckoLib 5; порт пропускает их, как GeckoLib 4, а
+  наблюдатель-обманщик теперь играет свою анимацию покоя.
 
 ## Языки
 
@@ -119,7 +127,7 @@ English · Русский · Українська · Deutsch · Español · Port
 
 [LGPL-3.0-only](LICENSE). Оригинал под лицензией MIT: её текст и копирайт — в [licenses/LICENSE-MIT](licenses/LICENSE-MIT),
 и все файлы оригинала остаются под ней. The Midnight Lurker, графика, модели, звуки и история: **Voxla**, вместе с
-Whirlygig и Z3R0TW0 (сделано в MCreator). Порт на NeoForge 1.21.1: Vladeezyy. Пожалуйста, скачивайте порт только с его
+Whirlygig и Z3R0TW0 (сделано в MCreator). Порт на NeoForge 1.21.1 – 1.21.11: Vladeezyy. Пожалуйста, скачивайте порт только с его
 официальных страниц.
 
 </details>

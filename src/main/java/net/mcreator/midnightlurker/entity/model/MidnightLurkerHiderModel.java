@@ -1,25 +1,33 @@
 package net.mcreator.midnightlurker.entity.model;
 
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.model.GeoModel;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
+import net.mcreator.midnightlurker.port.GeoTextures;
 import net.mcreator.midnightlurker.entity.MidnightLurkerHiderEntity;
+
+import javax.annotation.Nullable;
 
 public class MidnightLurkerHiderModel extends GeoModel<MidnightLurkerHiderEntity> {
 	@Override
-	public ResourceLocation getAnimationResource(MidnightLurkerHiderEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "animations/midnightlurkerhide.animation.json");
+	public Identifier getAnimationResource(MidnightLurkerHiderEntity entity) {
+		return Identifier.fromNamespaceAndPath("midnightlurker", "midnightlurkerhide");
 	}
 
 	@Override
-	public ResourceLocation getModelResource(MidnightLurkerHiderEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "geo/midnightlurkerhide.geo.json");
+	public Identifier getModelResource(GeoRenderState renderState) {
+		return Identifier.fromNamespaceAndPath("midnightlurker", "midnightlurkerhide");
 	}
 
 	@Override
-	public ResourceLocation getTextureResource(MidnightLurkerHiderEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath("midnightlurker", "textures/entities/" + entity.getTexture() + ".png");
+	public Identifier getTextureResource(GeoRenderState renderState) {
+		return GeoTextures.get(renderState);
 	}
 
+	@Override
+	public void addAdditionalStateData(MidnightLurkerHiderEntity entity, @Nullable Object relatedObject, GeoRenderState renderState) {
+		GeoTextures.set(renderState, entity.getTexture());
+	}
 }

@@ -31,17 +31,17 @@ public class InsanityoverlayrendersProcedure {
 		if (entity instanceof LivingEntity _livEnt0 && _livEnt0.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
 			if (entity instanceof Player) {
 				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) >= 45
-						&& entity.getPersistentData().getDouble("InsanityOverlayTime") >= 11) {
+						&& entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) >= 11) {
 					entity.getPersistentData().putDouble("InsanityOverlayTime", 0);
 				}
 				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) >= 45
-						&& entity.getPersistentData().getDouble("InsanityOverlayTime") < 10) {
-					entity.getPersistentData().putDouble("InsanityOverlayTime", (entity.getPersistentData().getDouble("InsanityOverlayTime") + 1));
+						&& entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) < 10) {
+					entity.getPersistentData().putDouble("InsanityOverlayTime", (entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) + 1));
 				}
 				if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MidnightlurkerModMobEffects.INSANITY) ? _livEnt.getEffect(MidnightlurkerModMobEffects.INSANITY).getDuration() : 0) <= 44
-						&& entity.getPersistentData().getDouble("InsanityOverlayTime") > 0) {
+						&& entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) > 0) {
 					if (entity instanceof Player) {
-						entity.getPersistentData().putDouble("InsanityOverlayTime", (entity.getPersistentData().getDouble("InsanityOverlayTime") - 1));
+						entity.getPersistentData().putDouble("InsanityOverlayTime", (entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) - 1));
 					}
 				}
 			}
@@ -51,7 +51,7 @@ public class InsanityoverlayrendersProcedure {
 				entity.getPersistentData().putDouble("InsanityOverlayTime", 11);
 			}
 		} else if (entity instanceof LivingEntity _livEnt17 && _livEnt17.hasEffect(MidnightlurkerModMobEffects.INSANITY)) {
-			if (entity instanceof Player && entity.getPersistentData().getDouble("InsanityOverlayTime") < 0) {
+			if (entity instanceof Player && entity.getPersistentData().getDoubleOr("InsanityOverlayTime", 0) < 0) {
 				entity.getPersistentData().putDouble("InsanityOverlayTime", 11);
 			}
 		}

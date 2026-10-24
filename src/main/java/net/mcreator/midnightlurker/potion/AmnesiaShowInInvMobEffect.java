@@ -1,9 +1,7 @@
 
 package net.mcreator.midnightlurker.potion;
 
-import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions;
 
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffect;
 
@@ -22,13 +20,4 @@ public class AmnesiaShowInInvMobEffect extends MobEffect {
 		return true;
 	}
 
-	@Override
-	public void initializeClient(java.util.function.Consumer<IClientMobEffectExtensions> consumer) {
-		consumer.accept(new IClientMobEffectExtensions() {
-			@Override
-			public boolean isVisibleInGui(MobEffectInstance effect) {
-				return false;
-			}
-		});
-	}
 }

@@ -16,7 +16,7 @@ import net.minecraft.core.registries.Registries;
 
 import net.mcreator.midnightlurker.MidnightlurkerMod;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class MidnightlurkerModTabs {
 	public static final DeferredRegister<CreativeModeTab> REGISTRY = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MidnightlurkerMod.MODID);
 

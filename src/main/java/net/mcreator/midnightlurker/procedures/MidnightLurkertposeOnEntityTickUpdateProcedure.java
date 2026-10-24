@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.BlockPos;
 
@@ -68,16 +68,16 @@ public class MidnightLurkertposeOnEntityTickUpdateProcedure {
 			try {
 				mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 				if (mainjsonobject.get("lurker_persist_during_day").getAsBoolean() == false) {
-					if ((world instanceof Level _lvl17 && _lvl17.isDay()) == true && y > 60) {
+					if ((world instanceof Level _lvl17 && _lvl17.isBrightOutside()) == true && y > 60) {
 						if (entity instanceof MidnightLurkertposeEntity) {
 							if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 30, 30, 30), e -> true).isEmpty()) {
 								MidnightlurkerMod.queueServerWork(2, () -> {
 									if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkertposeEntity.class, AABB.ofSize(new Vec3(x, y, z), 23, 23, 23), e -> true).isEmpty()) {
 										if (world instanceof Level _level) {
 											if (!_level.isClientSide()) {
-												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 											} else {
-												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 											}
 										}
 									}

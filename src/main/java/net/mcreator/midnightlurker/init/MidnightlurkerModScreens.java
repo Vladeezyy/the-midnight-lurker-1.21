@@ -13,7 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 
 import net.mcreator.midnightlurker.client.gui.LurkerBookGuiScreen;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class MidnightlurkerModScreens {
 	@SubscribeEvent
 	public static void clientLoad(RegisterMenuScreensEvent event) {

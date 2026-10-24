@@ -19,7 +19,7 @@ public class InvisibleAnimalKillerOnEntityTickUpdateProcedure {
 		}
 		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 70, 70, 70), e -> true).isEmpty()) {
 			if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-				_entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 255, false, false));
+				_entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 255, false, false));
 		}
 	}
 }

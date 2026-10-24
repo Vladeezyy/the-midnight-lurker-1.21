@@ -1,5 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.neoforged.bus.api.ICancellableEvent;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.BlockPos;
@@ -80,10 +81,10 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 					}
 				} else if (mainjsonobject.get("lurker_invulnerable").getAsBoolean() == false) {
 					if ((entity instanceof MidnightLurkerUnprovokedEntity || entity instanceof MidnightlurkerNEEntity) && sourceentity instanceof Player) {
-						if (entity.getPersistentData().getBoolean("Stunned") == false) {
+						if (entity.getPersistentData().getBooleanOr("Stunned", false) == false) {
 							entity.getPersistentData().putBoolean("Stunned", true);
 						}
-						if (entity.getPersistentData().getDouble("StunTimer") > 0) {
+						if (entity.getPersistentData().getDoubleOr("StunTimer", 0) > 0) {
 							if (event instanceof ICancellableEvent _cancellable) {
 								_cancellable.setCanceled(true);
 							}
@@ -100,9 +101,9 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 					if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerRuntrueEntity.class, AABB.ofSize(new Vec3(x, y, z), 23, 23, 23), e -> true).isEmpty()) {
 						if (world instanceof Level _level) {
 							if (!_level.isClientSide()) {
-								_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+								_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 							} else {
-								_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+								_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 							}
 						}
 					}
@@ -119,7 +120,7 @@ public class MidnightLurkerRuntrueEntityIsHurtProcedure {
 				if (Math.random() > 0.5) {
 					MidnightlurkerMod.queueServerWork(30, () -> {
 						if (world instanceof ServerLevel _level)
-							_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+							_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 									"/playsound midnightlurker:lurker_taunt neutral @a ~ ~ ~ 0.5 1");
 					});
 				}

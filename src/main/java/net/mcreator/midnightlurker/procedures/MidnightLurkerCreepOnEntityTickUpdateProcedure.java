@@ -1,5 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -14,7 +15,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.effect.MobEffects;
@@ -24,7 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.Direction;
@@ -92,12 +93,12 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 			}
 		}
 		if (entity instanceof LivingEntity _livEnt23 && _livEnt23.hasEffect(MobEffects.INVISIBILITY)) {
-			if (entity.getPersistentData().getDouble("Disalol") < 2) {
-				entity.getPersistentData().putDouble("Disalol", (entity.getPersistentData().getDouble("Disalol") + 1));
+			if (entity.getPersistentData().getDoubleOr("Disalol", 0) < 2) {
+				entity.getPersistentData().putDouble("Disalol", (entity.getPersistentData().getDoubleOr("Disalol", 0) + 1));
 			}
-			if (entity.getPersistentData().getDouble("Disalol") == 1) {
+			if (entity.getPersistentData().getDoubleOr("Disalol", 0) == 1) {
 				if (world instanceof ServerLevel _level)
-					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 							"/playsound midnightlurker:lurkerdisappear neutral @a ~ ~ ~ 1 1");
 				if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 70, 70, 70), e -> true).isEmpty()) {
 					if (Math.random() > 0.7) {
@@ -112,17 +113,17 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 			}
 			if ((entity instanceof LivingEntity _livEnt && _livEnt.hasEffect(MobEffects.INVISIBILITY) ? _livEnt.getEffect(MobEffects.INVISIBILITY).getDuration() : 0) == 1) {
 				if (world instanceof ServerLevel _level)
-					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 							"/playsound midnightlurker:lurkerdisappear neutral @a ~ ~ ~ 1 1");
 			}
 		}
 		if (!(entity instanceof LivingEntity _livEnt34 && _livEnt34.hasEffect(MobEffects.INVISIBILITY))) {
-			if (entity.getPersistentData().getDouble("Disalol") > 0) {
+			if (entity.getPersistentData().getDoubleOr("Disalol", 0) > 0) {
 				entity.getPersistentData().putDouble("Disalol", 0);
 			}
 		}
 		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 300, 300, 300), e -> true).isEmpty() && !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 20, 20, 20), e -> true).isEmpty())) {
-			if (entity.getPersistentData().getBoolean("InvisLogic") == false) {
+			if (entity.getPersistentData().getBooleanOr("InvisLogic", false) == false) {
 				if ((new Object() {
 					public Entity func(Entity player, double entityReach) {
 						double distance = entityReach * entityReach;
@@ -133,7 +134,7 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 							double blockReach = 5;
 							if (distance > blockReach * blockReach) {
 								Vec3 pos = hitResult.getLocation();
-								hitResult = BlockHitResult.miss(pos, Direction.getNearest(eyePos.x, eyePos.y, eyePos.z), BlockPos.containing(pos));
+								hitResult = BlockHitResult.miss(pos, Direction.getApproximateNearest(eyePos.x, eyePos.y, eyePos.z), BlockPos.containing(pos));
 							}
 						}
 						Vec3 viewVec = player.getViewVector(1.0F);
@@ -147,7 +148,7 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 							Vec3 targetPos = entityhitresult.getLocation();
 							double distanceToTarget = eyePos.distanceToSqr(targetPos);
 							if (distanceToTarget > distance || distanceToTarget > entityReach * entityReach) {
-								hitResult = BlockHitResult.miss(targetPos, Direction.getNearest(viewVec.x, viewVec.y, viewVec.z), BlockPos.containing(targetPos));
+								hitResult = BlockHitResult.miss(targetPos, Direction.getApproximateNearest(viewVec.x, viewVec.y, viewVec.z), BlockPos.containing(targetPos));
 							} else if (distanceToTarget < distance) {
 								hitResult = entityhitresult;
 							}
@@ -172,18 +173,18 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 				}
 			}
 		}
-		if (entity.getPersistentData().getDouble("CreepDespawn") >= 3) {
+		if (entity.getPersistentData().getDoubleOr("CreepDespawn", 0) >= 3) {
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 4, 4, 4), e -> true).isEmpty()) {
-				if (entity.getPersistentData().getDouble("SoundActivate") < 3 && !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerCreepEntity.class, AABB.ofSize(new Vec3(x, y, z), 6, 6, 6), e -> true).isEmpty()) {
-					entity.getPersistentData().putDouble("SoundActivate", (entity.getPersistentData().getDouble("SoundActivate") + 1));
+				if (entity.getPersistentData().getDoubleOr("SoundActivate", 0) < 3 && !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerCreepEntity.class, AABB.ofSize(new Vec3(x, y, z), 6, 6, 6), e -> true).isEmpty()) {
+					entity.getPersistentData().putDouble("SoundActivate", (entity.getPersistentData().getDoubleOr("SoundActivate", 0) + 1));
 				}
-				if (entity.getPersistentData().getDouble("SoundActivate") == 1) {
+				if (entity.getPersistentData().getDoubleOr("SoundActivate", 0) == 1) {
 					MidnightlurkerMod.queueServerWork(2, () -> {
 						if (world instanceof Level _level) {
 							if (!_level.isClientSide()) {
-								_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+								_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 							} else {
-								_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+								_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 							}
 						}
 					});
@@ -197,19 +198,19 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 				});
 			}
 		}
-		if (entity.getPersistentData().getDouble("CreepDespawn") <= 2) {
+		if (entity.getPersistentData().getDoubleOr("CreepDespawn", 0) <= 2) {
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 4, 4, 4), e -> true).isEmpty()) {
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 1, 1);
+						_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 1, 1);
 					} else {
-						_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 1, 1, false);
+						_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkeranger")), SoundSource.NEUTRAL, 1, 1, false);
 					}
 				}
 				if (!entity.level().isClientSide())
 					entity.discard();
 				if (world instanceof ServerLevel _level) {
-					Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), MobSpawnType.MOB_SUMMONED);
+					Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), EntitySpawnReason.MOB_SUMMONED);
 					if (entityToSpawn != null) {
 						entityToSpawn.setYRot(entity.getYRot());
 						entityToSpawn.setYBodyRot(entity.getYRot());
@@ -224,11 +225,11 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 				_level.sendParticles((SimpleParticleType) (MidnightlurkerModParticleTypes.VOID_DOT.get()), x, y, z, 2, 0.3, 1.2, 0.3, 0.1);
 		}
 		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).isEmpty()) {
-			if (entity.getPersistentData().getDouble("encount") < 2) {
-				entity.getPersistentData().putDouble("encount", (entity.getPersistentData().getDouble("encount") + 1));
+			if (entity.getPersistentData().getDoubleOr("encount", 0) < 2) {
+				entity.getPersistentData().putDouble("encount", (entity.getPersistentData().getDoubleOr("encount", 0) + 1));
 			}
 		}
-		if (entity.getPersistentData().getDouble("encount") == 1) {
+		if (entity.getPersistentData().getDoubleOr("encount", 0) == 1) {
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).isEmpty()) {
 				if ((((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).stream().sorted(new Object() {
 					Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
@@ -266,16 +267,16 @@ public class MidnightLurkerCreepOnEntityTickUpdateProcedure {
 			try {
 				mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 				if (mainjsonobject.get("lurker_persist_during_day").getAsBoolean() == false) {
-					if ((world instanceof Level _lvl94 && _lvl94.isDay()) == true && y > 60) {
+					if ((world instanceof Level _lvl94 && _lvl94.isBrightOutside()) == true && y > 60) {
 						if (entity instanceof MidnightLurkerCreepEntity) {
 							if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 30, 30, 30), e -> true).isEmpty()) {
 								MidnightlurkerMod.queueServerWork(2, () -> {
 									if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerCreepEntity.class, AABB.ofSize(new Vec3(x, y, z), 23, 23, 23), e -> true).isEmpty()) {
 										if (world instanceof Level _level) {
 											if (!_level.isClientSide()) {
-												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 											} else {
-												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 											}
 										}
 									}

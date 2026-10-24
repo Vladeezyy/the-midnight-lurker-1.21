@@ -6,7 +6,7 @@ public class StarerunProcedure {
 	public static boolean execute(Entity entity) {
 		if (entity == null)
 			return false;
-		if (entity.getPersistentData().getDouble("StareCountdown") == 401) {
+		if (entity.getPersistentData().getDoubleOr("StareCountdown", 0) == 401) {
 			return true;
 		}
 		return false;

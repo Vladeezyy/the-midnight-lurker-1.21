@@ -1,0 +1,106 @@
+{
+ "midnight_lurker_aggressive_spawn_egg": [
+  -13421773,
+  -9624788
+ ],
+ "midnight_lurkertpose_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_stalking_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_invisible_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "spookyambienceentity_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_seen_angressive_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "destroytex_spawn_egg": [
+  -1,
+  -1
+ ],
+ "destroytex_2_spawn_egg": [
+  -1,
+  -1
+ ],
+ "destroytex_3_spawn_egg": [
+  -1,
+  -1
+ ],
+ "destroytex_4_spawn_egg": [
+  -1,
+  -1
+ ],
+ "midnight_lurker_faker_aggro_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_faker_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_faker_watcher_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "void_gateway_spawn_egg": [
+  -16777216,
+  -16777216
+ ],
+ "midnight_lurker_backturned_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_shadow_eyes_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_shadow_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_unprovoked_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_runaway_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_runtrue_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_hider_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnight_lurker_stare_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "midnightlurker_ne_spawn_egg": [
+  -13421773,
+  -12708839
+ ],
+ "midnight_lurker_watcher_spawn_egg": [
+  -13421773,
+  -3355444
+ ],
+ "void_hands_spawn_egg": [
+  -16777216,
+  -16777216
+ ],
+ "midnight_lurker_creep_spawn_egg": [
+  -13421773,
+  -3355444
+ ]
+}

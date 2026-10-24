@@ -1,19 +1,16 @@
 
 package net.mcreator.midnightlurker.client.particle;
 
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.util.RandomSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 
-@OnlyIn(Dist.CLIENT)
-public class VoidDotParticle extends TextureSheetParticle {
+public class VoidDotParticle extends SingleQuadParticle {
 	public static VoidDotParticleProvider provider(SpriteSet spriteSet) {
 		return new VoidDotParticleProvider(spriteSet);
 	}
@@ -25,7 +22,7 @@ public class VoidDotParticle extends TextureSheetParticle {
 			this.spriteSet = spriteSet;
 		}
 
-		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			return new VoidDotParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
 		}
 	}
@@ -33,7 +30,7 @@ public class VoidDotParticle extends TextureSheetParticle {
 	private final SpriteSet spriteSet;
 
 	protected VoidDotParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
-		super(world, x, y, z);
+		super(world, x, y, z, spriteSet.first());
 		this.spriteSet = spriteSet;
 		this.setSize(0.2f, 0.2f);
 		this.quadSize *= 0.7f;
@@ -43,12 +40,12 @@ public class VoidDotParticle extends TextureSheetParticle {
 		this.xd = vx * 0;
 		this.yd = vy * 0;
 		this.zd = vz * 0;
-		this.pickSprite(spriteSet);
+		this.setSprite(spriteSet.get(this.random));
 	}
 
 	@Override
-	public ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+	public SingleQuadParticle.Layer getLayer() {
+		return SingleQuadParticle.Layer.OPAQUE;
 	}
 
 	@Override

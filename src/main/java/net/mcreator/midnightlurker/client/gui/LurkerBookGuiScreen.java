@@ -3,16 +3,18 @@ package net.mcreator.midnightlurker.client.gui;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.gui.GuiGraphics;
 
 import net.mcreator.midnightlurker.world.inventory.LurkerBookGuiMenu;
 
 import java.util.HashMap;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMenu> {
 	private final static HashMap<String, Object> guistate = LurkerBookGuiMenu.guistate;
@@ -33,29 +35,24 @@ public class LurkerBookGuiScreen extends AbstractContainerScreen<LurkerBookGuiMe
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
 
-		guiGraphics.blit(ResourceLocation.parse("midnightlurker:textures/screens/lurkerbook.png"), this.leftPos + -53, this.topPos + -11, 0, 0, 282, 180, 282, 180);
+		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/lurkerbook.png"), this.leftPos + -53, this.topPos + -11, 0, 0, 282, 180, 282, 180);
 
-		RenderSystem.disableBlend();
 	}
 
 	@Override
-	public boolean keyPressed(int key, int b, int c) {
-		if (key == 256) {
+	public boolean keyPressed(KeyEvent event) {
+		if (event.key() == InputConstants.KEY_ESCAPE) {
 			this.minecraft.player.closeContainer();
 			return true;
 		}
-		return super.keyPressed(key, b, c);
+		return super.keyPressed(event);
 	}
 
 	@Override

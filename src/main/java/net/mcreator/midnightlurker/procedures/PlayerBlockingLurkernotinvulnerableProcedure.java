@@ -11,6 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
@@ -82,7 +83,7 @@ public class PlayerBlockingLurkernotinvulnerableProcedure {
 							|| !net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightlurkerNEEntity.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).isEmpty())) {
 						if (entity instanceof LivingEntity _livEnt ? _livEnt.isBlocking() : false) {
 							if (entity instanceof Player _player)
-								_player.getCooldowns().addCooldown(Items.SHIELD, 50);
+								_player.getCooldowns().addCooldown(new ItemStack(Items.SHIELD), 50);
 						}
 					}
 				}

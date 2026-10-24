@@ -6,7 +6,7 @@ public class PhantomheadwatchplayerProcedure {
 	public static boolean execute(Entity entity) {
 		if (entity == null)
 			return false;
-		if (entity.getPersistentData().getDouble("lookingatphantomhead") == 0) {
+		if (entity.getPersistentData().getDoubleOr("lookingatphantomhead", 0) == 0) {
 			return true;
 		}
 		return false;

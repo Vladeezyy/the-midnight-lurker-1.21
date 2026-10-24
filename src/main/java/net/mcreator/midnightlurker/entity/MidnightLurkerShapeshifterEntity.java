@@ -1,25 +1,28 @@
 
 package net.mcreator.midnightlurker.entity;
 
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 
 import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.state.AnimationTest;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.GeoEntity;
+
+import net.mcreator.midnightlurker.port.GeoAnims;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.projectile.ThrownPotion;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -42,7 +45,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -62,7 +65,6 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 	public static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(MidnightLurkerShapeshifterEntity.class, EntityDataSerializers.STRING);
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 	private boolean swinging;
-	private boolean lastloop;
 	private long lastSwing;
 	public String animationprocedure = "empty";
 
@@ -125,27 +127,27 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 
 	@Override
 	public SoundEvent getAmbientSound() {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.ambient"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.villager.ambient"));
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.hurt"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.villager.hurt"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.villager.death"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("entity.villager.death"));
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		MidnightLurkerShapeshifterEntityIsHurtProcedure.execute(this.level(), this);
 		if (source.is(DamageTypes.IN_FIRE))
 			return false;
 		if (source.getDirectEntity() instanceof AbstractArrow)
 			return false;
-		if (source.getDirectEntity() instanceof ThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
+		if (source.getDirectEntity() instanceof AbstractThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
 			return false;
 		if (source.is(DamageTypes.FALL))
 			return false;
@@ -167,13 +169,13 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 			return false;
 		if (source.is(DamageTypes.WITHER_SKULL))
 			return false;
-		return super.hurt(source, amount);
+		return super.hurtServer(level, source, amount);
 	}
 
 	@Override
 	public InteractionResult mobInteract(Player sourceentity, InteractionHand hand) {
 		ItemStack itemstack = sourceentity.getItemInHand(hand);
-		InteractionResult retval = InteractionResult.sidedSuccess(this.level().isClientSide());
+		InteractionResult retval = InteractionResult.SUCCESS;
 		super.mobInteract(sourceentity, hand);
 		double x = this.getX();
 		double y = this.getY();
@@ -222,9 +224,9 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		return builder;
 	}
 
-	private PlayState movementPredicate(AnimationState event) {
+	private PlayState movementPredicate(AnimationTest<MidnightLurkerShapeshifterEntity> event) {
 		if (this.animationprocedure.equals("empty")) {
-			if ((event.isMoving() || !(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F))
+			if ((event.isMoving() || !(this.walkAnimation.speed() > -0.15F && this.walkAnimation.speed() < 0.15F))
 
 			) {
 				return event.setAndContinue(RawAnimation.begin().thenLoop("shapeshifterwalk"));
@@ -234,32 +236,8 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		return PlayState.STOP;
 	}
 
-	private PlayState procedurePredicate(AnimationState event) {
-		Entity entity = this;
-		Level world = entity.level();
-		boolean loop = false;
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
-		if (!loop && this.lastloop) {
-			this.lastloop = false;
-			event.getController().setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
-			event.getController().forceAnimationReset();
-			return PlayState.STOP;
-		}
-		if (!this.animationprocedure.equals("empty") && event.getController().getAnimationState() == AnimationController.State.STOPPED) {
-			if (!loop) {
-				event.getController().setAnimation(RawAnimation.begin().thenPlay(this.animationprocedure));
-				if (event.getController().getAnimationState() == AnimationController.State.STOPPED) {
-					this.animationprocedure = "empty";
-					event.getController().forceAnimationReset();
-				}
-			} else {
-				event.getController().setAnimation(RawAnimation.begin().thenLoop(this.animationprocedure));
-				this.lastloop = true;
-			}
-		}
-		return PlayState.CONTINUE;
+	private PlayState procedurePredicate(AnimationTest<MidnightLurkerShapeshifterEntity> event) {
+		return GeoAnims.procedure(event, this.animationprocedure, animation -> this.animationprocedure = animation);
 	}
 
 	@Override
@@ -267,7 +245,8 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 		++this.deathTime;
 		if (this.deathTime == 20) {
 			this.remove(MidnightLurkerShapeshifterEntity.RemovalReason.KILLED);
-			this.dropExperience(null);
+			if (this.level() instanceof ServerLevel _serverLevel)
+				this.dropExperience(_serverLevel, null);
 		}
 	}
 
@@ -281,8 +260,8 @@ public class MidnightLurkerShapeshifterEntity extends PathfinderMob implements G
 
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-		data.add(new AnimationController<>(this, "movement", 4, this::movementPredicate));
-		data.add(new AnimationController<>(this, "procedure", 4, this::procedurePredicate));
+		data.add(new GeoAnims.Controller<>("movement", 4, this::movementPredicate));
+		data.add(new GeoAnims.Controller<>("procedure", 4, this::procedurePredicate));
 	}
 
 	@Override

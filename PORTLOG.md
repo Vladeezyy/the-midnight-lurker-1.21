@@ -79,3 +79,45 @@ Italian, Icelandic, Japanese, Dutch and Portuguese (Portugal) files are kept as 
 - GitHub release v3.3.7+1.21.1 (Latest, repo private): `the-midnight-lurker-neoforge-3.3.7+1.21.1.jar`.
 - Before the release the jar (with GeckoLib 4.9.3) ran on real NeoForge 21.1.197 and 21.1.259 servers
   (`prodtest/serve.sh`: start, a minute at midnight, stop): no errors on either.
+
+## 1.21.1 → 1.21.11 (branch `mc/1.21.11`, NeoForge 21.11.48, GeckoLib 5.4.5, 2026-10-24)
+One commit on top of `main`. Method: `tools/port_1_21_11.py` (mechanical rules, rerunnable), `tools/port_geckolib5.py`
+(GeckoLib 4 → 5), the moved-class imports from modding-kb `scripts/fix_moved_imports.py`, the scenes with
+`scripts/port_1_21_11_scenes.py`, resources with `tools/convert_resources_1_21_11.py <1.21.1 client resources jar>`.
+~5400 compile errors → 0.
+- **GeckoLib 5**: the 30 models, 30 renderers and 18 glow layers are regenerated from their MCreator templates. Models
+  see a render state, not the entity: the texture the entity syncs is copied into the state
+  (`addAdditionalStateData`, `port/GeoTextures`). The head turn is `adjustModelBonesForRender` with
+  `DefaultAnimations.hardcodedHeadRotation`; the scale is `withScale`; the eye layers are `TextureLayerGeoLayer` with
+  `RenderTypes::eyes`. Controllers: `AnimationTest`, no animatable argument; the "procedure" controller is shared
+  (`port/GeoAnims.procedure`). Files moved to `geckolib/models` / `geckolib/animations`, ids without folder and suffix.
+- **Missing animations crash GeckoLib 5**: 3.3.7 asks for animations its files lack (the Faker watcher's `idle`, the
+  Hider's `swim8`, the Creep's `releport1122`). GeckoLib 4 skipped them; GeckoLib 5.4.5 throws `NoSuchElementException`
+  in `AnimationTimeline.create` (no stage and transition ticks > 0) and the client crashes. `GeoAnims.Controller` skips
+  them as before; the Faker watcher idles with its `idle4`.
+- Overlays (61): the manual GL state is gone (1.21.6 GUI), `blit(RenderPipelines.GUI_TEXTURED, ...)`. The insanity fog
+  is the atmospheric environment fog (`ViewportEvent.RenderFog`, `FogType.ATMOSPHERIC`), no fog shape any more.
+- Entities: `hurtServer`, `dropExperience(ServerLevel, …)`, `awardKillScore` without score, `EntitySpawnReason`,
+  `EntityType.Builder.build(ResourceKey)`. The cow, pig and villager disguises and the destroy textures use render
+  states (`MobRenderer<E, S, M>`). Effects tick on the server (`applyEffectTick(ServerLevel, …)`); their visibility is
+  registered in `RegisterClientExtensionsEvent` (`client/MidnightlurkerEffectsClient`).
+- Items and blocks get their id in the properties at registration; spawn eggs are `SpawnEggItem(props.spawnEgg(type))`
+  with one texture each, tinted from the 1.21.1 template with the old colors (`tools/spawn_egg_colors.json`); item
+  definitions in `assets/midnightlurker/items`; recipe ingredients as plain ids.
+- Data: player variables serialize to `ValueOutput` (same keys, so 1.21.1 saves carry over), world / map variables are
+  `SavedDataType`s with a `CompoundTag` codec (same files). Block entities save to `ValueOutput`; the 0-slot item
+  handler capability of the shattered glass is gone (NeoForge 21.9 transfer API). Clientbound payloads need a client
+  registration (`RegisterClientPayloadHandlersEvent`, `port/ClientNetworking`), else the client does not start.
+- Dropping the Lurker book closed its screen through `Minecraft` from a client-only subscriber of a server event; now
+  the server closes the menu, which also works in multiplayer.
+- `pack.mcmeta` (format 15) removed: NeoForge generates it (the old one showed the mod pack as incompatible).
+
+Tests (Windows, Git Bash; the scripts now share `tools/common.sh`):
+- `tools/servertest.sh`: dev server, Done, no errors.
+- `tools/scenetest.sh`: 5/5 (37 entities, no missing textures, inventory, book, translations); `SCENE_LANG=ru_ru`:
+  5/5; `-Pwith_compat` (Sodium 0.8.14, Iris 1.10.8, Lithium 0.21.4, FerriteCore 8.2.0, Jade 21.1.7, JEI 27.48):
+  5/5. NeoForge's dev validation layer is switched off for the compat run (Sodium casts the GPU device).
+- `tools/perf.sh`: overworld at night 2.73 ms per tick (206 entities), nether 3.04 ms, 20 Lurkers 2.00 ms; spawn
+  checks 1.2–5.2 µs.
+- Release jar on a real NeoForge 21.11.48 server (`prodtest/serve.sh`): start, a minute at midnight, stop, restart
+  on the saved world: no errors.

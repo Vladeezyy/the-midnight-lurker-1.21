@@ -1,7 +1,7 @@
 
 package net.mcreator.midnightlurker.client.screens;
 
-import org.checkerframework.checker.units.qual.h;
+import net.minecraft.client.renderer.RenderPipelines;
 
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,8 +12,7 @@ import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.Minecraft;
 
 import net.mcreator.midnightlurker.procedures.ShowJump2DStage5Procedure;
@@ -28,8 +27,6 @@ import net.mcreator.midnightlurker.procedures.JumpscarerFrame23Procedure;
 import net.mcreator.midnightlurker.procedures.JumpscarerFrame22Procedure;
 import net.mcreator.midnightlurker.procedures.JumpscarerFrame21Procedure;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 @EventBusSubscriber({Dist.CLIENT})
 public class Jumpscare62Stage5Overlay {
@@ -50,48 +47,37 @@ public class Jumpscare62Stage5Overlay {
 			y = entity.getY();
 			z = entity.getZ();
 		}
-		RenderSystem.disableDepthTest();
-		RenderSystem.depthMask(false);
-		RenderSystem.enableBlend();
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 		if (ShowJump2DStage5Procedure.execute(entity)) {
 			if (JumpscarerFrame30Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer1stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer1stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame29Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer2stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer2stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame28Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer3stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer3stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame27Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer4stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer4stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame26Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer5stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer5stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame25Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer6stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer6stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame24Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer7stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer7stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame23Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer8stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer8stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame22Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer9stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer9stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscarerFrame21Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarer10stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarer10stage5.png"), posX + -513, posY + -130, 0, 0, 1023, 528, 1023, 528);
 			}
 		}
-		RenderSystem.depthMask(true);
-		RenderSystem.defaultBlendFunc();
-		RenderSystem.enableDepthTest();
-		RenderSystem.disableBlend();
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 }

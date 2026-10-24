@@ -1,7 +1,7 @@
 
 package net.mcreator.midnightlurker.client.screens;
 
-import org.checkerframework.checker.units.qual.h;
+import net.minecraft.client.renderer.RenderPipelines;
 
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,8 +12,7 @@ import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.Minecraft;
 
 import net.mcreator.midnightlurker.procedures.ShowJump3Stage6Procedure;
@@ -24,8 +23,6 @@ import net.mcreator.midnightlurker.procedures.JumpscareFrame14Procedure;
 import net.mcreator.midnightlurker.procedures.JumpscareFrame13Procedure;
 import net.mcreator.midnightlurker.procedures.JumpscareFrame12Procedure;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 @EventBusSubscriber({Dist.CLIENT})
 public class Jumpscare3Stage6Overlay {
@@ -46,36 +43,25 @@ public class Jumpscare3Stage6Overlay {
 			y = entity.getY();
 			z = entity.getZ();
 		}
-		RenderSystem.disableDepthTest();
-		RenderSystem.depthMask(false);
-		RenderSystem.enableBlend();
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 		if (ShowJump3Stage6Procedure.execute(entity)) {
 			if (JumpscareFrame15Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird4stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird4stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscareFrame14Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird3stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird3stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscareFrame13Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird2stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird2stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscareFrame12Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird1stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird1stage6.png"), posX + -513, posY + -121, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscareFrame16Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird5stage6.png"), posX + -513, posY + -211, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird5stage6.png"), posX + -513, posY + -211, 0, 0, 1023, 528, 1023, 528);
 			}
 			if (JumpscareFrame17Procedure.execute(entity)) {
-				event.getGuiGraphics().blit(ResourceLocation.parse("midnightlurker:textures/screens/jumpscarethird6stage6.png"), posX + -513, posY + -391, 0, 0, 1023, 528, 1023, 528);
+				event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, Identifier.parse("midnightlurker:textures/screens/jumpscarethird6stage6.png"), posX + -513, posY + -391, 0, 0, 1023, 528, 1023, 528);
 			}
 		}
-		RenderSystem.depthMask(true);
-		RenderSystem.defaultBlendFunc();
-		RenderSystem.enableDepthTest();
-		RenderSystem.disableBlend();
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 }

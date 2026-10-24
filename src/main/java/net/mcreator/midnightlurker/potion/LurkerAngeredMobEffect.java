@@ -1,14 +1,11 @@
 
 package net.mcreator.midnightlurker.potion;
 
-import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions;
+import net.minecraft.server.level.ServerLevel;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.GuiGraphics;
 
 import net.mcreator.midnightlurker.procedures.AggroSpawnProcedure;
 
@@ -23,9 +20,9 @@ public class LurkerAngeredMobEffect extends MobEffect {
 	}
 
 	@Override
-	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+	public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
 		AggroSpawnProcedure.execute(entity.level(), entity.getX(), entity.getY(), entity.getZ(), entity);
-		return super.applyEffectTick(entity, amplifier);
+		return super.applyEffectTick(level, entity, amplifier);
 	}
 
 	@Override
@@ -33,23 +30,4 @@ public class LurkerAngeredMobEffect extends MobEffect {
 		return true;
 	}
 
-	@Override
-	public void initializeClient(java.util.function.Consumer<IClientMobEffectExtensions> consumer) {
-		consumer.accept(new IClientMobEffectExtensions() {
-			@Override
-			public boolean isVisibleInInventory(MobEffectInstance effect) {
-				return false;
-			}
-
-			@Override
-			public boolean renderInventoryText(MobEffectInstance instance, EffectRenderingInventoryScreen<?> screen, GuiGraphics guiGraphics, int x, int y, int blitOffset) {
-				return false;
-			}
-
-			@Override
-			public boolean isVisibleInGui(MobEffectInstance effect) {
-				return false;
-			}
-		});
-	}
 }

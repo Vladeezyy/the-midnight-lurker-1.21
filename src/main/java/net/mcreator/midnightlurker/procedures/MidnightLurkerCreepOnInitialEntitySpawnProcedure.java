@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Mth;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 
 import net.mcreator.midnightlurker.network.MidnightlurkerModVariables;
@@ -17,7 +17,7 @@ public class MidnightLurkerCreepOnInitialEntitySpawnProcedure {
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return;
-		if (world.getBiome(BlockPos.containing(x, y, z)).is(ResourceLocation.parse("mushroom_fields"))) {
+		if (world.getBiome(BlockPos.containing(x, y, z)).is(Identifier.parse("mushroom_fields"))) {
 			MidnightlurkerMod.queueServerWork(1, () -> {
 				if (!entity.level().isClientSide())
 					entity.discard();
@@ -25,7 +25,7 @@ public class MidnightLurkerCreepOnInitialEntitySpawnProcedure {
 		}
 		if (MidnightlurkerModVariables.WorldVariables.get(world).midnighthealthboost == 5) {
 			if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-				_entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 99999, 1, false, false));
+				_entity.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 99999, 1, false, false));
 		}
 		entity.getPersistentData().putDouble("CreepDespawn", (Mth.nextInt(RandomSource.create(), 0, 5)));
 	}

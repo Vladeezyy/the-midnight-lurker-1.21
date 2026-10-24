@@ -1,6 +1,7 @@
 
 package net.mcreator.midnightlurker.entity;
 
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -8,9 +9,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -26,7 +27,7 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.Packet;
 
@@ -65,22 +66,22 @@ public class VillagerOutcastEntity extends PathfinderMob {
 
 	@Override
 	public SoundEvent getAmbientSound() {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_idle"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:outcastvillager_idle"));
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_hit"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:outcastvillager_hit"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:outcastvillager_death"));
+		return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:outcastvillager_death"));
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		if (source.getDirectEntity() instanceof ThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+		if (source.getDirectEntity() instanceof AbstractThrownPotion || source.getDirectEntity() instanceof AreaEffectCloud)
 			return false;
 		if (source.is(DamageTypes.DRAGON_BREATH))
 			return false;
@@ -88,7 +89,7 @@ public class VillagerOutcastEntity extends PathfinderMob {
 			return false;
 		if (source.is(DamageTypes.WITHER_SKULL))
 			return false;
-		return super.hurt(source, amount);
+		return super.hurtServer(level, source, amount);
 	}
 
 	@Override

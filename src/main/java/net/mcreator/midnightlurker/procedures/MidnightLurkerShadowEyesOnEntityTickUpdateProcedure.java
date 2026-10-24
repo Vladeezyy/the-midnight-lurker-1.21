@@ -1,5 +1,6 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.HitResult;
@@ -12,7 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.util.RandomSource;
@@ -36,7 +37,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 		double raytrace_distance = 0;
 		String found_entity_name = "";
 		boolean entity_found = false;
-		if (entity.getPersistentData().getDouble("LightLevelRandom") < 8 && world.getMaxLocalRawBrightness(BlockPos.containing(entity.getX(), entity.getY(), entity.getZ())) > 1) {
+		if (entity.getPersistentData().getDoubleOr("LightLevelRandom", 0) < 8 && world.getMaxLocalRawBrightness(BlockPos.containing(entity.getX(), entity.getY(), entity.getZ())) > 1) {
 			if (!entity.level().isClientSide())
 				entity.discard();
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 25, 25, 25), e -> true).isEmpty()) {
@@ -61,9 +62,9 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 					}
 				}
 			}
-		} else if (entity.getPersistentData().getDouble("LightLevelRandom") > 7 && world.getMaxLocalRawBrightness(BlockPos.containing(entity.getX(), entity.getY(), entity.getZ())) > 1) {
+		} else if (entity.getPersistentData().getDoubleOr("LightLevelRandom", 0) > 7 && world.getMaxLocalRawBrightness(BlockPos.containing(entity.getX(), entity.getY(), entity.getZ())) > 1) {
 			if (world instanceof ServerLevel _level) {
-				Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), MobSpawnType.MOB_SUMMONED);
+				Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), EntitySpawnReason.MOB_SUMMONED);
 				if (entityToSpawn != null) {
 					entityToSpawn.setYRot(entity.getYRot());
 					entityToSpawn.setYBodyRot(entity.getYRot());
@@ -73,7 +74,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 			}
 			if (!entity.level().isClientSide())
 				entity.discard();
-		} else if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).isEmpty() && entity.getPersistentData().getDouble("LightLevelRandom") < 8
+		} else if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).isEmpty() && entity.getPersistentData().getDoubleOr("LightLevelRandom", 0) < 8
 				&& ((((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).stream().sorted(new Object() {
 					Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 						return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
@@ -188,7 +189,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 					}
 				}
 			}
-		} else if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).isEmpty() && entity.getPersistentData().getDouble("LightLevelRandom") > 7
+		} else if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).isEmpty() && entity.getPersistentData().getDoubleOr("LightLevelRandom", 0) > 7
 				&& ((((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 10, 10, 10), e -> true).stream().sorted(new Object() {
 					Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 						return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
@@ -280,7 +281,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 							}
 						}.compareDistOf(x, y, z)).findFirst().orElse(null)) instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).getItem() == Items.LAVA_BUCKET)) {
 			if (world instanceof ServerLevel _level) {
-				Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), MobSpawnType.MOB_SUMMONED);
+				Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_UNPROVOKED.get().spawn(_level, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), EntitySpawnReason.MOB_SUMMONED);
 				if (entityToSpawn != null) {
 					entityToSpawn.setYRot(entity.getYRot());
 					entityToSpawn.setYBodyRot(entity.getYRot());
@@ -305,7 +306,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 						double blockReach = 5;
 						if (distance > blockReach * blockReach) {
 							Vec3 pos = hitResult.getLocation();
-							hitResult = BlockHitResult.miss(pos, Direction.getNearest(eyePos.x, eyePos.y, eyePos.z), BlockPos.containing(pos));
+							hitResult = BlockHitResult.miss(pos, Direction.getApproximateNearest(eyePos.x, eyePos.y, eyePos.z), BlockPos.containing(pos));
 						}
 					}
 					Vec3 viewVec = player.getViewVector(1.0F);
@@ -319,7 +320,7 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 						Vec3 targetPos = entityhitresult.getLocation();
 						double distanceToTarget = eyePos.distanceToSqr(targetPos);
 						if (distanceToTarget > distance || distanceToTarget > entityReach * entityReach) {
-							hitResult = BlockHitResult.miss(targetPos, Direction.getNearest(viewVec.x, viewVec.y, viewVec.z), BlockPos.containing(targetPos));
+							hitResult = BlockHitResult.miss(targetPos, Direction.getApproximateNearest(viewVec.x, viewVec.y, viewVec.z), BlockPos.containing(targetPos));
 						} else if (distanceToTarget < distance) {
 							hitResult = entityhitresult;
 						}
@@ -334,12 +335,12 @@ public class MidnightLurkerShadowEyesOnEntityTickUpdateProcedure {
 					return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
 				}
 			}.compareDistOf(x, y, z)).findFirst().orElse(null))) {
-				if (entity.getPersistentData().getDouble("CaveSoundLurk") < 300) {
-					entity.getPersistentData().putDouble("CaveSoundLurk", (entity.getPersistentData().getDouble("CaveSoundLurk") + 1));
+				if (entity.getPersistentData().getDoubleOr("CaveSoundLurk", 0) < 300) {
+					entity.getPersistentData().putDouble("CaveSoundLurk", (entity.getPersistentData().getDoubleOr("CaveSoundLurk", 0) + 1));
 				}
-				if (entity.getPersistentData().getDouble("CaveSoundLurk") == 299) {
+				if (entity.getPersistentData().getDoubleOr("CaveSoundLurk", 0) == 299) {
 					if (world instanceof ServerLevel _level)
-						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 								"/playsound minecraft:ambient.cave ambient @a ~ ~ ~ 80 0.5");
 				}
 			}

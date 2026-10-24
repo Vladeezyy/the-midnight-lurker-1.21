@@ -10,7 +10,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -42,10 +42,10 @@ import java.util.List;
 import java.util.Collections;
 
 public class ShatteredPaneEndBlock extends Block implements EntityBlock {
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
-	public ShatteredPaneEndBlock() {
-		super(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).sound(SoundType.GLASS).strength(1000f).noCollission().noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
+	public ShatteredPaneEndBlock(BlockBehaviour.Properties properties) {
+		super(properties.instrument(NoteBlockInstrument.HAT).sound(SoundType.GLASS).strength(1000f).noCollision().noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
@@ -60,12 +60,12 @@ public class ShatteredPaneEndBlock extends Block implements EntityBlock {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+	public boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+	public int getLightBlock(BlockState state) {
 		return 0;
 	}
 
@@ -103,7 +103,7 @@ public class ShatteredPaneEndBlock extends Block implements EntityBlock {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, Player player) {
 		return new ItemStack(Blocks.GLASS);
 	}
 
@@ -133,14 +133,14 @@ public class ShatteredPaneEndBlock extends Block implements EntityBlock {
 	}
 
 	@Override
-	public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, boolean willHarvest, FluidState fluid) {
-		boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
+	public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, ItemStack toolStack, boolean willHarvest, FluidState fluid) {
+		boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, toolStack, willHarvest, fluid);
 		PaneBlockAddedProcedure.execute(world, pos.getX(), pos.getY(), pos.getZ());
 		return retval;
 	}
 
 	@Override
-	public void wasExploded(Level world, BlockPos pos, Explosion e) {
+	public void wasExploded(ServerLevel world, BlockPos pos, Explosion e) {
 		super.wasExploded(world, pos, e);
 		PaneBlockAddedProcedure.execute(world, pos.getX(), pos.getY(), pos.getZ());
 	}

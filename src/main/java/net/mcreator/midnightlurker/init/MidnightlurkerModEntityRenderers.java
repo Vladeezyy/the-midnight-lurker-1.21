@@ -48,7 +48,7 @@ import net.mcreator.midnightlurker.client.renderer.Destroytex4Renderer;
 import net.mcreator.midnightlurker.client.renderer.Destroytex3Renderer;
 import net.mcreator.midnightlurker.client.renderer.Destroytex2Renderer;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class MidnightlurkerModEntityRenderers {
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

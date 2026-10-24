@@ -14,7 +14,7 @@ import net.mcreator.midnightlurker.client.particle.VoidGatewayParticleParticle;
 import net.mcreator.midnightlurker.client.particle.VoidDotParticle;
 import net.mcreator.midnightlurker.client.particle.LurkerfaceparticleParticle;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class MidnightlurkerModParticles {
 	@SubscribeEvent
 	public static void registerParticles(RegisterParticleProvidersEvent event) {

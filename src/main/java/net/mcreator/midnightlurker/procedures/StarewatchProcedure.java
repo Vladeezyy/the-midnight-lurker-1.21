@@ -10,7 +10,7 @@ public class StarewatchProcedure {
 	public static boolean execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return false;
-		if (entity.getPersistentData().getDouble("StareCountdown") <= 400 && !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 30, 30, 30), e -> true).isEmpty())) {
+		if (entity.getPersistentData().getDoubleOr("StareCountdown", 0) <= 400 && !(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 30, 30, 30), e -> true).isEmpty())) {
 			return true;
 		}
 		return false;

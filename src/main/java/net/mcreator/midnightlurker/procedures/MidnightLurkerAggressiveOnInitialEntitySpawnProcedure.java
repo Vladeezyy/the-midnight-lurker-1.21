@@ -30,7 +30,7 @@ public class MidnightLurkerAggressiveOnInitialEntitySpawnProcedure {
 			_entity.setTarget(_ent);
 		if (MidnightlurkerModVariables.WorldVariables.get(world).midnighthealthboost == 5) {
 			if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
-				_entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 99999, 1, false, false));
+				_entity.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 99999, 1, false, false));
 		}
 	}
 }

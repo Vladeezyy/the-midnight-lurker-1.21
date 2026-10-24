@@ -5,6 +5,8 @@
 package net.mcreator.midnightlurker.init;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
 
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -58,7 +60,7 @@ import net.mcreator.midnightlurker.entity.Destroytex3Entity;
 import net.mcreator.midnightlurker.entity.Destroytex2Entity;
 import net.mcreator.midnightlurker.MidnightlurkerMod;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class MidnightlurkerModEntities {
 	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(Registries.ENTITY_TYPE, MidnightlurkerMod.MODID);
 	public static final DeferredHolder<EntityType<?>, EntityType<MidnightLurkerAggressiveEntity>> MIDNIGHT_LURKER_AGGRESSIVE = register("midnight_lurker_aggressive",
@@ -150,7 +152,7 @@ public class MidnightlurkerModEntities {
 					.sized(0.6f, 1.95f));
 
 	private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
-		return REGISTRY.register(registryname, () -> (EntityType<T>) entityTypeBuilder.build(registryname));
+		return REGISTRY.register(registryname, () -> (EntityType<T>) entityTypeBuilder.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(MidnightlurkerMod.MODID, registryname))));
 	}
 
 	@SubscribeEvent

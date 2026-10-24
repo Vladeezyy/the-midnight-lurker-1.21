@@ -15,7 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.BlockPos;
 
@@ -34,36 +34,36 @@ public class VoidGatewayOnEntityTickUpdateProcedure {
 			return;
 		File lurker = new File("");
 		com.google.gson.JsonObject mainjsonobject = new com.google.gson.JsonObject();
-		if (entity.getPersistentData().getDouble("PlayerActivationGateway") >= 1) {
+		if (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) >= 1) {
 			if (entity instanceof VoidGatewayEntity) {
 				((VoidGatewayEntity) entity).setAnimation("gatewayclose");
 			}
 		}
-		if (entity.getPersistentData().getDouble("CloseTime") >= 9) {
+		if (entity.getPersistentData().getDoubleOr("CloseTime", 0) >= 9) {
 			if (!entity.level().isClientSide())
 				entity.discard();
 		}
-		if (entity.getPersistentData().getDouble("PlayerActivationGateway") <= 0 && !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 10, 10, 10), e -> true).isEmpty()) {
-			entity.getPersistentData().putDouble("PlayerActivationGateway", (entity.getPersistentData().getDouble("PlayerActivationGateway") + 1));
+		if (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) <= 0 && !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 10, 10, 10), e -> true).isEmpty()) {
+			entity.getPersistentData().putDouble("PlayerActivationGateway", (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) + 1));
 		}
-		if (entity.getPersistentData().getDouble("PlayerActivationGateway") >= 1 && entity.getPersistentData().getDouble("CloseTime") < 9) {
-			entity.getPersistentData().putDouble("CloseTime", (entity.getPersistentData().getDouble("CloseTime") + 1));
+		if (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) >= 1 && entity.getPersistentData().getDoubleOr("CloseTime", 0) < 9) {
+			entity.getPersistentData().putDouble("CloseTime", (entity.getPersistentData().getDoubleOr("CloseTime", 0) + 1));
 		}
-		if (entity.getPersistentData().getDouble("CloseTime") == 4) {
+		if (entity.getPersistentData().getDoubleOr("CloseTime", 0) == 4) {
 			if (world instanceof Level _level) {
 				if (!_level.isClientSide()) {
-					_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+					_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 				} else {
-					_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+					_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 				}
 			}
 		}
-		if (entity.getPersistentData().getDouble("PlayerActivationGateway") >= 1 && entity.getPersistentData().getDouble("CloseTime") == 6) {
+		if (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) >= 1 && entity.getPersistentData().getDoubleOr("CloseTime", 0) == 6) {
 			MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkeroverhauledrewardrandom = Mth.nextDouble(RandomSource.create(), 1, 10);
 			MidnightlurkerModVariables.WorldVariables.get(world).syncData(world);
 		}
-		if (entity.getPersistentData().getDouble("PlayerActivationGateway") >= 1 && entity.getPersistentData().getDouble("CloseTime") == 8) {
-			if (MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkeroverhauledrewardrandom < 8 && entity.getPersistentData().getDouble("CloseTime") == 8) {
+		if (entity.getPersistentData().getDoubleOr("PlayerActivationGateway", 0) >= 1 && entity.getPersistentData().getDoubleOr("CloseTime", 0) == 8) {
+			if (MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkeroverhauledrewardrandom < 8 && entity.getPersistentData().getDoubleOr("CloseTime", 0) == 8) {
 				MidnightlurkerMod.queueServerWork(10, () -> {
 					if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).isEmpty()) {
 						if ((((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).stream().sorted(new Object() {
@@ -116,13 +116,13 @@ public class VoidGatewayOnEntityTickUpdateProcedure {
 						}
 					}
 				});
-			} else if (MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkeroverhauledrewardrandom > 7 && entity.getPersistentData().getDouble("CloseTime") == 8) {
+			} else if (MidnightlurkerModVariables.WorldVariables.get(world).midnightlurkeroverhauledrewardrandom > 7 && entity.getPersistentData().getDoubleOr("CloseTime", 0) == 8) {
 				MidnightlurkerMod.queueServerWork(10, () -> {
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
-							_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:insanitygoesbacksound")), SoundSource.NEUTRAL, 1, 1);
+							_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:insanitygoesbacksound")), SoundSource.NEUTRAL, 1, 1);
 						} else {
-							_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:insanitygoesbacksound")), SoundSource.NEUTRAL, 1, 1, false);
+							_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:insanitygoesbacksound")), SoundSource.NEUTRAL, 1, 1, false);
 						}
 					}
 					if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 100, 100, 100), e -> true).isEmpty()) {

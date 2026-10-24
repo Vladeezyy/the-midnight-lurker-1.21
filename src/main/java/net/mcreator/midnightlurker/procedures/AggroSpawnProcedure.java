@@ -6,13 +6,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 
 import net.mcreator.midnightlurker.network.MidnightlurkerModVariables;
@@ -27,7 +27,7 @@ public class AggroSpawnProcedure {
 		double spawnx = 0;
 		double spawny = 0;
 		double spawnz = 0;
-		if (world instanceof Level _lvl0 && _lvl0.isDay() && y < 60) {
+		if (world instanceof Level _lvl0 && _lvl0.isBrightOutside() && y < 60) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7) {
 				if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
 					spawnx = x + Mth.nextInt(RandomSource.create(), -12, 12);
@@ -37,7 +37,7 @@ public class AggroSpawnProcedure {
 				if (world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 0, spawnz)) && world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 2, spawnz)) && world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 3, spawnz))
 						&& !world.isEmptyBlock(BlockPos.containing(spawnx, spawny - 1, spawnz))) {
 					if (world instanceof ServerLevel _level) {
-						Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_AGGRESSIVE.get().spawn(_level, BlockPos.containing(spawnx, spawny, spawnz), MobSpawnType.MOB_SUMMONED);
+						Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_AGGRESSIVE.get().spawn(_level, BlockPos.containing(spawnx, spawny, spawnz), EntitySpawnReason.MOB_SUMMONED);
 						if (entityToSpawn != null) {
 							entityToSpawn.setDeltaMovement(0, 0, 0);
 						}
@@ -45,9 +45,9 @@ public class AggroSpawnProcedure {
 				}
 			}
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
-				if (entity.getPersistentData().getDouble("DistantRoar") < 3) {
-					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDouble("DistantRoar") + 1));
-					if (entity.getPersistentData().getDouble("DistantRoar") == 1) {
+				if (entity.getPersistentData().getDoubleOr("DistantRoar", 0) < 3) {
+					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDoubleOr("DistantRoar", 0) + 1));
+					if (entity.getPersistentData().getDoubleOr("DistantRoar", 0) == 1) {
 						{
 							double _setval = 60;
 							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
@@ -57,19 +57,19 @@ public class AggroSpawnProcedure {
 						MidnightlurkerMod.queueServerWork(1, () -> {
 							if (world instanceof Level _level) {
 								if (!_level.isClientSide()) {
-									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1);
+									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1);
 								} else {
-									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1, false);
+									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1, false);
 								}
 							}
 						});
 					}
 				}
 			}
-			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
+			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDoubleOr("DistantRoar", 0) > 0) {
 				entity.getPersistentData().putDouble("DistantRoar", 0);
 			}
-		} else if (!(world instanceof Level _lvl20 && _lvl20.isDay())) {
+		} else if (!(world instanceof Level _lvl20 && _lvl20.isBrightOutside())) {
 			if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).InsanityStage == 7) {
 				if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 700, 700, 700), e -> true).isEmpty())) {
 					spawnx = x + Mth.nextInt(RandomSource.create(), -12, 12);
@@ -79,7 +79,7 @@ public class AggroSpawnProcedure {
 				if (world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 0, spawnz)) && world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 2, spawnz)) && world.isEmptyBlock(BlockPos.containing(spawnx, spawny + 3, spawnz))
 						&& !world.isEmptyBlock(BlockPos.containing(spawnx, spawny - 1, spawnz))) {
 					if (world instanceof ServerLevel _level) {
-						Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_AGGRESSIVE.get().spawn(_level, BlockPos.containing(spawnx, spawny, spawnz), MobSpawnType.MOB_SUMMONED);
+						Entity entityToSpawn = MidnightlurkerModEntities.MIDNIGHT_LURKER_AGGRESSIVE.get().spawn(_level, BlockPos.containing(spawnx, spawny, spawnz), EntitySpawnReason.MOB_SUMMONED);
 						if (entityToSpawn != null) {
 							entityToSpawn.setDeltaMovement(0, 0, 0);
 						}
@@ -87,9 +87,9 @@ public class AggroSpawnProcedure {
 				}
 			}
 			if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) {
-				if (entity.getPersistentData().getDouble("DistantRoar") < 3) {
-					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDouble("DistantRoar") + 1));
-					if (entity.getPersistentData().getDouble("DistantRoar") == 1) {
+				if (entity.getPersistentData().getDoubleOr("DistantRoar", 0) < 3) {
+					entity.getPersistentData().putDouble("DistantRoar", (entity.getPersistentData().getDoubleOr("DistantRoar", 0) + 1));
+					if (entity.getPersistentData().getDoubleOr("DistantRoar", 0) == 1) {
 						{
 							double _setval = 60;
 							MidnightlurkerModVariables.PlayerVariables _vars = entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES);
@@ -99,16 +99,16 @@ public class AggroSpawnProcedure {
 						MidnightlurkerMod.queueServerWork(1, () -> {
 							if (world instanceof Level _level) {
 								if (!_level.isClientSide()) {
-									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1);
+									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1);
 								} else {
-									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1, false);
+									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdistantscream")), SoundSource.NEUTRAL, 1, 1, false);
 								}
 							}
 						});
 					}
 				}
 			}
-			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDouble("DistantRoar") > 0) {
+			if (!(!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerAggressiveEntity.class, AABB.ofSize(new Vec3(x, y, z), 100, 100, 100), e -> true).isEmpty()) && entity.getPersistentData().getDoubleOr("DistantRoar", 0) > 0) {
 				entity.getPersistentData().putDouble("DistantRoar", 0);
 			}
 		}

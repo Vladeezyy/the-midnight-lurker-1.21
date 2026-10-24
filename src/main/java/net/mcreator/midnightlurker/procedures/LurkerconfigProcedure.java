@@ -18,7 +18,7 @@ import java.io.BufferedReader;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class LurkerconfigProcedure {
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {

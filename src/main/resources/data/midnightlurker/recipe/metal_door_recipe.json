@@ -7,24 +7,12 @@
     "45"
   ],
   "key": {
-    "0": {
-      "item": "minecraft:iron_ingot"
-    },
-    "1": {
-      "item": "minecraft:iron_ingot"
-    },
-    "2": {
-      "item": "minecraft:iron_block"
-    },
-    "3": {
-      "item": "minecraft:iron_block"
-    },
-    "4": {
-      "item": "minecraft:iron_ingot"
-    },
-    "5": {
-      "item": "minecraft:iron_ingot"
-    }
+    "0": "minecraft:iron_ingot",
+    "1": "minecraft:iron_ingot",
+    "2": "minecraft:iron_block",
+    "3": "minecraft:iron_block",
+    "4": "minecraft:iron_ingot",
+    "5": "minecraft:iron_ingot"
   },
   "result": {
     "count": 1,

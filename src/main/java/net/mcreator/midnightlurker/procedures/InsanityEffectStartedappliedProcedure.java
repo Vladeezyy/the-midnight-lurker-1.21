@@ -23,7 +23,7 @@ public class InsanityEffectStartedappliedProcedure {
 	public static void computeFogColor(ViewportEvent.ComputeFogColor event) {
 		try {
 			ClientLevel clientLevel = Minecraft.getInstance().level;
-			Entity entity = event.getCamera().getEntity();
+			Entity entity = event.getCamera().entity();
 			execute(null, entity, event);
 		} catch (Exception e) {
 		}

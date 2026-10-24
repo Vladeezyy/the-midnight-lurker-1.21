@@ -18,6 +18,10 @@ repositories {
         content { includeGroupByRegex('software\\.bernie.*'); includeGroup('com.eliotlash.mclib') }
     }
     maven { url = 'https://maven.blamejared.com/' } // JEI
+    maven {
+        url = 'https://api.modrinth.com/maven' // compatibility runs only
+        content { includeGroup 'maven.modrinth' }
+    }
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -25,10 +29,6 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 neoForge {
     version = project.neo_version
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
 
     accessTransformers.from 'src/main/resources/META-INF/accesstransformer.cfg'
 
@@ -72,6 +72,15 @@ configurations {
 
 dependencies {
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    // Popular client / performance mods for compatibility runs (-Pwith_compat)
+    if (project.hasProperty('with_compat')) {
+        localRuntime "maven.modrinth:sodium:${compat_sodium}"
+        localRuntime "maven.modrinth:iris:${compat_iris}"
+        localRuntime "maven.modrinth:lithium:${compat_lithium}"
+        localRuntime "maven.modrinth:ferrite-core:${compat_ferritecore}"
+        localRuntime "maven.modrinth:jade:${compat_jade}"
+        localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${compat_jei}"
+    }
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

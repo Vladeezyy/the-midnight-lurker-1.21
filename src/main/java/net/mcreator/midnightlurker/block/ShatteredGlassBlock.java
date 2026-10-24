@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Collections;
 
 public class ShatteredGlassBlock extends Block {
-	public ShatteredGlassBlock() {
-		super(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).sound(SoundType.GLASS).strength(1000f).noCollission().noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
+	public ShatteredGlassBlock(BlockBehaviour.Properties properties) {
+		super(properties.instrument(NoteBlockInstrument.HAT).sound(SoundType.GLASS).strength(1000f).noCollision().noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
 	}
 
 	@Override
@@ -46,12 +46,12 @@ public class ShatteredGlassBlock extends Block {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+	public boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+	public int getLightBlock(BlockState state) {
 		return 0;
 	}
 
@@ -61,7 +61,7 @@ public class ShatteredGlassBlock extends Block {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, Player player) {
 		return new ItemStack(Blocks.GLASS);
 	}
 

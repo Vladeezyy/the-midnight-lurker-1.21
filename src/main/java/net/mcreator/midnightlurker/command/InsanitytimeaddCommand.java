@@ -1,7 +1,6 @@
 
 package net.mcreator.midnightlurker.command;
 
-import org.checkerframework.checker.units.qual.s;
 
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,7 +19,7 @@ import net.mcreator.midnightlurker.procedures.InsanitytimeaddtestProcedure;
 public class InsanitytimeaddCommand {
 	@SubscribeEvent
 	public static void registerCommand(RegisterCommandsEvent event) {
-		event.getDispatcher().register(Commands.literal("midnightlurker:insanity_time_set_below_max").requires(s -> s.hasPermission(4)).executes(arguments -> {
+		event.getDispatcher().register(Commands.literal("midnightlurker:insanity_time_set_below_max").requires(Commands.hasPermission(Commands.LEVEL_OWNERS)).executes(arguments -> {
 			ServerLevel world = arguments.getSource().getLevel();
 			double x = arguments.getSource().getPosition().x();
 			double y = arguments.getSource().getPosition().y();

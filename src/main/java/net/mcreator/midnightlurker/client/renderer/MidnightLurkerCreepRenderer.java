@@ -1,38 +1,35 @@
-
 package net.mcreator.midnightlurker.client.renderer;
 
+import software.bernie.geckolib.renderer.base.RenderPassInfo;
+import software.bernie.geckolib.renderer.base.BoneSnapshots;
+import software.bernie.geckolib.constant.DefaultAnimations;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
 
 import net.mcreator.midnightlurker.entity.model.MidnightLurkerCreepModel;
 import net.mcreator.midnightlurker.entity.layer.MidnightLurkerCreepLayer;
 import net.mcreator.midnightlurker.entity.MidnightLurkerCreepEntity;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-public class MidnightLurkerCreepRenderer extends GeoEntityRenderer<MidnightLurkerCreepEntity> {
+public class MidnightLurkerCreepRenderer<R extends LivingEntityRenderState & GeoRenderState> extends GeoEntityRenderer<MidnightLurkerCreepEntity, R> {
 	public MidnightLurkerCreepRenderer(EntityRendererProvider.Context renderManager) {
 		super(renderManager, new MidnightLurkerCreepModel());
 		this.shadowRadius = 0.7f;
-		this.addRenderLayer(new MidnightLurkerCreepLayer(this));
+		withScale(0.95f);
+		withRenderLayer(new MidnightLurkerCreepLayer<>(this));
 	}
 
 	@Override
-	public RenderType getRenderType(MidnightLurkerCreepEntity animatable, ResourceLocation texture, MultiBufferSource bufferSource, float partialTick) {
-		return RenderType.entityTranslucent(getTextureLocation(animatable));
+	public RenderType getRenderType(R renderState, Identifier texture) {
+		return RenderTypes.entityTranslucent(texture);
 	}
 
 	@Override
-	public void preRender(PoseStack poseStack, MidnightLurkerCreepEntity entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int color) {
-		float scale = 0.95f;
-		this.scaleHeight = scale;
-		this.scaleWidth = scale;
-		super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, color);
+	public void adjustModelBonesForRender(RenderPassInfo<R> renderPassInfo, BoneSnapshots snapshots) {
+		DefaultAnimations.hardcodedHeadRotation(renderPassInfo, snapshots, "head");
 	}
 }

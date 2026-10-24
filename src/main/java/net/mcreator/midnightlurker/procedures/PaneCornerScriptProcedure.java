@@ -1,14 +1,16 @@
 package net.mcreator.midnightlurker.procedures;
 
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
@@ -22,13 +24,13 @@ public class PaneCornerScriptProcedure {
 		model = MidnightlurkerModBlocks.SHATTERED_CORNER.get().defaultBlockState();
 		groupTag = "forge" + ":" + "custom_pane";
 		if ((world.getBlockState(BlockPos.containing(x, y, z - 1)).isFaceSturdy(world, BlockPos.containing(x, y, z - 1), Direction.SOUTH)
-				|| (world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+				|| (world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& (world.getBlockState(BlockPos.containing(x + 1, y, z)).isFaceSturdy(world, BlockPos.containing(x + 1, y, z), Direction.WEST)
-						|| (world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& !world.getBlockState(BlockPos.containing(x, y, z + 1)).isFaceSturdy(world, BlockPos.containing(x, y, z + 1), Direction.NORTH)
-				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& !world.getBlockState(BlockPos.containing(x - 1, y, z)).isFaceSturdy(world, BlockPos.containing(x - 1, y, z), Direction.EAST)
-				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& !((world.getBlockState(BlockPos.containing(x, y, z))).getBlock() == model.getBlock())) {
 			{
 				BlockPos _bp = BlockPos.containing(x, y, z);
@@ -44,7 +46,7 @@ public class PaneCornerScriptProcedure {
 					_be = world.getBlockEntity(_bp);
 					if (_be != null) {
 						try {
-							_be.loadWithComponents(_bnbt, world.registryAccess());
+							_be.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, world.registryAccess(), _bnbt));
 						} catch (Exception ignored) {
 						}
 					}
@@ -55,7 +57,7 @@ public class PaneCornerScriptProcedure {
 				BlockPos _pos = BlockPos.containing(x, y, z);
 				BlockState _bs = world.getBlockState(_pos);
 				Property<?> _property = _bs.getBlock().getStateDefinition().getProperty("facing");
-				if (_property instanceof DirectionProperty _dp && _dp.getPossibleValues().contains(_dir)) {
+				if (_property instanceof EnumProperty _dp && _dp.getPossibleValues().contains(_dir)) {
 					world.setBlock(_pos, _bs.setValue(_dp, _dir), 3);
 				} else {
 					_property = _bs.getBlock().getStateDefinition().getProperty("axis");
@@ -65,13 +67,13 @@ public class PaneCornerScriptProcedure {
 			}
 		}
 		if (!world.getBlockState(BlockPos.containing(x, y, z - 1)).isFaceSturdy(world, BlockPos.containing(x, y, z - 1), Direction.SOUTH)
-				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& (world.getBlockState(BlockPos.containing(x + 1, y, z)).isFaceSturdy(world, BlockPos.containing(x + 1, y, z), Direction.WEST)
-						|| (world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& (world.getBlockState(BlockPos.containing(x, y, z + 1)).isFaceSturdy(world, BlockPos.containing(x, y, z + 1), Direction.NORTH)
-						|| (world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& !world.getBlockState(BlockPos.containing(x - 1, y, z)).isFaceSturdy(world, BlockPos.containing(x - 1, y, z), Direction.EAST)
-				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& !((world.getBlockState(BlockPos.containing(x, y, z))).getBlock() == model.getBlock())) {
 			{
 				BlockPos _bp = BlockPos.containing(x, y, z);
@@ -87,7 +89,7 @@ public class PaneCornerScriptProcedure {
 					_be = world.getBlockEntity(_bp);
 					if (_be != null) {
 						try {
-							_be.loadWithComponents(_bnbt, world.registryAccess());
+							_be.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, world.registryAccess(), _bnbt));
 						} catch (Exception ignored) {
 						}
 					}
@@ -98,7 +100,7 @@ public class PaneCornerScriptProcedure {
 				BlockPos _pos = BlockPos.containing(x, y, z);
 				BlockState _bs = world.getBlockState(_pos);
 				Property<?> _property = _bs.getBlock().getStateDefinition().getProperty("facing");
-				if (_property instanceof DirectionProperty _dp && _dp.getPossibleValues().contains(_dir)) {
+				if (_property instanceof EnumProperty _dp && _dp.getPossibleValues().contains(_dir)) {
 					world.setBlock(_pos, _bs.setValue(_dp, _dir), 3);
 				} else {
 					_property = _bs.getBlock().getStateDefinition().getProperty("axis");
@@ -108,13 +110,13 @@ public class PaneCornerScriptProcedure {
 			}
 		}
 		if (!world.getBlockState(BlockPos.containing(x, y, z - 1)).isFaceSturdy(world, BlockPos.containing(x, y, z - 1), Direction.SOUTH)
-				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& !world.getBlockState(BlockPos.containing(x + 1, y, z)).isFaceSturdy(world, BlockPos.containing(x + 1, y, z), Direction.WEST)
-				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& (world.getBlockState(BlockPos.containing(x, y, z + 1)).isFaceSturdy(world, BlockPos.containing(x, y, z + 1), Direction.NORTH)
-						|| (world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& (world.getBlockState(BlockPos.containing(x - 1, y, z)).isFaceSturdy(world, BlockPos.containing(x - 1, y, z), Direction.EAST)
-						|| (world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& !((world.getBlockState(BlockPos.containing(x, y, z))).getBlock() == model.getBlock())) {
 			{
 				BlockPos _bp = BlockPos.containing(x, y, z);
@@ -130,7 +132,7 @@ public class PaneCornerScriptProcedure {
 					_be = world.getBlockEntity(_bp);
 					if (_be != null) {
 						try {
-							_be.loadWithComponents(_bnbt, world.registryAccess());
+							_be.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, world.registryAccess(), _bnbt));
 						} catch (Exception ignored) {
 						}
 					}
@@ -141,7 +143,7 @@ public class PaneCornerScriptProcedure {
 				BlockPos _pos = BlockPos.containing(x, y, z);
 				BlockState _bs = world.getBlockState(_pos);
 				Property<?> _property = _bs.getBlock().getStateDefinition().getProperty("facing");
-				if (_property instanceof DirectionProperty _dp && _dp.getPossibleValues().contains(_dir)) {
+				if (_property instanceof EnumProperty _dp && _dp.getPossibleValues().contains(_dir)) {
 					world.setBlock(_pos, _bs.setValue(_dp, _dir), 3);
 				} else {
 					_property = _bs.getBlock().getStateDefinition().getProperty("axis");
@@ -151,13 +153,13 @@ public class PaneCornerScriptProcedure {
 			}
 		}
 		if ((world.getBlockState(BlockPos.containing(x, y, z - 1)).isFaceSturdy(world, BlockPos.containing(x, y, z - 1), Direction.SOUTH)
-				|| (world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+				|| (world.getBlockState(BlockPos.containing(x, y, z - 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& !world.getBlockState(BlockPos.containing(x + 1, y, z)).isFaceSturdy(world, BlockPos.containing(x + 1, y, z), Direction.WEST)
-				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x + 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& !world.getBlockState(BlockPos.containing(x, y, z + 1)).isFaceSturdy(world, BlockPos.containing(x, y, z + 1), Direction.NORTH)
-				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
+				&& !(world.getBlockState(BlockPos.containing(x, y, z + 1))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH))))
 				&& (world.getBlockState(BlockPos.containing(x - 1, y, z)).isFaceSturdy(world, BlockPos.containing(x - 1, y, z), Direction.EAST)
-						|| (world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(ResourceLocation.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
+						|| (world.getBlockState(BlockPos.containing(x - 1, y, z))).is(BlockTags.create(Identifier.parse((groupTag).toLowerCase(java.util.Locale.ENGLISH)))))
 				&& !((world.getBlockState(BlockPos.containing(x, y, z))).getBlock() == model.getBlock())) {
 			{
 				BlockPos _bp = BlockPos.containing(x, y, z);
@@ -173,7 +175,7 @@ public class PaneCornerScriptProcedure {
 					_be = world.getBlockEntity(_bp);
 					if (_be != null) {
 						try {
-							_be.loadWithComponents(_bnbt, world.registryAccess());
+							_be.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, world.registryAccess(), _bnbt));
 						} catch (Exception ignored) {
 						}
 					}
@@ -184,7 +186,7 @@ public class PaneCornerScriptProcedure {
 				BlockPos _pos = BlockPos.containing(x, y, z);
 				BlockState _bs = world.getBlockState(_pos);
 				Property<?> _property = _bs.getBlock().getStateDefinition().getProperty("facing");
-				if (_property instanceof DirectionProperty _dp && _dp.getPossibleValues().contains(_dir)) {
+				if (_property instanceof EnumProperty _dp && _dp.getPossibleValues().contains(_dir)) {
 					world.setBlock(_pos, _bs.setValue(_dp, _dir), 3);
 				} else {
 					_property = _bs.getBlock().getStateDefinition().getProperty("axis");

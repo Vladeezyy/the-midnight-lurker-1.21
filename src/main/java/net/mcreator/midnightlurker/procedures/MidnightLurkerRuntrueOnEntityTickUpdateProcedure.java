@@ -14,7 +14,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.BlockPos;
 
@@ -43,32 +43,32 @@ public class MidnightLurkerRuntrueOnEntityTickUpdateProcedure {
 			entity.stopRiding();
 		}
 		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 20, 20, 20), e -> true).isEmpty()) {
-			if (entity.getPersistentData().getBoolean("DespawnActivated") == false) {
+			if (entity.getPersistentData().getBooleanOr("DespawnActivated", false) == false) {
 				entity.getPersistentData().putBoolean("DespawnActivated", true);
 			}
 		}
-		if (entity.getPersistentData().getBoolean("DespawnActivated") == true) {
-			if (entity.getPersistentData().getDouble("DespawnTimer") == 0) {
+		if (entity.getPersistentData().getBooleanOr("DespawnActivated", false) == true) {
+			if (entity.getPersistentData().getDoubleOr("DespawnTimer", 0) == 0) {
 				entity.getPersistentData().putDouble("DespawnTimer", 200);
 			} else {
-				entity.getPersistentData().putDouble("DespawnTimer", (entity.getPersistentData().getDouble("DespawnTimer") - 1));
+				entity.getPersistentData().putDouble("DespawnTimer", (entity.getPersistentData().getDoubleOr("DespawnTimer", 0) - 1));
 			}
 		}
-		if (entity.getPersistentData().getDouble("DespawnTimer") == 13) {
+		if (entity.getPersistentData().getDoubleOr("DespawnTimer", 0) == 13) {
 			if (entity instanceof MidnightLurkerRuntrueEntity) {
 				((MidnightLurkerRuntrueEntity) entity).setAnimation("teleport6");
 			}
 		}
-		if (entity.getPersistentData().getDouble("DespawnTimer") == 11) {
+		if (entity.getPersistentData().getDoubleOr("DespawnTimer", 0) == 11) {
 			if (world instanceof Level _level) {
 				if (!_level.isClientSide()) {
-					_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+					_level.playSound(null, BlockPos.containing(entity.getX(), entity.getY(), entity.getZ()), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 				} else {
-					_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+					_level.playLocalSound((entity.getX()), (entity.getY()), (entity.getZ()), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 				}
 			}
 		}
-		if (entity.getPersistentData().getDouble("DespawnTimer") == 1) {
+		if (entity.getPersistentData().getDoubleOr("DespawnTimer", 0) == 1) {
 			if (!entity.level().isClientSide())
 				entity.discard();
 		}
@@ -76,10 +76,10 @@ public class MidnightLurkerRuntrueOnEntityTickUpdateProcedure {
 			if (world instanceof ServerLevel _level)
 				_level.sendParticles((SimpleParticleType) (MidnightlurkerModParticleTypes.VOID_DOT.get()), x, y, z, 2, 0.3, 1.2, 0.3, 0.1);
 		}
-		if (entity instanceof LivingEntity _livEnt24 && _livEnt24.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+		if (entity instanceof LivingEntity _livEnt24 && _livEnt24.hasEffect(MobEffects.SLOWNESS)
 				&& !net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 20, 20, 20), e -> true).isEmpty()) {
 			if (entity instanceof LivingEntity _entity)
-				_entity.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+				_entity.removeEffect(MobEffects.SLOWNESS);
 		}
 		if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 70, 70, 70), e -> true).isEmpty()) {
 			if (((Entity) net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3(x, y, z), 70, 70, 70), e -> true).stream().sorted(new Object() {
@@ -96,16 +96,16 @@ public class MidnightLurkerRuntrueOnEntityTickUpdateProcedure {
 			try {
 				mainjsonobject = net.mcreator.midnightlurker.port.LurkerConfig.read(lurker);
 				if (mainjsonobject.get("lurker_persist_during_day").getAsBoolean() == false) {
-					if ((world instanceof Level _lvl40 && _lvl40.isDay()) == true && y > 60) {
+					if ((world instanceof Level _lvl40 && _lvl40.isBrightOutside()) == true && y > 60) {
 						if (entity instanceof MidnightLurkerRuntrueEntity) {
 							if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, Player.class, AABB.ofSize(new Vec3((entity.getX()), (entity.getY()), (entity.getZ())), 30, 30, 30), e -> true).isEmpty()) {
 								MidnightlurkerMod.queueServerWork(2, () -> {
 									if (!net.mcreator.midnightlurker.port.LurkerEntities.of(world, MidnightLurkerRuntrueEntity.class, AABB.ofSize(new Vec3(x, y, z), 23, 23, 23), e -> true).isEmpty()) {
 										if (world instanceof Level _level) {
 											if (!_level.isClientSide()) {
-												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
+												_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1);
 											} else {
-												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
+												_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("midnightlurker:lurkerdisappear")), SoundSource.NEUTRAL, 1, 1, false);
 											}
 										}
 									}

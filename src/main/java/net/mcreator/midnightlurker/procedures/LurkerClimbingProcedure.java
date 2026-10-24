@@ -60,7 +60,7 @@ public class LurkerClimbingProcedure {
 				}
 			}
 		}
-		if (entity.getPersistentData().getBoolean("Climbing") == true) {
+		if (entity.getPersistentData().getBooleanOr("Climbing", false) == true) {
 			if (!((entity instanceof Mob _mobEnt ? (Entity) _mobEnt.getTarget() : null) == null)) {
 				{
 					final Vec3 _center = new Vec3(x, y, z);

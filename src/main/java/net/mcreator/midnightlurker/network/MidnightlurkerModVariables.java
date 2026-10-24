@@ -5,7 +5,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.saveddata.SavedDataType;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -18,7 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.codec.StreamCodec;
@@ -31,7 +34,7 @@ import net.mcreator.midnightlurker.MidnightlurkerMod;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class MidnightlurkerModVariables {
 	public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, MidnightlurkerMod.MODID);
 	public static final Supplier<AttachmentType<PlayerVariables>> PLAYER_VARIABLES = ATTACHMENT_TYPES.register("player_variables", () -> AttachmentType.serializable(() -> new PlayerVariables()).build());
@@ -108,6 +111,8 @@ public class MidnightlurkerModVariables {
 
 	public static class WorldVariables extends SavedData {
 		public static final String DATA_NAME = "midnightlurker_worldvars";
+		// 1.21.5: saved data is described by a type with a codec; the file and its contents stay the same
+		public static final SavedDataType<WorldVariables> TYPE = new SavedDataType<>(DATA_NAME, WorldVariables::new, CompoundTag.CODEC.xmap(tag -> load(tag, null), data -> data.save(new CompoundTag(), null)));
 		public double midnightlurkeroverhauledrewardrandom = 0;
 		public double midnightlurkeroverhauledinsanitytimer = 0.0;
 		public double midnightlurkeroverhauledinstage = 0;
@@ -124,17 +129,16 @@ public class MidnightlurkerModVariables {
 		}
 
 		public void read(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
-			midnightlurkeroverhauledrewardrandom = nbt.getDouble("midnightlurkeroverhauledrewardrandom");
-			midnightlurkeroverhauledinsanitytimer = nbt.getDouble("midnightlurkeroverhauledinsanitytimer");
-			midnightlurkeroverhauledinstage = nbt.getDouble("midnightlurkeroverhauledinstage");
-			midnightlurkerinsanitytimactivate = nbt.getDouble("midnightlurkerinsanitytimactivate");
-			midnightlurkerinsanityactive = nbt.getDouble("midnightlurkerinsanityactive");
-			NeutralrunRandom = nbt.getDouble("NeutralrunRandom");
-			midnighthealthboost = nbt.getDouble("midnighthealthboost");
-			lurkerdevoverlay = nbt.getBoolean("lurkerdevoverlay");
+			midnightlurkeroverhauledrewardrandom = nbt.getDoubleOr("midnightlurkeroverhauledrewardrandom", 0);
+			midnightlurkeroverhauledinsanitytimer = nbt.getDoubleOr("midnightlurkeroverhauledinsanitytimer", 0);
+			midnightlurkeroverhauledinstage = nbt.getDoubleOr("midnightlurkeroverhauledinstage", 0);
+			midnightlurkerinsanitytimactivate = nbt.getDoubleOr("midnightlurkerinsanitytimactivate", 0);
+			midnightlurkerinsanityactive = nbt.getDoubleOr("midnightlurkerinsanityactive", 0);
+			NeutralrunRandom = nbt.getDoubleOr("NeutralrunRandom", 0);
+			midnighthealthboost = nbt.getDoubleOr("midnighthealthboost", 0);
+			lurkerdevoverlay = nbt.getBooleanOr("lurkerdevoverlay", false);
 		}
 
-		@Override
 		public CompoundTag save(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
 			nbt.putDouble("midnightlurkeroverhauledrewardrandom", midnightlurkeroverhauledrewardrandom);
 			nbt.putDouble("midnightlurkeroverhauledinsanitytimer", midnightlurkeroverhauledinsanitytimer);
@@ -157,7 +161,7 @@ public class MidnightlurkerModVariables {
 
 		public static WorldVariables get(LevelAccessor world) {
 			if (world instanceof ServerLevel level) {
-				return level.getDataStorage().computeIfAbsent(new SavedData.Factory<>(WorldVariables::new, WorldVariables::load), DATA_NAME);
+				return level.getDataStorage().computeIfAbsent(TYPE);
 			} else {
 				return clientSide;
 			}
@@ -166,6 +170,8 @@ public class MidnightlurkerModVariables {
 
 	public static class MapVariables extends SavedData {
 		public static final String DATA_NAME = "midnightlurker_mapvars";
+		// 1.21.5: saved data is described by a type with a codec; the file and its contents stay the same
+		public static final SavedDataType<MapVariables> TYPE = new SavedDataType<>(DATA_NAME, MapVariables::new, CompoundTag.CODEC.xmap(tag -> load(tag, null), data -> data.save(new CompoundTag(), null)));
 
 		public static MapVariables load(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 			MapVariables data = new MapVariables();
@@ -176,7 +182,6 @@ public class MidnightlurkerModVariables {
 		public void read(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
 		}
 
-		@Override
 		public CompoundTag save(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
 			return nbt;
 		}
@@ -191,19 +196,24 @@ public class MidnightlurkerModVariables {
 
 		public static MapVariables get(LevelAccessor world) {
 			if (world instanceof ServerLevelAccessor serverLevelAcc) {
-				return serverLevelAcc.getLevel().getServer().getLevel(Level.OVERWORLD).getDataStorage().computeIfAbsent(new SavedData.Factory<>(MapVariables::new, MapVariables::load), DATA_NAME);
+				return serverLevelAcc.getLevel().getServer().getLevel(Level.OVERWORLD).getDataStorage().computeIfAbsent(TYPE);
 			} else {
 				return clientSide;
 			}
 		}
 	}
 
+	// 1.21.5: SavedData has no save(CompoundTag) of its own any more
+	static CompoundTag saveData(SavedData data, HolderLookup.Provider lookupProvider) {
+		return data instanceof MapVariables mapVariables ? mapVariables.save(new CompoundTag(), lookupProvider) : ((WorldVariables) data).save(new CompoundTag(), lookupProvider);
+	}
+
 	public record SavedDataSyncMessage(int dataType, SavedData data) implements CustomPacketPayload {
-		public static final Type<SavedDataSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MidnightlurkerMod.MODID, "saved_data_sync"));
+		public static final Type<SavedDataSyncMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(MidnightlurkerMod.MODID, "saved_data_sync"));
 		public static final StreamCodec<RegistryFriendlyByteBuf, SavedDataSyncMessage> STREAM_CODEC = StreamCodec.of((RegistryFriendlyByteBuf buffer, SavedDataSyncMessage message) -> {
 			buffer.writeInt(message.dataType);
 			if (message.data != null)
-				buffer.writeNbt(message.data.save(new CompoundTag(), buffer.registryAccess()));
+				buffer.writeNbt(saveData(message.data, buffer.registryAccess()));
 		}, (RegistryFriendlyByteBuf buffer) -> {
 			int dataType = buffer.readInt();
 			CompoundTag nbt = buffer.readNbt();
@@ -227,9 +237,9 @@ public class MidnightlurkerModVariables {
 			if (context.flow() == PacketFlow.CLIENTBOUND && message.data != null) {
 				context.enqueueWork(() -> {
 					if (message.dataType == 0)
-						MapVariables.clientSide.read(message.data.save(new CompoundTag(), context.player().registryAccess()), context.player().registryAccess());
+						MapVariables.clientSide.read(saveData(message.data, context.player().registryAccess()), context.player().registryAccess());
 					else
-						WorldVariables.clientSide.read(message.data.save(new CompoundTag(), context.player().registryAccess()), context.player().registryAccess());
+						WorldVariables.clientSide.read(saveData(message.data, context.player().registryAccess()), context.player().registryAccess());
 				}).exceptionally(e -> {
 					context.connection().disconnect(Component.literal(e.getMessage()));
 					return null;
@@ -238,7 +248,7 @@ public class MidnightlurkerModVariables {
 		}
 	}
 
-	public static class PlayerVariables implements INBTSerializable<CompoundTag> {
+	public static class PlayerVariables implements ValueIOSerializable {
 		public double DeathJumpActive = 0;
 		public double DeathJumpTimer = 0;
 		public double DeathJumpShake = 0;
@@ -254,6 +264,39 @@ public class MidnightlurkerModVariables {
 		public double encounternumber = 0;
 
 		@Override
+		public void serialize(ValueOutput output) {
+			output.putDouble("DeathJumpActive", DeathJumpActive);
+			output.putDouble("DeathJumpTimer", DeathJumpTimer);
+			output.putDouble("DeathJumpShake", DeathJumpShake);
+			output.putDouble("ScreenShake", ScreenShake);
+			output.putDouble("InsanityStage", InsanityStage);
+			output.putDouble("InsanityTimer", InsanityTimer);
+			output.putDouble("InsanityAktive", InsanityAktive);
+			output.putDouble("InsanityReset", InsanityReset);
+			output.putDouble("JumpscareActive", JumpscareActive);
+			output.putDouble("JumpscareTimer", JumpscareTimer);
+			output.putDouble("JumpscareRandom", JumpscareRandom);
+			output.putDouble("StaticRender", StaticRender);
+			output.putDouble("encounternumber", encounternumber);
+		}
+
+		@Override
+		public void deserialize(ValueInput input) {
+			DeathJumpActive = input.getDoubleOr("DeathJumpActive", 0);
+			DeathJumpTimer = input.getDoubleOr("DeathJumpTimer", 0);
+			DeathJumpShake = input.getDoubleOr("DeathJumpShake", 0);
+			ScreenShake = input.getDoubleOr("ScreenShake", 0);
+			InsanityStage = input.getDoubleOr("InsanityStage", 0);
+			InsanityTimer = input.getDoubleOr("InsanityTimer", 0);
+			InsanityAktive = input.getDoubleOr("InsanityAktive", 0);
+			InsanityReset = input.getDoubleOr("InsanityReset", 0);
+			JumpscareActive = input.getDoubleOr("JumpscareActive", 0);
+			JumpscareTimer = input.getDoubleOr("JumpscareTimer", 0);
+			JumpscareRandom = input.getDoubleOr("JumpscareRandom", 0);
+			StaticRender = input.getDoubleOr("StaticRender", 0);
+			encounternumber = input.getDoubleOr("encounternumber", 0);
+		}
+
 		public CompoundTag serializeNBT(HolderLookup.Provider lookupProvider) {
 			CompoundTag nbt = new CompoundTag();
 			nbt.putDouble("DeathJumpActive", DeathJumpActive);
@@ -272,21 +315,20 @@ public class MidnightlurkerModVariables {
 			return nbt;
 		}
 
-		@Override
 		public void deserializeNBT(HolderLookup.Provider lookupProvider, CompoundTag nbt) {
-			DeathJumpActive = nbt.getDouble("DeathJumpActive");
-			DeathJumpTimer = nbt.getDouble("DeathJumpTimer");
-			DeathJumpShake = nbt.getDouble("DeathJumpShake");
-			ScreenShake = nbt.getDouble("ScreenShake");
-			InsanityStage = nbt.getDouble("InsanityStage");
-			InsanityTimer = nbt.getDouble("InsanityTimer");
-			InsanityAktive = nbt.getDouble("InsanityAktive");
-			InsanityReset = nbt.getDouble("InsanityReset");
-			JumpscareActive = nbt.getDouble("JumpscareActive");
-			JumpscareTimer = nbt.getDouble("JumpscareTimer");
-			JumpscareRandom = nbt.getDouble("JumpscareRandom");
-			StaticRender = nbt.getDouble("StaticRender");
-			encounternumber = nbt.getDouble("encounternumber");
+			DeathJumpActive = nbt.getDoubleOr("DeathJumpActive", 0);
+			DeathJumpTimer = nbt.getDoubleOr("DeathJumpTimer", 0);
+			DeathJumpShake = nbt.getDoubleOr("DeathJumpShake", 0);
+			ScreenShake = nbt.getDoubleOr("ScreenShake", 0);
+			InsanityStage = nbt.getDoubleOr("InsanityStage", 0);
+			InsanityTimer = nbt.getDoubleOr("InsanityTimer", 0);
+			InsanityAktive = nbt.getDoubleOr("InsanityAktive", 0);
+			InsanityReset = nbt.getDoubleOr("InsanityReset", 0);
+			JumpscareActive = nbt.getDoubleOr("JumpscareActive", 0);
+			JumpscareTimer = nbt.getDoubleOr("JumpscareTimer", 0);
+			JumpscareRandom = nbt.getDoubleOr("JumpscareRandom", 0);
+			StaticRender = nbt.getDoubleOr("StaticRender", 0);
+			encounternumber = nbt.getDoubleOr("encounternumber", 0);
 		}
 
 		public void syncPlayerVariables(Entity entity) {
@@ -296,7 +338,7 @@ public class MidnightlurkerModVariables {
 	}
 
 	public record PlayerVariablesSyncMessage(PlayerVariables data) implements CustomPacketPayload {
-		public static final Type<PlayerVariablesSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MidnightlurkerMod.MODID, "player_variables_sync"));
+		public static final Type<PlayerVariablesSyncMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(MidnightlurkerMod.MODID, "player_variables_sync"));
 		public static final StreamCodec<RegistryFriendlyByteBuf, PlayerVariablesSyncMessage> STREAM_CODEC = StreamCodec
 				.of((RegistryFriendlyByteBuf buffer, PlayerVariablesSyncMessage message) -> buffer.writeNbt(message.data().serializeNBT(buffer.registryAccess())), (RegistryFriendlyByteBuf buffer) -> {
 					PlayerVariablesSyncMessage message = new PlayerVariablesSyncMessage(new PlayerVariables());
