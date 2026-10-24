@@ -5,8 +5,7 @@
   },
   "spawners": {
     "type": "midnightlurker:midnight_lurker_faker_aggro",
-    "weight": 7,
-    "minCount": 1,
-    "maxCount": 1
+    "count": 1,
+    "weight": 7
   }
 }

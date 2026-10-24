@@ -220,7 +220,7 @@ public class VoidHandsEntity extends Monster implements GeoEntity {
 		double d1 = this.getX() - this.xOld;
 		double d0 = this.getZ() - this.zOld;
 		float velocity = (float) Math.sqrt(d1 * d1 + d0 * d0);
-		if (getAttackAnim(event.getDataOrDefault(DataTickets.PARTIAL_TICK, 0f)) > 0f && !this.swinging) {
+		if (getSwingAnimation(event.getDataOrDefault(DataTickets.PARTIAL_TICK, 0f)) > 0f && !this.swinging) {
 			this.swinging = true;
 			this.lastSwing = level().getGameTime();
 		}

@@ -5,8 +5,7 @@
   },
   "spawners": {
     "type": "midnightlurker:shapeshifter_pig",
-    "weight": 8,
-    "minCount": 1,
-    "maxCount": 1
+    "count": 1,
+    "weight": 8
   }
 }

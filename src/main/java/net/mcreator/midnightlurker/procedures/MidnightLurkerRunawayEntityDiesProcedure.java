@@ -52,7 +52,7 @@ public class MidnightLurkerRunawayEntityDiesProcedure {
 		MidnightlurkerMod.queueServerWork(100, () -> {
 			if (Math.random() > 0.5) {
 				if (world instanceof ServerLevel _level)
-					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, Component.literal(""), _level.getServer()).withSuppressedOutput(),
 							"/playsound midnightlurker:lurker_taunt neutral @a ~ ~ ~ 3 1");
 			}
 		});

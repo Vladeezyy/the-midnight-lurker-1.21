@@ -36,7 +36,7 @@ public class StaticEffectOnEffectActiveTickProcedure {
 		}
 		if (entity.getData(MidnightlurkerModVariables.PLAYER_VARIABLES).StaticRender == 10) {
 			if (world instanceof ServerLevel _level)
-				_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+				_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, LevelBasedPermissionSet.OWNER, Component.literal(""), _level.getServer()).withSuppressedOutput(),
 						"/playsound midnightlurker:static record @p ~ ~ ~ 1 1");
 		}
 	}

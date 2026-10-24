@@ -92,7 +92,7 @@ public final class PerfScene {
 			level.getServer().getCommands().performPrefixedCommand(level.getServer().createCommandSourceStack().withSuppressedOutput(), "time set 18000");
 			// creative: natural spawning happens around the player (not around spectators), nothing hurts the player
 			p.setGameMode(GameType.CREATIVE);
-			p.setInvulnerable(true);
+			p.setPermanentlyInvulnerable(true);
 			BlockPos spawn = level.getRespawnData().pos();
 			p.teleportTo(level, spawn.getX() + 0.5, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, spawn.getX(), spawn.getZ()) + 2, spawn.getZ() + 0.5, java.util.Set.of(), 0, 20, true);
 		}));

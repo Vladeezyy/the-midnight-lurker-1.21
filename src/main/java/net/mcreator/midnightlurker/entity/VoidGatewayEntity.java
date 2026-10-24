@@ -179,7 +179,6 @@ public class VoidGatewayEntity extends PathfinderMob implements GeoEntity {
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		this.updateSwingTime();
 	}
 
 	public static void init(RegisterSpawnPlacementsEvent event) {

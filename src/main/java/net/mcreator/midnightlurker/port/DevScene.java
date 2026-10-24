@@ -157,7 +157,7 @@ public final class DevScene {
 			return;
 		if (!opened && mc.gui.screen() instanceof TitleScreen) {
 			opened = true;
-			org.lwjgl.glfw.GLFW.glfwSetWindowSize(mc.getWindow().handle(), 1600, 900);
+			mc.getWindow().setWindowed(1600, 900);
 			mc.options.guiScale().set(3);
 			mc.options.cloudStatus().set(CloudStatus.OFF);
 			mc.options.pauseOnLostFocus = false;
@@ -221,6 +221,17 @@ public final class DevScene {
 			}
 		}
 		check("every entity type spawns (" + types.size() + ")", failed.isEmpty(), failed);
+		// The outcast villager's house (.nbt): 26.3 reads block states as id / properties, an unreadable palette places air
+		var house = level.getStructureTemplateManager().get(net.minecraft.resources.Identifier.fromNamespaceAndPath(MidnightlurkerMod.MODID, "outcastvillagerhouse"));
+		int houseBlocks = 0;
+		if (house.isPresent()) {
+			BlockPos at = stage.offset(40, 0, 0);
+			house.get().placeInWorld(level, at, at, new net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings(), level.getRandom(), Block.UPDATE_CLIENTS);
+			for (BlockPos pos : BlockPos.betweenClosed(at, at.offset(house.get().getSize()).offset(-1, -1, -1)))
+				if (!level.getBlockState(pos).isAir())
+					houseBlocks++;
+		}
+		check("the outcast house template places blocks", houseBlocks > 50, house.isPresent() ? houseBlocks + " blocks" : "template missing");
 		MidnightlurkerMod.LOGGER.info("[scene] spawned {} entities", spawned);
 		player.getAbilities().flying = true;
 		player.onUpdateAbilities();

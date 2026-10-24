@@ -153,3 +153,23 @@ Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.1
 Jade 26.2.10, JEI 30.47 (unattended); perf: overworld at night 2.22 ms per tick, nether 2.38 ms, 20 Lurkers 1.85 ms,
 spawn checks 1.6–4.3 µs; the release jar on a real NeoForge 26.2.0.93 server, run twice on the same world: no errors
 (OSHI / Perflib lines are Minecraft's system report on this Windows machine).
+
+## 26.2 → 26.3 (branch `mc/26.3`, NeoForge 26.3.0.97, GeckoLib 5.5.7, 2026-10-24)
+One commit on top of `mc/26.2`: `tools/port_26_3.py`, input with modding-kb `scripts/port_263_input.py` (GLFW → SDL),
+data with `tools/convert_resources_26_3.py` (the converters of the Rats port).
+- `CommandSourceStack` has no text name and entity arguments any more (MCreator builds one in 126 places).
+- The swing is a `SwingState` that `LivingEntity` ticks itself (`updateSwingTime` is gone), the arm's progress is
+  `getSwingAnimation`; `setInvulnerable` → `setPermanentlyInvulnerable`; NeoForge removed `IItemHandler`, so the
+  book menu's empty handler goes.
+- Data: NeoForge `add_spawns` spawners take `count` (int provider) instead of `minCount` / `maxCount`; loot functions
+  and conditions are typed, `functions` → `modifier`, and the 1.20 `{"min", "max"}` shorthand needs
+  `"type": "minecraft:uniform"`.
+- The outcast villager's house template (`.nbt`, old palette with `Name` / `Properties`) still places its blocks: the
+  game upgrades structure templates on load. The scene checks it now (`the outcast house template places blocks`), and
+  `/locate structure midnightlurker:outcastvillagerhouse` finds it on a real server.
+
+Tests: dev server; scene 6/6 in English, Russian and with Sodium 0.9.3-beta.1, Iris 1.11.7, Lithium 0.26.2,
+FerriteCore 9.0.0, Jade 26.3.5, JEI 31.16; perf: overworld at night 2.27 ms per tick, nether 2.42 ms, 20 Lurkers
+1.81 ms, spawn checks 1.3–4.4 µs; the release jar on a real NeoForge 26.3.0.97 server, run twice on the same world: no
+errors. On 26.3 the first console command after the start fails with "An unexpected error occurred" even for vanilla
+`/locate structure minecraft:village_plains`; the second works.
