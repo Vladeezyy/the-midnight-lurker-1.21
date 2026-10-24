@@ -121,3 +121,20 @@ Tests (Windows, Git Bash; the scripts now share `tools/common.sh`):
   checks 1.2–5.2 µs.
 - Release jar on a real NeoForge 21.11.48 server (`prodtest/serve.sh`): start, a minute at midnight, stop, restart
   on the saved world: no errors.
+
+## 1.21.11 → 26.1.2 (branch `mc/26.1.2`, NeoForge 26.1.2.122, GeckoLib 5.5.2, 2026-10-24)
+One commit on top of `mc/1.21.11`: `tools/port_26_1.py`, the scenes with modding-kb `scripts/port_26_scenes.py`.
+- GeckoLib for 26.x is published on Modrinth only (`maven.modrinth:geckolib:<version id>`), and 5.5 moved its packages
+  from `software.bernie.geckolib` to `com.geckolib`; the API used here is otherwise the same as 5.4.
+- GUI: `GuiGraphicsExtractor`, `text` instead of `drawString`; container screens take their size in the constructor,
+  the background is `extractBackground`, the labels `extractLabels`, a button's contents `extractContents`.
+- `StateHolder#getValues()` is a stream of `Property.Value`; `getLightBlock` → `getLightDampening`, a particle's
+  `getLightColor` → `getLightCoords`, the fluid overlay check takes a `BlockAndLightGetter`.
+- Saved data ids are `Identifier`s, files in `data/midnightlurker/` of the dimension. The game's 26.1 file fix moves only
+  vanilla files, so the world / map variables of an older world are read once from where 1.21 kept them
+  (`MidnightlurkerModVariables.legacyData`).
+- Java 25 (toolchain); Gradle itself still runs on 21 (ModDevGradle only, no Loom).
+
+Tests: dev server; scene 5/5 in English, Russian and with Sodium 0.9.2, Iris 1.11.4, Lithium 0.24.7, FerriteCore 9.0.0,
+Jade 26.1.12, JEI 29.47; perf: overworld at night 2.42 ms per tick, nether 3.12 ms, 20 Lurkers 1.51 ms, spawn checks
+1.3–4.2 µs; the release jar on a real NeoForge 26.1.2.122 server, run twice on the same world: no errors.
