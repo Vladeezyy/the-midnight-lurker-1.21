@@ -31,17 +31,15 @@ cow or a pig, or attacks without warning. Meeting it slowly drives you insane: a
 effects, jumpscares and amnesia, with void gateways and void hands on the way. The book "The Lurker's Insanity" from the
 outcast villager tells you how to keep your mind.
 
-## Installation
+## Requirements
 
 **NeoForge**
-1. Install **NeoForge 21.1.197** or newer for Minecraft **1.21.1**.
-2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 or newer, NeoForge 1.21.1) into `mods`.
-3. Put `the-midnight-lurker-neoforge-3.3.7.1+1.21.1.jar` from the [releases](../../releases) into `mods`.
+- **NeoForge 21.1.197** or newer for Minecraft **1.21.1**.
+- **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 or newer, NeoForge 1.21.1).
 
 **Fabric**
-1. Install **Fabric Loader 0.19.5** or newer for Minecraft **1.21.1** and **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.116.17 or newer.
-2. Put **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 or newer, Fabric 1.21.1) into `mods`.
-3. Put `the-midnight-lurker-fabric-3.3.7.1+1.21.1.jar` from the [releases](../../releases) into `mods`.
+- **Fabric Loader 0.19.5** or newer for Minecraft **1.21.1** and **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.116.17 or newer.
+- **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 or newer, Fabric 1.21.1).
 
 Needed on both the client and the server.
 
@@ -90,17 +88,15 @@ Vladeezyy. Please download the port only from its official pages.
 и звуки, скримеры и амнезия, а ещё врата пустоты и руки пустоты. Книга «Безумие Бабая» от жителя-изгоя подскажет, как
 сохранить рассудок.
 
-## Установка
+## Требования
 
 **NeoForge**
-1. Установите **NeoForge 21.1.197** или новее для Minecraft **1.21.1**.
-2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 или новее, NeoForge 1.21.1) в `mods`.
-3. Положите `the-midnight-lurker-neoforge-3.3.7.1+1.21.1.jar` из [релизов](../../releases) в `mods`.
+- **NeoForge 21.1.197** или новее для Minecraft **1.21.1**.
+- **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 или новее, NeoForge 1.21.1).
 
 **Fabric**
-1. Установите **Fabric Loader 0.19.5** или новее для Minecraft **1.21.1** и **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.116.17 или новее.
-2. Положите **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 или новее, Fabric 1.21.1) в `mods`.
-3. Положите `the-midnight-lurker-fabric-3.3.7.1+1.21.1.jar` из [релизов](../../releases) в `mods`.
+- **Fabric Loader 0.19.5** или новее для Minecraft **1.21.1** и **[Fabric API](https://modrinth.com/mod/fabric-api)** 0.116.17 или новее.
+- **[GeckoLib](https://modrinth.com/mod/geckolib)** (4.9 или новее, Fabric 1.21.1).
 
 Нужен и на клиенте, и на сервере.
 
